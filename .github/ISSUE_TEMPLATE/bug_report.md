@@ -1,8 +1,8 @@
 ---
 name: Bug report
 about: 오류 수정
-title: ''
-labels: ''
+title: "[Backend] "
+labels: bug
 assignees: ''
 
 ---
