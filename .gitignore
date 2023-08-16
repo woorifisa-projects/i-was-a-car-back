@@ -243,4 +243,7 @@ $RECYCLE.BIN/
 *.yml
 !/gradle/wrapper/gradle-wrapper.jar
 
+.gradle
+.idea
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,java,intellij+all,eclipse,windows
