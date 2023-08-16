@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="xyz.iwasacar.api.IWasACarApiServerApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-08-16T16:33:34" hostname="Deng.local" time="0.178">
+  <properties/>
+  <testcase name="contextLoads()" classname="xyz.iwasacar.api.IWasACarApiServerApplicationTests" time="0.178"/>
+  <system-out><![CDATA[01:33:30.199 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
+01:33:30.212 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
+01:33:30.245 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [xyz.iwasacar.api.IWasACarApiServerApplicationTests] from class [org.springframework.boot.test.context.SpringBootTestContextBootstrapper]
+01:33:30.258 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [xyz.iwasacar.api.IWasACarApiServerApplicationTests], using SpringBootContextLoader
+01:33:30.261 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [xyz.iwasacar.api.IWasACarApiServerApplicationTests]: class path resource [xyz/iwasacar/api/IWasACarApiServerApplicationTests-context.xml] does not exist
+01:33:30.261 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [xyz.iwasacar.api.IWasACarApiServerApplicationTests]: class path resource [xyz/iwasacar/api/IWasACarApiServerApplicationTestsContext.groovy] does not exist
+01:33:30.262 [Test worker] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [xyz.iwasacar.api.IWasACarApiServerApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
+01:33:30.262 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [xyz.iwasacar.api.IWasACarApiServerApplicationTests]: IWasACarApiServerApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+01:33:30.304 [Test worker] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [xyz.iwasacar.api.IWasACarApiServerApplicationTests]
+01:33:30.352 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [/Users/dongyeol/Documents/woorifis/project/final/project/api/build/classes/java/main/xyz/iwasacar/api/IWasACarApiServerApplication.class]
+01:33:30.353 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration xyz.iwasacar.api.IWasACarApiServerApplication for test class xyz.iwasacar.api.IWasACarApiServerApplicationTests
+01:33:30.446 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - @TestExecutionListeners is not present for class [xyz.iwasacar.api.IWasACarApiServerApplicationTests]: using defaults.
+01:33:30.447 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+01:33:30.465 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@2e029d61, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@482d776b, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@4052274f, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@132ddbab, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@297ea53a, org.springframework.test.context.support.DirtiesContextTestExecutionListener@acb0951, org.springframework.test.context.transaction.TransactionalTestExecutionListener@5bf22f18, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@267f474e, org.springframework.test.context.event.EventPublishingTestExecutionListener@7a7471ce, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@28276e50, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@62e70ea3, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@3efe7086, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@675d8c96, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@741b3bc3, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@2ed3b1f5]
+01:33:30.468 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@180e6ac4 testClass = IWasACarApiServerApplicationTests, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@42b64ab8 testClass = IWasACarApiServerApplicationTests, locations = '{}', classes = '{class xyz.iwasacar.api.IWasACarApiServerApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@61fe30, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@58326051, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@598bd2ba, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@38234a38, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@e70f13a, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@5f16132a], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -> true]], class annotated with @DirtiesContext [false] with mode [null].
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.14)
+
+2023-08-17 01:33:30.771  INFO 19690 --- [    Test worker] x.i.a.IWasACarApiServerApplicationTests  : Starting IWasACarApiServerApplicationTests using Java 17.0.7 on Deng.local with PID 19690 (started by dongyeol in /Users/dongyeol/Documents/woorifis/project/final/project/api)
+2023-08-17 01:33:30.772  INFO 19690 --- [    Test worker] x.i.a.IWasACarApiServerApplicationTests  : No active profile set, falling back to 1 default profile: "default"
+2023-08-17 01:33:31.545  INFO 19690 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-08-17 01:33:31.569  INFO 19690 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 15 ms. Found 0 JPA repository interfaces.
+2023-08-17 01:33:32.120  INFO 19690 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-08-17 01:33:32.305  INFO 19690 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-08-17 01:33:32.364  INFO 19690 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-08-17 01:33:32.405  INFO 19690 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-08-17 01:33:32.533  INFO 19690 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-08-17 01:33:32.616  INFO 19690 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2023-08-17 01:33:33.320  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613320 | took 0ms | statement | connection 2| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+drop table if exists banks CASCADE 
+drop table if exists banks CASCADE ;
+2023-08-17 01:33:33.321  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613321 | took 0ms | statement | connection 2| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+drop table if exists brands CASCADE 
+drop table if exists brands CASCADE ;
+2023-08-17 01:33:33.321  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613321 | took 0ms | statement | connection 2| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+drop table if exists car_options CASCADE 
+drop table if exists car_options CASCADE ;
+2023-08-17 01:33:33.321  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613321 | took 0ms | statement | connection 2| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+drop table if exists car_types CASCADE 
+drop table if exists car_types CASCADE ;
+2023-08-17 01:33:33.321  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613321 | took 0ms | statement | connection 2| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+drop table if exists colors CASCADE 
+drop table if exists colors CASCADE ;
+2023-08-17 01:33:33.321  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613321 | took 0ms | statement | connection 2| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+drop table if exists document_consent_histories CASCADE 
+drop table if exists document_consent_histories CASCADE ;
+2023-08-17 01:33:33.322  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613322 | took 0ms | statement | connection 2| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+drop table if exists document_items CASCADE 
+drop table if exists document_items CASCADE ;
+2023-08-17 01:33:33.322  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613322 | took 0ms | statement | connection 2| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+drop table if exists documents CASCADE 
+drop table if exists documents CASCADE ;
+2023-08-17 01:33:33.322  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613322 | took 0ms | statement | connection 2| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+drop table if exists insurances CASCADE 
+drop table if exists insurances CASCADE ;
+2023-08-17 01:33:33.323  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613323 | took 0ms | statement | connection 2| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+drop table if exists labels CASCADE 
+drop table if exists labels CASCADE ;
+2023-08-17 01:33:33.323  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613323 | took 0ms | statement | connection 2| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+drop table if exists loans CASCADE 
+drop table if exists loans CASCADE ;
+2023-08-17 01:33:33.323  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613323 | took 0ms | statement | connection 2| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+drop table if exists logs CASCADE 
+drop table if exists logs CASCADE ;
+2023-08-17 01:33:33.323  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613323 | took 0ms | statement | connection 2| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+drop table if exists members CASCADE 
+drop table if exists members CASCADE ;
+2023-08-17 01:33:33.323  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613323 | took 0ms | statement | connection 2| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+drop table if exists members_roles CASCADE 
+drop table if exists members_roles CASCADE ;
+2023-08-17 01:33:33.324  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613324 | took 0ms | statement | connection 2| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+drop table if exists products CASCADE 
+drop table if exists products CASCADE ;
+2023-08-17 01:33:33.324  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613324 | took 0ms | statement | connection 2| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+drop table if exists products_images CASCADE 
+drop table if exists products_images CASCADE ;
+2023-08-17 01:33:33.324  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613324 | took 0ms | statement | connection 2| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+drop table if exists products_options CASCADE 
+drop table if exists products_options CASCADE ;
+2023-08-17 01:33:33.324  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613324 | took 0ms | statement | connection 2| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+drop table if exists purchases_histories CASCADE 
+drop table if exists purchases_histories CASCADE ;
+2023-08-17 01:33:33.325  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613325 | took 0ms | statement | connection 2| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+drop table if exists resources CASCADE 
+drop table if exists resources CASCADE ;
+2023-08-17 01:33:33.325  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613325 | took 0ms | statement | connection 2| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+drop table if exists roles CASCADE 
+drop table if exists roles CASCADE ;
+2023-08-17 01:33:33.325  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613325 | took 0ms | statement | connection 2| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+drop table if exists sales_histories CASCADE 
+drop table if exists sales_histories CASCADE ;
+2023-08-17 01:33:33.332  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613332 | took 5ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+create table banks (bank_no bigint generated by default as identity, name varchar(20) not null, primary key (bank_no))
+create table banks (bank_no bigint generated by default as identity, name varchar(20) not null, primary key (bank_no));
+2023-08-17 01:33:33.333  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613333 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+create table brands (brand_no bigint generated by default as identity, name varchar(20) not null, primary key (brand_no))
+create table brands (brand_no bigint generated by default as identity, name varchar(20) not null, primary key (brand_no));
+2023-08-17 01:33:33.334  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613334 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+create table car_options (car_option_no bigint generated by default as identity, name varchar(255) not null, type varchar(20) not null, primary key (car_option_no))
+create table car_options (car_option_no bigint generated by default as identity, name varchar(255) not null, type varchar(20) not null, primary key (car_option_no));
+2023-08-17 01:33:33.335  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613335 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+create table car_types (car_type_no bigint generated by default as identity, name varchar(20) not null, primary key (car_type_no))
+create table car_types (car_type_no bigint generated by default as identity, name varchar(20) not null, primary key (car_type_no));
+2023-08-17 01:33:33.336  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613336 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+create table colors (color_no bigint generated by default as identity, name varchar(20) not null, primary key (color_no))
+create table colors (color_no bigint generated by default as identity, name varchar(20) not null, primary key (color_no));
+2023-08-17 01:33:33.337  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613337 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+create table document_consent_histories (consent_history_no bigint generated by default as identity, consent boolean not null, created_at timestamp not null, status varchar(20) not null, document_item_no bigint not null, member_no bigint not null, product_no bigint not null, primary key (consent_history_no))
+create table document_consent_histories (consent_history_no bigint generated by default as identity, consent boolean not null, created_at timestamp not null, status varchar(20) not null, document_item_no bigint not null, member_no bigint not null, product_no bigint not null, primary key (consent_history_no));
+2023-08-17 01:33:33.338  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613338 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+create table document_items (document_item_no bigint generated by default as identity, content varchar(255) not null, created_at timestamp not null, "order" integer not null, status varchar(20) not null, document_no bigint not null, primary key (document_item_no))
+create table document_items (document_item_no bigint generated by default as identity, content varchar(255) not null, created_at timestamp not null, "order" integer not null, status varchar(20) not null, document_no bigint not null, primary key (document_item_no));
+2023-08-17 01:33:33.339  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613339 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+create table documents (document_no bigint generated by default as identity, category varchar(20) not null, content varchar(255) not null, created_at timestamp not null, name varchar(255) not null, status integer not null, primary key (document_no))
+create table documents (document_no bigint generated by default as identity, category varchar(20) not null, content varchar(255) not null, created_at timestamp not null, name varchar(255) not null, status integer not null, primary key (document_no));
+2023-08-17 01:33:33.340  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613340 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+create table insurances (insurance_no bigint generated by default as identity, company varchar(20) not null, monthly_premium integer not null, name varchar(20) not null, period integer not null, primary key (insurance_no))
+create table insurances (insurance_no bigint generated by default as identity, company varchar(20) not null, monthly_premium integer not null, name varchar(20) not null, period integer not null, primary key (insurance_no));
+2023-08-17 01:33:33.341  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613341 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+create table labels (label_no bigint generated by default as identity, name varchar(20) not null, primary key (label_no))
+create table labels (label_no bigint generated by default as identity, name varchar(20) not null, primary key (label_no));
+2023-08-17 01:33:33.342  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613342 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+create table loans (loan_no bigint generated by default as identity, additional_fee varchar(255), content varchar(255) not null, document varchar(255), early_redemption_charge varchar(255), grace_period integer not null, interest_charged_day varchar(255), "limit" integer not null, name varchar(20) not null, overdue_interest_rate varchar(255), period integer not null, redemption varchar(20) not null, target varchar(20) not null, primary key (loan_no))
+create table loans (loan_no bigint generated by default as identity, additional_fee varchar(255), content varchar(255) not null, document varchar(255), early_redemption_charge varchar(255), grace_period integer not null, interest_charged_day varchar(255), "limit" integer not null, name varchar(20) not null, overdue_interest_rate varchar(255), period integer not null, redemption varchar(20) not null, target varchar(20) not null, primary key (loan_no));
+2023-08-17 01:33:33.344  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613344 | took 1ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+create table logs (log_no bigint generated by default as identity, created_at timestamp not null, log varchar(255) not null, member_no bigint not null, primary key (log_no))
+create table logs (log_no bigint generated by default as identity, created_at timestamp not null, log varchar(255) not null, member_no bigint not null, primary key (log_no));
+2023-08-17 01:33:33.345  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613345 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+create table members (member_no bigint generated by default as identity, birth date not null, created_at timestamp not null, email varchar(255) not null, gender varchar(20) not null, has_license boolean not null, last_login_at timestamp not null, name varchar(20) not null, password varchar(255) not null, status varchar(20) not null, tel varchar(20) not null, update_at timestamp not null, primary key (member_no))
+create table members (member_no bigint generated by default as identity, birth date not null, created_at timestamp not null, email varchar(255) not null, gender varchar(20) not null, has_license boolean not null, last_login_at timestamp not null, name varchar(20) not null, password varchar(255) not null, status varchar(20) not null, tel varchar(20) not null, update_at timestamp not null, primary key (member_no));
+2023-08-17 01:33:33.347  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613347 | took 1ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+create table members_roles (member_no bigint not null, role_no bigint not null, primary key (member_no, role_no))
+create table members_roles (member_no bigint not null, role_no bigint not null, primary key (member_no, role_no));
+2023-08-17 01:33:33.348  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613348 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+create table products (product_no bigint generated by default as identity, accident_history integer not null, created_at timestamp not null, displacement double not null, distance integer not null, driving_method varchar(20) not null, fake_product_status boolean not null, fuel varchar(20) not null, fuel_efficiency double not null, info varchar(255) not null, inundation_history boolean not null, name varchar(20) not null, price integer not null, status varchar(20) not null, transmission varchar(20) not null, "year" date not null, brand_no bigint not null, color_no bigint not null, label_no bigint not null, performance_check bigint not null, primary key (product_no))
+create table products (product_no bigint generated by default as identity, accident_history integer not null, created_at timestamp not null, displacement double not null, distance integer not null, driving_method varchar(20) not null, fake_product_status boolean not null, fuel varchar(20) not null, fuel_efficiency double not null, info varchar(255) not null, inundation_history boolean not null, name varchar(20) not null, price integer not null, status varchar(20) not null, transmission varchar(20) not null, "year" date not null, brand_no bigint not null, color_no bigint not null, label_no bigint not null, performance_check bigint not null, primary key (product_no));
+2023-08-17 01:33:33.349  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613349 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+create table products_images (product_no bigint not null, resource_no bigint not null, role_no bigint not null, primary key (product_no, resource_no))
+create table products_images (product_no bigint not null, resource_no bigint not null, role_no bigint not null, primary key (product_no, resource_no));
+2023-08-17 01:33:33.350  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613350 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+create table products_options (car_option_no bigint not null, product_no bigint not null, primary key (car_option_no, product_no))
+create table products_options (car_option_no bigint not null, product_no bigint not null, primary key (car_option_no, product_no));
+2023-08-17 01:33:33.351  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613351 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+create table purchases_histories (purchase_history_no bigint generated by default as identity, account_holder varchar(20) not null, address varchar(255) not null, address_detail varchar(255) not null, create_at timestamp not null, delivery_schedule timestamp not null, status integer not null, zip_code integer not null, bank_no bigint not null, insurance_no bigint not null, loan_no bigint not null, member_no bigint not null, product_no bigint not null, primary key (purchase_history_no))
+create table purchases_histories (purchase_history_no bigint generated by default as identity, account_holder varchar(20) not null, address varchar(255) not null, address_detail varchar(255) not null, create_at timestamp not null, delivery_schedule timestamp not null, status integer not null, zip_code integer not null, bank_no bigint not null, insurance_no bigint not null, loan_no bigint not null, member_no bigint not null, product_no bigint not null, primary key (purchase_history_no));
+2023-08-17 01:33:33.352  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613352 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+create table resources (resource_no bigint generated by default as identity, created_at timestamp not null, original_name varchar(255) not null, status varchar(20) not null, url varchar(255) not null, primary key (resource_no))
+create table resources (resource_no bigint generated by default as identity, created_at timestamp not null, original_name varchar(255) not null, status varchar(20) not null, url varchar(255) not null, primary key (resource_no));
+2023-08-17 01:33:33.353  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613353 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+create table roles (role_no bigint generated by default as identity, name varchar(20) not null, primary key (role_no))
+create table roles (role_no bigint generated by default as identity, name varchar(20) not null, primary key (role_no));
+2023-08-17 01:33:33.354  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613354 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+create table sales_histories (sales_history_no bigint generated by default as identity, account_holder varchar(20) not null, account_number varchar(20) not null, address varchar(255) not null, address_detail varchar(255) not null, create_at timestamp not null, meeting_schedule timestamp not null, status integer not null, zip_code integer not null, bank_no bigint not null, member_no bigint not null, product_no bigint not null, primary key (sales_history_no))
+create table sales_histories (sales_history_no bigint generated by default as identity, account_holder varchar(20) not null, account_number varchar(20) not null, address varchar(255) not null, address_detail varchar(255) not null, create_at timestamp not null, meeting_schedule timestamp not null, status integer not null, zip_code integer not null, bank_no bigint not null, member_no bigint not null, product_no bigint not null, primary key (sales_history_no));
+2023-08-17 01:33:33.354  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613354 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table members add constraint UK_9d30a9u1qpg8eou0otgkwrp5d unique (email)
+alter table members add constraint UK_9d30a9u1qpg8eou0otgkwrp5d unique (email);
+2023-08-17 01:33:33.363  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613363 | took 8ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table document_consent_histories add constraint FKrbjl0h3gofdd58peoud5obw5q foreign key (document_item_no) references document_items
+alter table document_consent_histories add constraint FKrbjl0h3gofdd58peoud5obw5q foreign key (document_item_no) references document_items;
+2023-08-17 01:33:33.364  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613364 | took 1ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table document_consent_histories add constraint FKiydbwcafn81snixk6pyewcspl foreign key (member_no) references members
+alter table document_consent_histories add constraint FKiydbwcafn81snixk6pyewcspl foreign key (member_no) references members;
+2023-08-17 01:33:33.366  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613366 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table document_consent_histories add constraint FKbb0r46ktf1qbyyaqaflfxglk0 foreign key (product_no) references products
+alter table document_consent_histories add constraint FKbb0r46ktf1qbyyaqaflfxglk0 foreign key (product_no) references products;
+2023-08-17 01:33:33.367  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613367 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table document_items add constraint FKdp2i5pt2rmsmh2jc7rwys47wt foreign key (document_no) references documents
+alter table document_items add constraint FKdp2i5pt2rmsmh2jc7rwys47wt foreign key (document_no) references documents;
+2023-08-17 01:33:33.368  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613368 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table logs add constraint FKbduvfpbyk2trwv5hayev7j4y5 foreign key (member_no) references members
+alter table logs add constraint FKbduvfpbyk2trwv5hayev7j4y5 foreign key (member_no) references members;
+2023-08-17 01:33:33.369  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613369 | took 1ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table members_roles add constraint FKse4bvmk5jry1657fw648mqelr foreign key (member_no) references members
+alter table members_roles add constraint FKse4bvmk5jry1657fw648mqelr foreign key (member_no) references members;
+2023-08-17 01:33:33.371  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613370 | took 1ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table members_roles add constraint FK3kwnwsfnkbkclk10y2o0gkvjh foreign key (role_no) references roles
+alter table members_roles add constraint FK3kwnwsfnkbkclk10y2o0gkvjh foreign key (role_no) references roles;
+2023-08-17 01:33:33.372  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613372 | took 1ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table products add constraint FKav6t8wf46rh073h03kd87jugv foreign key (brand_no) references brands
+alter table products add constraint FKav6t8wf46rh073h03kd87jugv foreign key (brand_no) references brands;
+2023-08-17 01:33:33.373  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613373 | took 1ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table products add constraint FKr9ylgjf7fajx6t4dj8e6vl0lf foreign key (color_no) references colors
+alter table products add constraint FKr9ylgjf7fajx6t4dj8e6vl0lf foreign key (color_no) references colors;
+2023-08-17 01:33:33.374  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613374 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table products add constraint FK8575ed4eo7p0tde18imiwedok foreign key (label_no) references labels
+alter table products add constraint FK8575ed4eo7p0tde18imiwedok foreign key (label_no) references labels;
+2023-08-17 01:33:33.376  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613376 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table products add constraint FKcp1ww7rwvcdxsjhlb9km933xm foreign key (performance_check) references resources
+alter table products add constraint FKcp1ww7rwvcdxsjhlb9km933xm foreign key (performance_check) references resources;
+2023-08-17 01:33:33.377  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613377 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table products_images add constraint FKiocichr8eq642q21vaikq0ejm foreign key (product_no) references products
+alter table products_images add constraint FKiocichr8eq642q21vaikq0ejm foreign key (product_no) references products;
+2023-08-17 01:33:33.378  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613378 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table products_images add constraint FKfijgwm25yd5rhpuswvmcfk85b foreign key (resource_no) references resources
+alter table products_images add constraint FKfijgwm25yd5rhpuswvmcfk85b foreign key (resource_no) references resources;
+2023-08-17 01:33:33.379  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613379 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table products_images add constraint FK4pmlim1p97iv2ugapur8ogevh foreign key (role_no) references roles
+alter table products_images add constraint FK4pmlim1p97iv2ugapur8ogevh foreign key (role_no) references roles;
+2023-08-17 01:33:33.380  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613380 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table products_options add constraint FK5sjmf5btxvg1sbe98wh4rqtai foreign key (car_option_no) references car_options
+alter table products_options add constraint FK5sjmf5btxvg1sbe98wh4rqtai foreign key (car_option_no) references car_options;
+2023-08-17 01:33:33.381  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613381 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table products_options add constraint FKqo6ordx8rt4n5ji6wdra2htay foreign key (product_no) references products
+alter table products_options add constraint FKqo6ordx8rt4n5ji6wdra2htay foreign key (product_no) references products;
+2023-08-17 01:33:33.382  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613382 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table purchases_histories add constraint FK7kscy48idsjqw1958c4brktyc foreign key (bank_no) references banks
+alter table purchases_histories add constraint FK7kscy48idsjqw1958c4brktyc foreign key (bank_no) references banks;
+2023-08-17 01:33:33.383  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613383 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table purchases_histories add constraint FKicfo86dk3nb3s4qohcjdhoa9t foreign key (insurance_no) references insurances
+alter table purchases_histories add constraint FKicfo86dk3nb3s4qohcjdhoa9t foreign key (insurance_no) references insurances;
+2023-08-17 01:33:33.385  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613384 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table purchases_histories add constraint FK1tohtt2uuxxrrn76otrxnctt2 foreign key (loan_no) references loans
+alter table purchases_histories add constraint FK1tohtt2uuxxrrn76otrxnctt2 foreign key (loan_no) references loans;
+2023-08-17 01:33:33.386  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613386 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table purchases_histories add constraint FKdjhqxvq4v70hveww352btyssh foreign key (member_no) references members
+alter table purchases_histories add constraint FKdjhqxvq4v70hveww352btyssh foreign key (member_no) references members;
+2023-08-17 01:33:33.387  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613387 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table purchases_histories add constraint FK2x58r0uob8i50wki4snbxrrsf foreign key (product_no) references products
+alter table purchases_histories add constraint FK2x58r0uob8i50wki4snbxrrsf foreign key (product_no) references products;
+2023-08-17 01:33:33.388  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613388 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table sales_histories add constraint FK1oa8ving06x8frd2ogdxjsu33 foreign key (bank_no) references banks
+alter table sales_histories add constraint FK1oa8ving06x8frd2ogdxjsu33 foreign key (bank_no) references banks;
+2023-08-17 01:33:33.389  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613389 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table sales_histories add constraint FKsil11oruqljb1tnronyqeyls9 foreign key (member_no) references members
+alter table sales_histories add constraint FKsil11oruqljb1tnronyqeyls9 foreign key (member_no) references members;
+2023-08-17 01:33:33.390  INFO 19690 --- [    Test worker] p6spy                                    : #1692203613390 | took 0ms | statement | connection 3| url jdbc:h2:mem:b7713b6b-1db1-4eb7-9a0e-51883ccc14d0
+alter table sales_histories add constraint FKq8ycmh6ylwe2vj8oijgc3m0qv foreign key (product_no) references products
+alter table sales_histories add constraint FKq8ycmh6ylwe2vj8oijgc3m0qv foreign key (product_no) references products;
+2023-08-17 01:33:33.392  INFO 19690 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-08-17 01:33:33.399  INFO 19690 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-08-17 01:33:34.012  WARN 19690 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-08-17 01:33:34.790  INFO 19690 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2023-08-17 01:33:34.855  INFO 19690 --- [    Test worker] x.i.a.IWasACarApiServerApplicationTests  : Started IWasACarApiServerApplicationTests in 4.354 seconds (JVM running for 5.43)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

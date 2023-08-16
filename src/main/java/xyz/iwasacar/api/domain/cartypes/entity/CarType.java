@@ -7,8 +7,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 @Table(name = "car_types")
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class CarType {
 
 	@Id
@@ -18,4 +24,5 @@ public class CarType {
 
 	@Column(name = "name", nullable = false, length = 20)
 	private String name;
+
 }

@@ -48,7 +48,7 @@ public class MemberRole {
 	@AllArgsConstructor
 	@EqualsAndHashCode
 	@Getter
-	static class Pk implements Serializable {
+	public static class Pk implements Serializable {
 
 		private Long roleId;
 		private Long memberId;

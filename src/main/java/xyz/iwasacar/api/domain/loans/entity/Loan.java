@@ -31,7 +31,7 @@ public class Loan {
 	@Column(name = "target", nullable = false, length = 20)
 	private String target;
 
-	@Column(name = "limit", nullable = false)
+	@Column(name = "\"limit\"", nullable = false)
 	private Integer limit;
 
 	@Column(name = "redemption", nullable = false, length = 20)
@@ -57,4 +57,5 @@ public class Loan {
 
 	@Column(name = "additional_fee")
 	private String additionalFee;
+
 }

@@ -35,6 +35,7 @@ public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "product_no")
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -71,7 +72,7 @@ public class Product {
 	@Column(name = "driving_method", nullable = false, length = 20)
 	private String drivingMethod;
 
-	@Column(name = "year", nullable = false)
+	@Column(name = "\"year\"", nullable = false)
 	private LocalDate year;
 
 	@Column(name = "distance", nullable = false)
