@@ -31,29 +31,28 @@ public class Member {
 	@Column(name = "member_no")
 	private Long id;
 
-	@Column(unique = true, nullable = false)
+	@Column(name = "email", unique = true, nullable = false)
 	private String email;
 
-	@Column(nullable = false)
+	@Column(name = "password", nullable = false)
 	private String password;
-
-	@Column(nullable = false)
+	@Column(name = "name", nullable = false, length = 20)
 	private String name;
 
-	@Column(nullable = false)
+	@Column(name = "tel", nullable = false, length = 20)
 	private String tel;
 
-	@Column(nullable = false)
+	@Column(name = "gender", nullable = false, length = 20)
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 
-	@Column(nullable = false)
+	@Column(name = "birth", nullable = false)
 	private LocalDate birth;
 
 	@Column(name = "has_license", nullable = false)
 	private Boolean hasLicense;
 
-	@Column(nullable = false)
+	@Column(name = "status", nullable = false, length = 20)
 	@Enumerated(EnumType.STRING)
 	private EntityStatus status;
 

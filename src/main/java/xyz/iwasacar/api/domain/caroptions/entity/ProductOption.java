@@ -52,4 +52,5 @@ public class ProductOption {
 		private Long productId;
 		private Long carOptionId;
 	}
+
 }

@@ -40,7 +40,7 @@ public class DocumentItem {
 	@Column(name = "content", nullable = false)
 	private String content;
 
-	@Column(name = "order", nullable = false)
+	@Column(name = "\"order\"", nullable = false)
 	private Integer order;
 
 	@Column(name = "status", nullable = false, length = 20)

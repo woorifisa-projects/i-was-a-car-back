@@ -11,8 +11,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Table(name = "brands")
+@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Brand {
