@@ -5,16 +5,43 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 public class JwtProvider {
-	public static final byte[] secret = "CheolwonMinsuCheolwonMinsuCheolwonMinsuSecretKey".getBytes();
-	private final Key key = Keys.hmacShaKeyFor(secret);
+	private byte[] secretKey;
+
+	private long accessTokenExpireTimeMils;
+
+	private long refreshTokenExpireTimeMils;
+
+	private final Key key;
+
+	public JwtProvider(
+		@Value("${jwt.secret-key}") String secret,
+		@Value("${jwt.accesstoken-expire-time-mils}") long expireTimes,
+		@Value("${jwt.refreshtoken-expire-time-mils}") long refreshExpireTimes
+	) {
+		this.secretKey = secret.getBytes();
+		this.accessTokenExpireTimeMils = expireTimes;
+		this.refreshTokenExpireTimeMils = refreshExpireTimes;
+		this.key = Keys.hmacShaKeyFor(secretKey);
+	}
+
+	// @PostConstruct
+	// public void postConstruct() {
+	// 	System.out.println("=====");
+	// 	System.out.println(secretKey);
+	// 	System.out.println(accessTokenExpireTimeMils);
+	// 	System.out.println(refreshTokenExpireTimeMils);
+	// }
 
 	public Jwt createJwt(Map<String, Object> claims) {
 		String accessToken = createToken(claims, getExpireDateAccessToken());
@@ -42,12 +69,10 @@ public class JwtProvider {
 	}
 
 	public Date getExpireDateAccessToken() {
-		long expireTimeMils = 1000 * 60 * 60;
-		return new Date(System.currentTimeMillis() + expireTimeMils);
+		return new Date(System.currentTimeMillis() + accessTokenExpireTimeMils);
 	}
 
 	public Date getExpireDateRefreshToken() {
-		long expireTimeMils = 1000L * 60 * 60 * 24 * 60;
-		return new Date(System.currentTimeMillis() + expireTimeMils);
+		return new Date(System.currentTimeMillis() + refreshTokenExpireTimeMils);
 	}
 }
