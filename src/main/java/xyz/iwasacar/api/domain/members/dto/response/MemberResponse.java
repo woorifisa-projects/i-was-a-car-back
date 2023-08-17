@@ -40,7 +40,7 @@ public class MemberResponse {
 
 	private Jwt jwt;
 
-	public MemberResponse(Member member) {
+	public MemberResponse(Member member, Jwt jwt) {
 		this.id = member.getId();
 		this.email = member.getEmail();
 		this.password = member.getPassword();
@@ -51,6 +51,7 @@ public class MemberResponse {
 		this.hasLicense = member.getHasLicense();
 		this.status = member.getStatus();
 		this.lastLoginAt = member.getLastLoginAt();
+		this.jwt = jwt;
 	}
 
 }

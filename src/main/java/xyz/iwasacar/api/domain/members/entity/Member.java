@@ -82,4 +82,7 @@ public class Member {
 		this.lastLoginAt = lastLoginAt;
 	}
 
+	public void updateLastLoginAt() {
+		this.lastLoginAt = LocalDateTime.now();
+	}
 }

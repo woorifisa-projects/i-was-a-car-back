@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import xyz.iwasacar.api.domain.members.dto.request.LoginRequest;
 import xyz.iwasacar.api.domain.members.dto.request.SignupRequest;
 import xyz.iwasacar.api.domain.members.dto.response.MemberResponse;
 import xyz.iwasacar.api.domain.members.service.MemberService;
@@ -22,5 +23,10 @@ public class MemberController {
 	@PostMapping("/signup")
 	public MemberResponse signup(@Valid @RequestBody SignupRequest signupRequest) {
 		return memberService.signup(signupRequest);
+	}
+
+	@PostMapping("/login")
+	public MemberResponse login(@Valid @RequestBody LoginRequest loginRequest) {
+		return memberService.login(loginRequest);
 	}
 }

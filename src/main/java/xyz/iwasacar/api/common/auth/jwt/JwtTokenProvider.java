@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class JwtProvider {
+public class JwtTokenProvider {
 	private byte[] secretKey;
 
 	private long accessTokenExpireTimeMils;
@@ -24,26 +26,25 @@ public class JwtProvider {
 
 	private final Key key;
 
-	public JwtProvider(
+	public JwtTokenProvider(
 		@Value("${jwt.secret-key}") String secret,
-		@Value("${jwt.accesstoken-expire-time-mils}") long expireTimes,
-		@Value("${jwt.refreshtoken-expire-time-mils}") long refreshExpireTimes
+		@Value("${jwt.accesstoken-expire-time-mils}") long accessTokenExpireTimeMils,
+		@Value("${jwt.refreshtoken-expire-time-mils}") long refreshTokenExpireTimeMils
 	) {
 		this.secretKey = secret.getBytes();
-		this.accessTokenExpireTimeMils = expireTimes;
-		this.refreshTokenExpireTimeMils = refreshExpireTimes;
+		this.accessTokenExpireTimeMils = accessTokenExpireTimeMils;
+		this.refreshTokenExpireTimeMils = refreshTokenExpireTimeMils;
 		this.key = Keys.hmacShaKeyFor(secretKey);
 	}
 
-	// @PostConstruct
-	// public void postConstruct() {
-	// 	System.out.println("=====");
-	// 	System.out.println(secretKey);
-	// 	System.out.println(accessTokenExpireTimeMils);
-	// 	System.out.println(refreshTokenExpireTimeMils);
-	// }
+	@PostConstruct
+	public void postConstruct() {
+		log.info("AccessTokenExpireTimeMils = {}", accessTokenExpireTimeMils);
+		log.info("RefreshTokenExpireTimeMils = {}", refreshTokenExpireTimeMils);
+	}
 
 	public Jwt createJwt(Map<String, Object> claims) {
+		log.info("[createJwt] Jwt 토큰 Response DTO 생성");
 		String accessToken = createToken(claims, getExpireDateAccessToken());
 		String refreshToken = createToken(new HashMap<>(), getExpireDateRefreshToken());
 		return Jwt.builder()
