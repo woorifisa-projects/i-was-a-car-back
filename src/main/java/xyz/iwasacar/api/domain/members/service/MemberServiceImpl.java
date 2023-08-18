@@ -50,9 +50,12 @@ public class MemberServiceImpl implements MemberService {
 
 		// JWT
 		Map<String, Object> claims = new HashMap<>();
-		claims.put("memberId", savedMember.getId());
 
-		Jwt jwt = jwtTokenProvider.createJwt(claims);
+		Jwt jwt = jwtTokenProvider.createJwt(claims, member.getId());
+
+		// jwt - RefreshToken -> 서버에서 저장
+
+		// 반환 - Member + AccessToken
 
 		// return response DTO
 		return new MemberResponse(savedMember, jwt);
@@ -69,7 +72,7 @@ public class MemberServiceImpl implements MemberService {
 			// 로그인 할 때 마다 이거 이렇게 계속 갱신 시켜줘야 함?
 			Map<String, Object> claims = new HashMap<>();
 			claims.put("memberId", memberEntity.getId());
-			Jwt jwt = jwtTokenProvider.createJwt(claims);
+			Jwt jwt = jwtTokenProvider.createJwt(claims, memberEntity.getId());
 
 			memberEntity.updateLastLoginAt();
 

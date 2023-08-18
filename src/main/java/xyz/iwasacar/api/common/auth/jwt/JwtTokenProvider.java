@@ -1,7 +1,7 @@
 package xyz.iwasacar.api.common.auth.jwt;
 
 import java.security.Key;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,9 +13,11 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Getter
 @Component
 public class JwtTokenProvider {
 	private byte[] secretKey;
@@ -43,20 +45,25 @@ public class JwtTokenProvider {
 		log.info("RefreshTokenExpireTimeMils = {}", refreshTokenExpireTimeMils);
 	}
 
-	public Jwt createJwt(Map<String, Object> claims) {
+	public Jwt createJwt(Map<String, Object> claims, Long memberId) {
 		log.info("[createJwt] Jwt 토큰 Response DTO 생성");
-		String accessToken = createToken(claims, getExpireDateAccessToken());
-		String refreshToken = createToken(new HashMap<>(), getExpireDateRefreshToken());
+		String accessToken = createToken(claims, getExpireDateAccessToken(), memberId);
+		String refreshToken = createToken(new HashMap<>(), getExpireDateRefreshToken(), memberId);
 		return Jwt.builder()
 			.accessToken(accessToken)
 			.refreshToken(refreshToken)
 			.build();
 	}
 
-	public String createToken(Map<String, Object> claims, Date expireDate) {
+	public String createToken(Map<String, Object> claims, Date expireDate, Long memberId) {
+
+		long curTime = System.currentTimeMillis();
+
 		return Jwts.builder()
-			.setClaims(claims)
-			.setExpiration(expireDate)
+			.setSubject(String.valueOf(memberId)) // memberId
+			.setClaims(claims) // 역할이 들어갈 예정
+			.setExpiration(expireDate) // 만료 날짜
+			.setIssuedAt(new Date(curTime)) // 발행 날짜
 			.signWith(key)
 			.compact();
 	}

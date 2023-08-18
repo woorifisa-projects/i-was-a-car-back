@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import xyz.iwasacar.api.common.auth.jwt.Jwt;
@@ -38,6 +40,7 @@ public class MemberResponse {
 
 	private LocalDateTime lastLoginAt;
 
+	@JsonIgnore
 	private Jwt jwt;
 
 	public MemberResponse(Member member, Jwt jwt) {
