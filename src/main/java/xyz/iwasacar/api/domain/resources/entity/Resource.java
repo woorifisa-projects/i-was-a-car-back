@@ -43,4 +43,9 @@ public class Resource {
 	@Column(name = "original_name", nullable = false)
 	private String originalName;
 
+	@Column(name = "updated_at", nullable = false)
+	private LocalDateTime updatedAt;
+
+	@Column(name = "deleted_at")
+	private LocalDateTime deletedAt;
 }
