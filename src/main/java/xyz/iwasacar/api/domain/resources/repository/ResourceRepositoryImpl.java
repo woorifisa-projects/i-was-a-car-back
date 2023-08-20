@@ -40,7 +40,7 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 					.where(
 						productImage.id.productId.eq(productId)
 							.and(
-								productImage.role.name.eq(RoleName.MEMBER)
+								productImage.role.name.eq(RoleName.ADMIN)
 							)
 					)
 			))
