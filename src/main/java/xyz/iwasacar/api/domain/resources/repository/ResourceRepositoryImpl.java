@@ -47,4 +47,25 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 			.fetch();
 	}
 
+	@Override
+	public List<Resource> findProducts(List<Long> lastProductIdList) {
+		QResource resource = QResource.resource;
+		QProductImage productImage = QProductImage.productImage;
+
+		return jpaQueryFactory
+			.selectFrom(resource)
+			.where(resource.id.in(
+				JPAExpressions
+					.select(productImage.id.productId)
+					.from(productImage)
+					.where(
+						productImage.id.productId.in(lastProductIdList)
+							.and(
+								productImage.role.name.eq(RoleName.ADMIN)
+							)
+					)
+			))
+			.fetch();
+	}
+
 }

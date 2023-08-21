@@ -2,15 +2,19 @@ package xyz.iwasacar.api.domain.products.controller;
 
 import static org.springframework.http.HttpStatus.*;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.common.dto.response.CommonResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductDetailResponse;
+import xyz.iwasacar.api.domain.products.dto.response.ProductsResponse;
 import xyz.iwasacar.api.domain.products.service.ProductService;
 
 @RestController
@@ -19,6 +23,13 @@ import xyz.iwasacar.api.domain.products.service.ProductService;
 public class ProductController {
 
 	private final ProductService productService;
+
+	@GetMapping
+	public ResponseEntity<CommonResponse<List<ProductsResponse>>> findProducts(@RequestParam final Long lastProductId) {
+		List<ProductsResponse> products = productService.findProducts(lastProductId);
+
+		return CommonResponse.success(OK, OK.value(), products);
+	}
 
 	@GetMapping("/{productId}")
 	public ResponseEntity<CommonResponse<ProductDetailResponse>> findProductDetail(@PathVariable final Long productId) {
