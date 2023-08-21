@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,7 +25,7 @@ import xyz.iwasacar.api.domain.members.entity.Member;
 import xyz.iwasacar.api.domain.products.entity.Product;
 
 @Entity
-@Table(name = "sales_histories")
+@Table(name = "purchases_histories")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class PurchaseHistory {
@@ -46,11 +47,11 @@ public class PurchaseHistory {
 	@JoinColumn(name = "bank_no", nullable = false)
 	private Bank bank;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "loan_no", nullable = false)
 	private Loan loan;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "insurance_no", nullable = false)
 	private Insurance insurance;
 
@@ -76,4 +77,9 @@ public class PurchaseHistory {
 	@CreationTimestamp
 	private LocalDateTime createAt;
 
+	@Column(name = "updated_at", nullable = false)
+	private LocalDateTime updatedAt;
+
+	@Column(name = "deleted_at")
+	private LocalDateTime deletedAt;
 }

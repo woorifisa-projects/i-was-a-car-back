@@ -19,8 +19,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import xyz.iwasacar.api.domain.members.entity.Member;
 
-@Entity
 @Table(name = "logs")
+@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Log {

@@ -22,6 +22,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import xyz.iwasacar.api.domain.brands.entity.Brand;
+import xyz.iwasacar.api.domain.cartypes.entity.CarType;
 import xyz.iwasacar.api.domain.colors.entity.Color;
 import xyz.iwasacar.api.domain.common.constant.EntityStatus;
 import xyz.iwasacar.api.domain.labels.entity.Label;
@@ -35,7 +36,12 @@ public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "product_no")
 	private Long id;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "car_type_no", nullable = false)
+	private CarType carType;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "brand_no", nullable = false)
@@ -60,7 +66,7 @@ public class Product {
 	private Boolean fakeProductStatus;
 
 	@Column(name = "info", nullable = false)
-	private String info;
+	private String info;    // 번호판
 
 	@Column(name = "transmission", nullable = false, length = 20)
 	private String transmission;
@@ -71,7 +77,7 @@ public class Product {
 	@Column(name = "driving_method", nullable = false, length = 20)
 	private String drivingMethod;
 
-	@Column(name = "year", nullable = false)
+	@Column(name = "\"year\"", nullable = false)
 	private LocalDate year;
 
 	@Column(name = "distance", nullable = false)
@@ -99,5 +105,11 @@ public class Product {
 	@Column(name = "created_at", nullable = false)
 	@CreationTimestamp
 	private LocalDateTime createdAt;
+
+	@Column(name = "updated_at", nullable = false)
+	private LocalDateTime updatedAt;
+
+	@Column(name = "deleted_at")
+	private LocalDateTime deletedAt;
 
 }

@@ -57,5 +57,7 @@ public class ProductImage {
 
 		private Long productId;
 		private Long resourceId;
+
 	}
+
 }
