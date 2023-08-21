@@ -3,9 +3,6 @@ package xyz.iwasacar.api.domain.members.dto.response;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
@@ -33,7 +30,6 @@ public class MemberResponse {
 
 	private Boolean hasLicense;
 
-	@Enumerated(EnumType.STRING)
 	private EntityStatus status;
 
 	private LocalDateTime lastLoginAt;
