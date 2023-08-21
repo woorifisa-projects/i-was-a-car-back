@@ -10,7 +10,6 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
@@ -20,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @Component
 public class JwtTokenProvider {
+
 	private final byte[] secretKey;
 
 	private final long accessTokenExpireTimeMils;
@@ -68,14 +68,6 @@ public class JwtTokenProvider {
 			.compact();
 	}
 
-	private Claims getClaims(String token) {
-		return Jwts.parserBuilder()
-			.setSigningKey(key)
-			.build()
-			.parseClaimsJws(token)
-			.getBody();
-	}
-
 	public Date getExpireDateAccessToken() {
 		return new Date(System.currentTimeMillis() + accessTokenExpireTimeMils);
 	}
@@ -83,5 +75,5 @@ public class JwtTokenProvider {
 	public Date getExpireDateRefreshToken() {
 		return new Date(System.currentTimeMillis() + refreshTokenExpireTimeMils);
 	}
-	
+
 }

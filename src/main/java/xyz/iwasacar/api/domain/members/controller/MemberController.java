@@ -3,10 +3,12 @@ package xyz.iwasacar.api.domain.members.controller;
 import static org.springframework.http.HttpStatus.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,11 +47,16 @@ public class MemberController {
 		cookie.setPath("/");
 		cookie.setHttpOnly(true);
 		cookie.setSecure(false);
-		cookie.setMaxAge((int)jwtTokenProvider.getAccessTokenExpireTimeMils());
+		cookie.setMaxAge((int)(jwtTokenProvider.getAccessTokenExpireTimeMils() / 1000));
 
 		httpServletResponse.addCookie(cookie);
 
 		return CommonResponse.success(OK, 200, memberResponse);
 	}
-	
+
+	@GetMapping("/test")
+	public void test(HttpServletRequest request) {
+		String memberId = String.valueOf(request.getAttribute("Authorization"));
+		System.out.println(memberId);
+	}
 }

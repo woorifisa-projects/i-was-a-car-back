@@ -40,3 +40,4 @@ public class SignupRequest {
 	private Boolean hasLicense;
 
 }
+

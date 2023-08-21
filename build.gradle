@@ -90,5 +90,5 @@ configurations {
         extendsFrom annotationProcessor
     }
     querydsl.extendsFrom compileClasspath
-    
+
 }

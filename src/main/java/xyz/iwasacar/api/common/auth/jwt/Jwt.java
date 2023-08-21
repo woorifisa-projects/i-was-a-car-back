@@ -13,5 +13,5 @@ public class Jwt {
 		this.accessToken = accessToken;
 		this.refreshToken = refreshToken;
 	}
-	
+
 }
