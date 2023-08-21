@@ -20,11 +20,11 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @Component
 public class JwtTokenProvider {
-	private byte[] secretKey;
+	private final byte[] secretKey;
 
-	private long accessTokenExpireTimeMils;
+	private final long accessTokenExpireTimeMils;
 
-	private long refreshTokenExpireTimeMils;
+	private final long refreshTokenExpireTimeMils;
 
 	private final Key key;
 
@@ -68,7 +68,7 @@ public class JwtTokenProvider {
 			.compact();
 	}
 
-	public Claims getClaims(String token) {
+	private Claims getClaims(String token) {
 		return Jwts.parserBuilder()
 			.setSigningKey(key)
 			.build()
@@ -83,4 +83,5 @@ public class JwtTokenProvider {
 	public Date getExpireDateRefreshToken() {
 		return new Date(System.currentTimeMillis() + refreshTokenExpireTimeMils);
 	}
+	
 }

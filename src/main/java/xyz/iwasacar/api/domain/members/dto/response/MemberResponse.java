@@ -9,13 +9,11 @@ import javax.persistence.Enumerated;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import xyz.iwasacar.api.common.auth.jwt.Jwt;
 import xyz.iwasacar.api.domain.common.constant.EntityStatus;
 import xyz.iwasacar.api.domain.members.entity.Gender;
 import xyz.iwasacar.api.domain.members.entity.Member;
 
-@NoArgsConstructor
 @Getter
 public class MemberResponse {
 

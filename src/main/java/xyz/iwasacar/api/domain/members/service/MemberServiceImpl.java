@@ -79,7 +79,7 @@ public class MemberServiceImpl implements MemberService {
 			return new MemberResponse(memberEntity, jwt);
 		}
 
-		return null;
+		return null; // 예외 던지기
 	}
 
 }

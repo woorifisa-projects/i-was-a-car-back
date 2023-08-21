@@ -1,10 +1,11 @@
 package xyz.iwasacar.api.domain.members.controller;
 
+import static org.springframework.http.HttpStatus.*;
+
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +35,8 @@ public class MemberController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<CommonResponse<MemberResponse>> login(@Valid @RequestBody LoginRequest loginRequest) {
+	public ResponseEntity<CommonResponse<MemberResponse>> login(@Valid @RequestBody LoginRequest loginRequest,
+		HttpServletResponse httpServletResponse) {
 
 		MemberResponse memberResponse = memberService.login(loginRequest);
 
@@ -45,12 +47,9 @@ public class MemberController {
 		cookie.setSecure(false);
 		cookie.setMaxAge((int)jwtTokenProvider.getAccessTokenExpireTimeMils());
 
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.add("Set-Cookie", cookie.toString());
+		httpServletResponse.addCookie(cookie);
 
-		CommonResponse<MemberResponse> commonResponse = new CommonResponse<>(200, memberResponse);
-
-		return new ResponseEntity<>(commonResponse, httpHeaders, HttpStatus.OK);
-
+		return CommonResponse.success(OK, 200, memberResponse);
 	}
+	
 }
