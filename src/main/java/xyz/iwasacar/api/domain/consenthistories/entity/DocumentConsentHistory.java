@@ -40,7 +40,7 @@ public class DocumentConsentHistory {
 	private Member member;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_no", nullable = false)
+	@JoinColumn(name = "product_no")
 	private Product product;
 
 	@ManyToOne(fetch = FetchType.LAZY)
