@@ -56,7 +56,7 @@ public class DefaultProductService implements ProductService {
 			.map(Product::getId)
 			.collect(toList());
 
-		List<String> resources = resourceRepository.findProducts(productsIdList)
+		List<String> resources = resourceRepository.findByProducts(productsIdList)
 			.stream()
 			.map(Resource::getUrl)
 			.collect(toList());

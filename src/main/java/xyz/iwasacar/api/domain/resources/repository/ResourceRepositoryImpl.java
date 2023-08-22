@@ -48,7 +48,7 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 	}
 
 	@Override
-	public List<Resource> findProducts(List<Long> lastProductIdList) {
+	public List<Resource> findByProducts(List<Long> lastProductIdList) {
 		QResource resource = QResource.resource;
 		QProductImage productImage = QProductImage.productImage;
 
@@ -64,6 +64,7 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 								productImage.role.name.eq(RoleName.ADMIN)
 							)
 					)
+					.limit(1)
 			))
 			.fetch();
 	}

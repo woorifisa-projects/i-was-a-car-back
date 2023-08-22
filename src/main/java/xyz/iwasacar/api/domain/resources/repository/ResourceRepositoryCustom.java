@@ -8,6 +8,6 @@ public interface ResourceRepositoryCustom {
 
 	List<Resource> findByProductId(Long productId);
 
-	List<Resource> findProducts(List<Long> lastProductIdList);
+	List<Resource> findByProducts(List<Long> lastProductIdList);
 
 }
