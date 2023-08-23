@@ -16,6 +16,7 @@ import xyz.iwasacar.api.domain.members.dto.request.LoginRequest;
 import xyz.iwasacar.api.domain.members.dto.request.SignupRequest;
 import xyz.iwasacar.api.domain.members.dto.response.MemberResponse;
 import xyz.iwasacar.api.domain.members.entity.Member;
+import xyz.iwasacar.api.domain.members.exception.UnauthorizedException;
 import xyz.iwasacar.api.domain.members.repository.MemberRepository;
 
 @Service
@@ -79,7 +80,7 @@ public class MemberServiceImpl implements MemberService {
 			return new MemberResponse(memberEntity, jwt);
 		}
 
-		return null; // 예외 던지기
+		throw new UnauthorizedException(); // 예외 던지기
 	}
 
 }
