@@ -1,8 +1,11 @@
 package xyz.iwasacar.api.domain.products.repository;
 
+import static xyz.iwasacar.api.domain.products.entity.QProduct.*;
+
 import java.util.List;
 import java.util.Optional;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -36,10 +39,14 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			.selectFrom(product)
 			.join(product.label).fetchJoin()
 			.join(product.brand).fetchJoin()
-			.where(product.id.lt(lastProductId))
+			.where(littleThanLastProductId(lastProductId))
 			.orderBy(product.id.desc())
 			.limit(10)
 			.fetch();
+	}
+
+	private BooleanExpression littleThanLastProductId(Long lastProductId) {
+		return lastProductId == null ? null : product.id.lt(lastProductId);
 	}
 
 }
