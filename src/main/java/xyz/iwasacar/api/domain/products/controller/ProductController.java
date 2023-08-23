@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.common.dto.response.CommonResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductDetailResponse;
-import xyz.iwasacar.api.domain.products.dto.response.ProductsResponse;
+import xyz.iwasacar.api.domain.products.dto.response.ProductResponse;
 import xyz.iwasacar.api.domain.products.service.ProductService;
 
 @RestController
@@ -25,8 +25,9 @@ public class ProductController {
 	private final ProductService productService;
 
 	@GetMapping
-	public ResponseEntity<CommonResponse<List<ProductsResponse>>> findProducts(@RequestParam final Long lastProductId) {
-		List<ProductsResponse> products = productService.findProducts(lastProductId);
+	public ResponseEntity<CommonResponse<List<ProductResponse>>> findProducts(
+		@RequestParam(required = false) final Long lastProductId) {
+		List<ProductResponse> products = productService.findProducts(lastProductId);
 
 		return CommonResponse.success(OK, OK.value(), products);
 	}
