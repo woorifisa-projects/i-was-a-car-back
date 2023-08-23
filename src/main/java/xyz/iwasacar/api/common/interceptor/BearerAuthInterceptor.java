@@ -23,6 +23,10 @@ public class BearerAuthInterceptor implements HandlerInterceptor {
 		HttpServletResponse response,
 		Object handler) {
 
+		if (request.getMethod().equals("OPTIONS")) {
+			return true;
+		}
+
 		log.info("===============인터셉터 preHandle 호출=================");
 		Cookie[] cookie = request.getCookies();
 
