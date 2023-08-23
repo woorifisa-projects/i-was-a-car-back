@@ -24,6 +24,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 				.join(product.label).fetchJoin()
 				.join(product.brand).fetchJoin()
 				.join(product.color).fetchJoin()
+				.where(product.id.eq(id))
 				.fetchOne());
 	}
 
