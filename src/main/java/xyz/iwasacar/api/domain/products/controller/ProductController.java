@@ -21,7 +21,8 @@ public class ProductController {
 	private final ProductService productService;
 
 	@GetMapping("/{productId}")
-	public ResponseEntity<CommonResponse<ProductDetailResponse>> findProductDetail(@PathVariable final Long productId) {
+	public ResponseEntity<CommonResponse<ProductDetailResponse>> findProductDetail(
+		@PathVariable final Long productId) {
 		ProductDetailResponse productDetail = productService.findProductDetail(productId);
 
 		return CommonResponse.success(OK, OK.value(), productDetail);
