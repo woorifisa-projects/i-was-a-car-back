@@ -34,6 +34,9 @@ public class Loan {
 	@Column(name = "\"limit\"", nullable = false)
 	private Integer limit;
 
+	@Column(name = "interest_rate", nullable = false)
+	private Double interestRate;
+
 	@Column(name = "redemption", nullable = false, length = 20)
 	private String redemption;
 
