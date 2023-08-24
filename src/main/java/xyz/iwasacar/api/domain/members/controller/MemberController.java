@@ -51,7 +51,7 @@ public class MemberController {
 
 		session.setAttribute("refreshToken", memberResponse.getJwt().getRefreshToken());
 
-		return memberService.signup(signupRequest);
+		return memberResponse;
 		// 리턴 타입 변경이랑 쿠키저장
 	}
 
