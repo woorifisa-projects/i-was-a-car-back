@@ -92,7 +92,6 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 						.select(product.id)
 						.from(product)
 						.where(productImage.id.productId.eq(product.id))
-						.orderBy(productImage.id.resourceId.asc())
 						.limit(1))
 				.and(littleThanLastProductId(lastProductId))
 				.and(
@@ -103,7 +102,7 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 							.where(role.name.eq(ADMIN))
 					)
 				)
-			).orderBy(productImage.id.productId.desc())
+			).orderBy(productImage.id.productId.desc(), productImage.id.resourceId.asc())
 			.limit(10)
 			.fetch();
 	}
