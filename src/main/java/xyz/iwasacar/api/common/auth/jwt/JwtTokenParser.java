@@ -39,12 +39,6 @@ public class JwtTokenParser {
 		return Long.valueOf((String.valueOf(getClaims(token).get("memberId"))));
 	}
 
-	public long checkExpiredTime(final String token) {
-		return getClaims(token)
-			.getExpiration()
-			.getTime();
-	}
-
 	public boolean isTokenExpired(final String token) {
 		try {
 			long expirationTimestamp = getClaims(token)

@@ -33,11 +33,11 @@ public class MemberController {
 	private final JwtTokenProvider jwtTokenProvider;
 
 	@PostMapping("/signup")
-	public MemberResponse signup(@Valid @RequestBody final SignupRequest signupRequest,
+	public ResponseEntity<CommonResponse<MemberResponse>> signup(@Valid @RequestBody final SignupRequest signupRequest,
 		final HttpServletResponse httpServletResponse, final HttpSession session) {
 
 		MemberResponse memberResponse = memberService.signup(signupRequest);
-		// Cookie 설정
+
 		Cookie cookie = new Cookie("accessToken", memberResponse.getJwt().getAccessToken());
 
 		cookie.setPath("/");
@@ -47,12 +47,10 @@ public class MemberController {
 
 		httpServletResponse.addCookie(cookie);
 
-		// 리프레쉬 토크 세션 저장
-
 		session.setAttribute("refreshToken", memberResponse.getJwt().getRefreshToken());
 
-		return memberResponse;
-		// 리턴 타입 변경이랑 쿠키저장
+		return CommonResponse.success(OK, 200, memberResponse);
+
 	}
 
 	@PostMapping("/login")
@@ -68,8 +66,6 @@ public class MemberController {
 		cookie.setMaxAge((int)(jwtTokenProvider.getRefreshTokenExpireTimeMils() / 1000));
 
 		httpServletResponse.addCookie(cookie);
-
-		// 리프레쉬 토크 세션 저장
 
 		session.setAttribute("refreshToken", memberResponse.getJwt().getRefreshToken());
 

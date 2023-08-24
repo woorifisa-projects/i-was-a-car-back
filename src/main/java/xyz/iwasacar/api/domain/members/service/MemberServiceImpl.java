@@ -18,6 +18,10 @@ import xyz.iwasacar.api.domain.members.dto.response.MemberResponse;
 import xyz.iwasacar.api.domain.members.entity.Member;
 import xyz.iwasacar.api.domain.members.exception.UnauthorizedException;
 import xyz.iwasacar.api.domain.members.repository.MemberRepository;
+import xyz.iwasacar.api.domain.roles.entity.MemberRole;
+import xyz.iwasacar.api.domain.roles.entity.Role;
+import xyz.iwasacar.api.domain.roles.repository.MemberRoleRepostiory;
+import xyz.iwasacar.api.domain.roles.repository.RoleRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +32,10 @@ public class MemberServiceImpl implements MemberService {
 	private final JwtTokenProvider jwtTokenProvider;
 
 	private final PasswordEncoder passwordEncoder;
+
+	private final RoleRepository roleRepository;
+
+	private final MemberRoleRepostiory memberRoleRepostiory;
 
 	@Transactional
 	@Override
@@ -47,18 +55,22 @@ public class MemberServiceImpl implements MemberService {
 			.status(EntityStatus.CREATED)
 			.build();
 
+		Role role = roleRepository.findById(2L)
+			.orElseThrow(IllegalArgumentException::new);
+
+		MemberRole memberRole = new MemberRole(role, member);
+
 		Member savedMember = memberRepository.save(member);
 
-		// JWT
-		Map<String, Object> claims = new HashMap<>();
+		MemberRole savedMemberRole = memberRoleRepostiory.save(memberRole);
 
+		String roleName = String.valueOf(savedMemberRole.getRole().getName());
+
+		Map<String, Object> claims = new HashMap<>();
+		claims.put("memberId", savedMember.getId());
+		claims.put("role", roleName);
 		Jwt jwt = jwtTokenProvider.createJwt(claims, member.getId());
 
-		// jwt - RefreshToken -> 서버에서 저장
-		
-		// 반환 - Member + AccessToken
-
-		// return response DTO
 		return new MemberResponse(savedMember, jwt);
 	}
 
@@ -72,7 +84,7 @@ public class MemberServiceImpl implements MemberService {
 		if (passwordEncoder.matches(loginRequest.getPassword(), memberEntity.getPassword())) {
 
 			Map<String, Object> claims = new HashMap<>();
-			claims.put("memberId", memberEntity.getId()); // 역할로 변경해야 됨
+			claims.put("memberId", memberEntity.getId());
 			Jwt jwt = jwtTokenProvider.createJwt(claims, memberEntity.getId());
 
 			memberEntity.updateLastLoginAt();

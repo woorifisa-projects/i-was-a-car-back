@@ -60,9 +60,9 @@ public class JwtTokenProvider {
 
 		return Jwts.builder()
 			.setSubject(String.valueOf(memberId)) // memberId
-			.setClaims(claims) // 역할이 들어갈 예정
-			.setExpiration(expireDate) // 만료 날짜
-			.setIssuedAt(new Date(curTime)) // 발행 날짜
+			.setClaims(claims)
+			.setExpiration(expireDate)
+			.setIssuedAt(new Date(curTime))
 			.signWith(key)
 			.compact();
 	}
