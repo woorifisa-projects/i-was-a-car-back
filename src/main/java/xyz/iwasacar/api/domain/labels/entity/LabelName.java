@@ -2,6 +2,10 @@ package xyz.iwasacar.api.domain.labels.entity;
 
 public enum LabelName {
 
-	// TODO: 생각해보기
-	심사완료
+	허위매물의심,
+	심사대기,
+	심사중,
+	심사완료,
+	판매완료
+
 }
