@@ -17,13 +17,13 @@ public class JwtTokenParser {
 	private final Key key;
 
 	public JwtTokenParser(
-		@Value("${jwt.secret-key}") String secret
+		@Value("${jwt.secret-key}") final String secret
 	) {
 		this.secretKey = secret.getBytes();
 		this.key = Keys.hmacShaKeyFor(secretKey);
 	}
 
-	private Claims getClaims(String token) {
+	public Claims getClaims(final String token) {
 		return Jwts.parserBuilder()
 			.setSigningKey(key)
 			.build()
@@ -31,8 +31,24 @@ public class JwtTokenParser {
 			.getBody();
 	}
 
-	public String getSubject(String token) {
-		return String.valueOf(getClaims(token).get("memberId"));
+	public Long getSubject(final String token) {
+		return Long.valueOf((String.valueOf(getClaims(token).get("memberId"))));
 	}
 
+	public long checkExpiredTime(final String token) {
+		return getClaims(token)
+			.getExpiration()
+			.getTime();
+	}
+
+	public boolean isTokenExpired(final String token) {
+		long expirationTimestamp = getClaims(token)
+			.getExpiration()
+			.getTime();
+		System.out.println("원래 만료시간은 " + expirationTimestamp + " 입니다.");
+
+		long currentTimestamp = System.currentTimeMillis();
+
+		return currentTimestamp > expirationTimestamp;
+	}
 }

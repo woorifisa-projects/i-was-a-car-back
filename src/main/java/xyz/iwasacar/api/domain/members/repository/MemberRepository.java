@@ -8,6 +8,6 @@ import xyz.iwasacar.api.domain.members.entity.Member;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-	Optional<Member> findByEmail(String email);
-	
+	Optional<Member> findByEmail(final String email);
+
 }

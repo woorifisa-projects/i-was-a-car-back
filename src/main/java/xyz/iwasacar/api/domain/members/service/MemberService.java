@@ -6,8 +6,8 @@ import xyz.iwasacar.api.domain.members.dto.response.MemberResponse;
 
 public interface MemberService {
 
-	MemberResponse signup(SignupRequest signupRequest);
+	MemberResponse signup(final SignupRequest signupRequest);
 
-	MemberResponse login(LoginRequest loginRequest);
-	
+	MemberResponse login(final LoginRequest loginRequest);
+
 }

@@ -31,7 +31,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Transactional
 	@Override
-	public MemberResponse signup(SignupRequest signupRequest) {
+	public MemberResponse signup(final SignupRequest signupRequest) {
 
 		String encodedPassword = passwordEncoder.encode(signupRequest.getPassword());
 
@@ -44,7 +44,7 @@ public class MemberServiceImpl implements MemberService {
 			.tel(signupRequest.getTel())
 			.lastLoginAt(LocalDateTime.now())
 			.name(signupRequest.getName())
-			.status(EntityStatus.생성)
+			.status(EntityStatus.CREATED)
 			.build();
 
 		Member savedMember = memberRepository.save(member);
@@ -64,15 +64,15 @@ public class MemberServiceImpl implements MemberService {
 
 	@Transactional
 	@Override
-	public MemberResponse login(LoginRequest loginRequest) {
+	public MemberResponse login(final LoginRequest loginRequest) {
 
 		Member memberEntity = memberRepository.findByEmail(loginRequest.getEmail())
 			.orElseThrow(IllegalArgumentException::new);
 
 		if (passwordEncoder.matches(loginRequest.getPassword(), memberEntity.getPassword())) {
-			// 로그인 할 때 마다 이거 이렇게 계속 갱신 시켜줘야 함?
+
 			Map<String, Object> claims = new HashMap<>();
-			claims.put("memberId", memberEntity.getId());
+			claims.put("memberId", memberEntity.getId()); // 역할로 변경해야 됨
 			Jwt jwt = jwtTokenProvider.createJwt(claims, memberEntity.getId());
 
 			memberEntity.updateLastLoginAt();
@@ -80,7 +80,7 @@ public class MemberServiceImpl implements MemberService {
 			return new MemberResponse(memberEntity, jwt);
 		}
 
-		throw new UnauthorizedException(); // 예외 던지기
+		throw new UnauthorizedException();
 	}
 
 }

@@ -29,9 +29,9 @@ public class JwtTokenProvider {
 	private final Key key;
 
 	public JwtTokenProvider(
-		@Value("${jwt.secret-key}") String secret,
-		@Value("${jwt.accesstoken-expire-time-mils}") long accessTokenExpireTimeMils,
-		@Value("${jwt.refreshtoken-expire-time-mils}") long refreshTokenExpireTimeMils
+		@Value("${jwt.secret-key}") final String secret,
+		@Value("${jwt.accesstoken-expire-time-mils}") final long accessTokenExpireTimeMils,
+		@Value("${jwt.refreshtoken-expire-time-mils}") final long refreshTokenExpireTimeMils
 	) {
 		this.secretKey = secret.getBytes();
 		this.accessTokenExpireTimeMils = accessTokenExpireTimeMils;
@@ -45,7 +45,7 @@ public class JwtTokenProvider {
 		log.info("RefreshTokenExpireTimeMils = {}", refreshTokenExpireTimeMils);
 	}
 
-	public Jwt createJwt(Map<String, Object> claims, Long memberId) {
+	public Jwt createJwt(final Map<String, Object> claims, final Long memberId) {
 		log.info("[createJwt] Jwt 토큰 Response DTO 생성");
 		String accessToken = createToken(claims, getExpireDateAccessToken(), memberId);
 		String refreshToken = createToken(new HashMap<>(), getExpireDateRefreshToken(), memberId);
@@ -55,7 +55,12 @@ public class JwtTokenProvider {
 			.build();
 	}
 
-	public String createToken(Map<String, Object> claims, Date expireDate, Long memberId) {
+	public String refreshAccessToken(final Map<String, Object> claims, final Long memberId) {
+		log.info("[accessToken 갱신]");
+		return createToken(claims, getExpireDateAccessToken(), memberId);
+	}
+
+	public String createToken(final Map<String, Object> claims, final Date expireDate, final Long memberId) {
 
 		long curTime = System.currentTimeMillis();
 
@@ -68,11 +73,11 @@ public class JwtTokenProvider {
 			.compact();
 	}
 
-	public Date getExpireDateAccessToken() {
+	private Date getExpireDateAccessToken() {
 		return new Date(System.currentTimeMillis() + accessTokenExpireTimeMils);
 	}
 
-	public Date getExpireDateRefreshToken() {
+	private Date getExpireDateRefreshToken() {
 		return new Date(System.currentTimeMillis() + refreshTokenExpireTimeMils);
 	}
 

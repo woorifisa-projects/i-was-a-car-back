@@ -5,6 +5,7 @@ import static org.springframework.http.HttpStatus.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -32,24 +33,29 @@ public class MemberController {
 	private final JwtTokenProvider jwtTokenProvider;
 
 	@PostMapping("/signup")
-	public MemberResponse signup(@Valid @RequestBody SignupRequest signupRequest) {
+	public MemberResponse signup(@Valid @RequestBody final SignupRequest signupRequest) {
 		return memberService.signup(signupRequest);
+		// 리턴 타입 변경이랑 쿠키저장
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<CommonResponse<MemberResponse>> login(@Valid @RequestBody LoginRequest loginRequest,
-		HttpServletResponse httpServletResponse) {
+	public ResponseEntity<CommonResponse<MemberResponse>> login(@Valid @RequestBody final LoginRequest loginRequest,
+		final HttpServletResponse httpServletResponse, final HttpSession session) {
 
 		MemberResponse memberResponse = memberService.login(loginRequest);
 
 		// Cookie 설정
 		Cookie cookie = new Cookie("accessToken", memberResponse.getJwt().getAccessToken());
+
 		cookie.setPath("/");
 		cookie.setHttpOnly(true);
 		cookie.setSecure(false);
-		cookie.setMaxAge((int)(jwtTokenProvider.getAccessTokenExpireTimeMils() / 1000));
+		cookie.setMaxAge((int)(jwtTokenProvider.getRefreshTokenExpireTimeMils() / 1000));
 
 		httpServletResponse.addCookie(cookie);
+
+		// 리프레쉬 토크 세션 저장
+		session.setAttribute("refreshToken", memberResponse.getJwt().getRefreshToken());
 
 		return CommonResponse.success(OK, 200, memberResponse);
 	}
