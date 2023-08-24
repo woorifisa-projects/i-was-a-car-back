@@ -2,7 +2,6 @@ package xyz.iwasacar.api.common.auth.jwt;
 
 import java.security.Key;
 import java.sql.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -48,16 +47,11 @@ public class JwtTokenProvider {
 	public Jwt createJwt(final Map<String, Object> claims, final Long memberId) {
 		log.info("[createJwt] Jwt 토큰 Response DTO 생성");
 		String accessToken = createToken(claims, getExpireDateAccessToken(), memberId);
-		String refreshToken = createToken(new HashMap<>(), getExpireDateRefreshToken(), memberId);
+		String refreshToken = createToken(claims, getExpireDateRefreshToken(), memberId);
 		return Jwt.builder()
 			.accessToken(accessToken)
 			.refreshToken(refreshToken)
 			.build();
-	}
-
-	public String refreshAccessToken(final Map<String, Object> claims, final Long memberId) {
-		log.info("[accessToken 갱신]");
-		return createToken(claims, getExpireDateAccessToken(), memberId);
 	}
 
 	public String createToken(final Map<String, Object> claims, final Date expireDate, final Long memberId) {

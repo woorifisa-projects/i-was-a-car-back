@@ -10,8 +10,10 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import xyz.iwasacar.api.common.auth.jwt.Jwt;
 import xyz.iwasacar.api.common.auth.jwt.JwtTokenParser;
 import xyz.iwasacar.api.common.auth.jwt.JwtTokenProvider;
+import xyz.iwasacar.api.domain.members.exception.UnauthorizedException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -23,13 +25,11 @@ public class BearerAuthInterceptor implements HandlerInterceptor {
 	private final JwtTokenProvider jwtTokenProvider;
 
 	@Override
-	public boolean preHandle(HttpServletRequest request,
-		HttpServletResponse response,
-		Object handler) {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
 		log.info("===============인터셉터 preHandle 호출=================");
-		Cookie[] cookies = request.getCookies(); // [accessToken, jessionID]
-
+		Cookie[] cookies = request.getCookies(); // [accessToken, jsessionID]
+		Long memberId = 0L;
 		String accessToken = "";
 
 		if (cookies == null) {
@@ -38,27 +38,41 @@ public class BearerAuthInterceptor implements HandlerInterceptor {
 
 		for (Cookie cookie : cookies) {
 
-			if (cookie.getName().equals("accessToken")) {
-
-				accessToken = cookie.getValue();
-
-				// accessToken(jwt) 만료 시간 검사
-				if (jwtTokenParser.isTokenExpired(accessToken)) {
-					log.info("============== 엑세스 토큰 만료됨! 엑세스 토큰 업데이트 시작=================");
-					Long memberId = jwtTokenParser.getSubject(accessToken);
-					Claims claims = jwtTokenParser.getClaims(accessToken);
-
-					System.out.println("memberId : " + memberId + "claims :" + claims.toString());
-					String refreshAccessToken = jwtTokenProvider.refreshAccessToken(claims, memberId);
-
-					System.out.println(jwtTokenParser.checkExpiredTime(refreshAccessToken));
-
-					Cookie updatedCookie = new Cookie("accessToken", refreshAccessToken);
-
-					request.setAttribute("Authorization", memberId);
-				}
-
+			if (!cookie.getName().equals("accessToken")) {
+				continue;
 			}
+
+			accessToken = cookie.getValue();
+			// accessToken(jwt) 만료 시간 검사
+			if (!jwtTokenParser.isTokenExpired(accessToken)) {
+				memberId = jwtTokenParser.getSubject(accessToken);
+				request.setAttribute("Authorization", memberId);
+				return true;
+			}
+
+			String refreshToken = (String)request.getSession().getAttribute("refreshToken");
+
+			if (refreshToken == null) {
+				throw new IllegalArgumentException();
+			}
+
+			if (jwtTokenParser.isTokenExpired(refreshToken)) {
+				throw new UnauthorizedException();
+			}
+			memberId = jwtTokenParser.getSubject(refreshToken);
+			Claims claims = jwtTokenParser.getClaims(refreshToken);
+
+			Jwt newJwt = jwtTokenProvider.createJwt(claims, memberId);
+
+			cookie.setValue(newJwt.getAccessToken());
+			cookie.setHttpOnly(true);
+			cookie.setSecure(false);
+			cookie.setPath("/");
+			cookie.setMaxAge((int)(jwtTokenProvider.getRefreshTokenExpireTimeMils() / 500));
+
+			response.addCookie(cookie);
+			request.getSession().setAttribute("refreshToken", newJwt.getRefreshToken());
+			request.setAttribute("Authorization", memberId);
 		}
 
 		return true;

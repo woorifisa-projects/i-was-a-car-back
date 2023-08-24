@@ -55,7 +55,7 @@ public class MemberServiceImpl implements MemberService {
 		Jwt jwt = jwtTokenProvider.createJwt(claims, member.getId());
 
 		// jwt - RefreshToken -> 서버에서 저장
-
+		
 		// 반환 - Member + AccessToken
 
 		// return response DTO

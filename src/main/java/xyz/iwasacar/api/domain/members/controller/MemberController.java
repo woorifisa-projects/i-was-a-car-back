@@ -33,17 +33,10 @@ public class MemberController {
 	private final JwtTokenProvider jwtTokenProvider;
 
 	@PostMapping("/signup")
-	public MemberResponse signup(@Valid @RequestBody final SignupRequest signupRequest) {
-		return memberService.signup(signupRequest);
-		// 리턴 타입 변경이랑 쿠키저장
-	}
-
-	@PostMapping("/login")
-	public ResponseEntity<CommonResponse<MemberResponse>> login(@Valid @RequestBody final LoginRequest loginRequest,
+	public MemberResponse signup(@Valid @RequestBody final SignupRequest signupRequest,
 		final HttpServletResponse httpServletResponse, final HttpSession session) {
 
-		MemberResponse memberResponse = memberService.login(loginRequest);
-
+		MemberResponse memberResponse = memberService.signup(signupRequest);
 		// Cookie 설정
 		Cookie cookie = new Cookie("accessToken", memberResponse.getJwt().getAccessToken());
 
@@ -55,6 +48,29 @@ public class MemberController {
 		httpServletResponse.addCookie(cookie);
 
 		// 리프레쉬 토크 세션 저장
+
+		session.setAttribute("refreshToken", memberResponse.getJwt().getRefreshToken());
+
+		return memberService.signup(signupRequest);
+		// 리턴 타입 변경이랑 쿠키저장
+	}
+
+	@PostMapping("/login")
+	public ResponseEntity<CommonResponse<MemberResponse>> login(@Valid @RequestBody final LoginRequest loginRequest,
+		final HttpServletResponse httpServletResponse, HttpSession session) {
+		MemberResponse memberResponse = memberService.login(loginRequest);
+
+		Cookie cookie = new Cookie("accessToken", memberResponse.getJwt().getAccessToken());
+
+		cookie.setPath("/");
+		cookie.setHttpOnly(true);
+		cookie.setSecure(false);
+		cookie.setMaxAge((int)(jwtTokenProvider.getRefreshTokenExpireTimeMils() / 1000));
+
+		httpServletResponse.addCookie(cookie);
+
+		// 리프레쉬 토크 세션 저장
+
 		session.setAttribute("refreshToken", memberResponse.getJwt().getRefreshToken());
 
 		return CommonResponse.success(OK, 200, memberResponse);
