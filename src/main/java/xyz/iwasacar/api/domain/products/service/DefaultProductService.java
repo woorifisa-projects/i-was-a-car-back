@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.domain.caroptions.entity.CarOption;
 import xyz.iwasacar.api.domain.caroptions.repository.CarOptionRepository;
 import xyz.iwasacar.api.domain.products.dto.response.ProductDetailResponse;
+import xyz.iwasacar.api.domain.products.dto.response.ProductResponse;
 import xyz.iwasacar.api.domain.products.entity.Product;
 import xyz.iwasacar.api.domain.products.exception.ProductNotFound;
 import xyz.iwasacar.api.domain.products.repository.ProductRepository;
@@ -44,6 +45,15 @@ public class DefaultProductService implements ProductService {
 			.collect(toList());
 
 		return ProductDetailResponse.of(productDetail, resources, convertCarOption(carOptionGroup));
+	}
+
+	@Override
+	public List<ProductResponse> findProducts(final Long lastProductId) {
+
+		return resourceRepository.findByProducts(lastProductId)
+			.stream()
+			.map(ProductResponse::of)
+			.collect(toList());
 	}
 
 	private Map<String, List<String>> convertCarOption(Map<String, List<CarOption>> options) {
