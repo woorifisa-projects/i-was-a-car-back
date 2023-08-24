@@ -1,10 +1,10 @@
 package xyz.iwasacar.api.domain.resources.repository;
 
+import static xyz.iwasacar.api.domain.products.entity.QProduct.*;
 import static xyz.iwasacar.api.domain.resources.entity.QProductImage.*;
 import static xyz.iwasacar.api.domain.resources.entity.QResource.*;
 import static xyz.iwasacar.api.domain.roles.entity.QRole.*;
 import static xyz.iwasacar.api.domain.roles.entity.RoleName.*;
-import static xyz.iwasacar.api.domain.products.entity.QProduct.*;
 
 import java.util.List;
 
@@ -13,8 +13,9 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
-
+import xyz.iwasacar.api.domain.resources.entity.ProductImage;
 import xyz.iwasacar.api.domain.resources.entity.Resource;
+import xyz.iwasacar.api.domain.roles.entity.RoleName;
 
 @RequiredArgsConstructor
 public class ResourceRepositoryImpl implements ResourceRepositoryCustom {

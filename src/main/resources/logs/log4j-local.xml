@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration scan="true" scanPeriod="60 seconds">
+
+    <Properties>
+        <Property name="consoleLayout">
+            %highlight{[%level]} %d{yyyy-MM-dd HH:mm:ss} [%thread] [%C.%M: %L] - %msg%n
+        </Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <patternLayout>
+                <pattern>${consoleLayout}</pattern>
+            </patternLayout>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <!-- root레벨 설정 -->
+        <root level="info">
+            <appender-ref ref="console"/>
+        </root>
+
+        <!-- 특정패키지 로깅레벨 설정 -->
+        <logger name="xyz.iwasacar.api" level="info" additivity="false">
+            <appender-ref ref="console"/>
+            <appender-ref ref="file"/>
+        </logger>
+    </Loggers>
+
+</Configuration>

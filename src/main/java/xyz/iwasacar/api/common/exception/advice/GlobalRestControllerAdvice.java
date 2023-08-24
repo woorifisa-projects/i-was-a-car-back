@@ -1,5 +1,6 @@
 package xyz.iwasacar.api.common.exception.advice;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -26,9 +27,16 @@ public class GlobalRestControllerAdvice {
 	 */
 	@ExceptionHandler(BaseAbstractException.class)
 	public ResponseEntity<ErrorResponse> foo(BaseAbstractException ex) {
-		log.info("==== exception ====");
-		log.error("", ex);
+
 		return ErrorResponse.fail(ex.getExceptionStatus());
+	}
+
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex) {
+		ErrorResponse response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
+		return ResponseEntity
+			.internalServerError()
+			.body(response);
 	}
 
 }

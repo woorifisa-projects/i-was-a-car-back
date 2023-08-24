@@ -41,4 +41,9 @@ public class Log {
 	@CreationTimestamp
 	private LocalDateTime createdAt;
 
+	public Log(Member member) {
+		this.member = member;
+		this.log = String.format("%s 로그인", member.getEmail());
+	}
+
 }
