@@ -22,7 +22,7 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
-    configureEach {
+    all {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
     }
 }
@@ -47,7 +47,12 @@ dependencies {
     implementation "com.amazonaws:aws-java-sdk-s3:1.12.440"
     implementation "org.springframework.boot:spring-boot-starter-data-redis"
     implementation 'org.springframework.session:spring-session-data-redis'
-
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+//    modules {
+//        module("org.springframework.boot:spring-boot-starter-logging") {
+//            replacedBy("org.springframework.boot:spring-boot-starter-log4j2")
+//        }
+//    }
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
     implementation 'io.springfox:springfox-swagger-ui:3.0.0'
     implementation 'io.springfox:springfox-swagger2:3.0.0'
@@ -58,8 +63,6 @@ dependencies {
 
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
-
-    implementation "org.springframework.boot:spring-boot-starter-log4j2"
 
     runtimeOnly "com.mysql:mysql-connector-j"
     runtimeOnly "com.h2database:h2"
