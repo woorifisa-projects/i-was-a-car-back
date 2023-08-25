@@ -70,4 +70,8 @@ public class Member {
 	@Column(name = "deleted_at")
 	private LocalDateTime deletedAt;
 
+	public void updateLastLogin() {
+		this.lastLoginAt = LocalDateTime.now();
+	}
+
 }

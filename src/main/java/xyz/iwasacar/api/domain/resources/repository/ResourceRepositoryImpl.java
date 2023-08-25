@@ -15,6 +15,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.domain.resources.entity.ProductImage;
 import xyz.iwasacar.api.domain.resources.entity.Resource;
+import xyz.iwasacar.api.domain.roles.entity.RoleName;
 
 @RequiredArgsConstructor
 public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
