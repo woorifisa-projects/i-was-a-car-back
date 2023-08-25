@@ -58,10 +58,12 @@ public class DefaultProductService implements ProductService {
 
 	private Map<String, List<String>> convertCarOption(Map<String, List<CarOption>> options) {
 		Map<String, List<String>> map = new HashMap<>();
-		options.forEach((key, value) -> map.put(key, value
-			.stream()
-			.map(CarOption::getName)
-			.collect(toList())));
+		options.forEach(
+			(key, value) -> map.put(key, value
+				.stream()
+				.map(CarOption::getName)
+				.collect(toList()))
+		);
 		return map;
 	}
 
