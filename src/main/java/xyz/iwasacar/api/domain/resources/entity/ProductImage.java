@@ -42,10 +42,11 @@ public class ProductImage {
 	@JoinColumn(name = "role_no", nullable = false)
 	private Role role;
 
-	public ProductImage(Product product, Resource resource) {
+	public ProductImage(Product product, Resource resource, Role role) {
 		this.id = new Pk(product.getId(), resource.getId());
 		this.product = product;
 		this.resource = resource;
+		this.role = role;
 	}
 
 	@Embeddable
