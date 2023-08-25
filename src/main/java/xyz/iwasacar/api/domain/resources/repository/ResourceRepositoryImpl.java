@@ -39,7 +39,7 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 			.selectFrom(resource)
 			.where(resource.id.in(
 				JPAExpressions
-					.select(productImage.id.productId)
+					.select(productImage.id.resourceId)
 					.from(productImage)
 					.where(
 						productImage.id.productId.eq(productId)
