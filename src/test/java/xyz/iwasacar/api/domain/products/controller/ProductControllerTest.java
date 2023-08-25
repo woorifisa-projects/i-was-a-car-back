@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,8 +24,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import xyz.iwasacar.api.domain.products.dto.response.ProductDetailResponse;
+import xyz.iwasacar.api.domain.products.dto.response.ProductResponse;
 import xyz.iwasacar.api.domain.products.entity.Product;
 import xyz.iwasacar.api.domain.products.service.ProductService;
+import xyz.iwasacar.api.domain.resources.entity.ProductImage;
 import xyz.iwasacar.api.dummy.Dummy;
 
 @WebMvcTest(ProductController.class)
@@ -48,7 +51,34 @@ class ProductControllerTest {
 
 	@DisplayName("상품 목록 조회")
 	@Test
-	void testFindProducts() {
+	void testFindProducts() throws Exception {
+		int times = 10;
+		Long lastProductId = 11L;
+		List<ProductResponse> productResponses = new ArrayList<>();
+
+		for (int i = 1; i <= times; i++) {
+			Product product = Dummy.getProduct(Dummy.getCarTypeDummy(), Dummy.getColor(), Dummy.getLabel(),
+				Dummy.getBrand(), Dummy.getPerformanceCheck());
+
+			ProductImage productImage = Dummy.getProductImage(product, Dummy.getResource(), Dummy.getAdminRole());
+
+			ProductResponse response = ProductResponse.of(productImage);
+			productResponses.add(response);
+		}
+
+		given(productService.findProducts(lastProductId)).willReturn(productResponses);
+
+		mockMvc.perform(
+				get("/api/v1/products")
+					.characterEncoding(UTF_8)
+					.param("lastProductId", lastProductId.toString())
+			)
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(APPLICATION_JSON))
+			.andExpect(jsonPath("$.code", is(OK.value())))
+			.andExpect(jsonPath("$.data", hasSize(10)));
+
+		then(productService).should(times(1)).findProducts(lastProductId);
 
 	}
 
