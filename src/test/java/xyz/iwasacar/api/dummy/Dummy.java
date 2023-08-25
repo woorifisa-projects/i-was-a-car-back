@@ -9,6 +9,7 @@ import xyz.iwasacar.api.domain.common.constant.EntityStatus;
 import xyz.iwasacar.api.domain.labels.entity.Label;
 import xyz.iwasacar.api.domain.labels.entity.LabelName;
 import xyz.iwasacar.api.domain.products.entity.Product;
+import xyz.iwasacar.api.domain.resources.entity.ProductImage;
 import xyz.iwasacar.api.domain.resources.entity.Resource;
 import xyz.iwasacar.api.domain.roles.entity.Role;
 import xyz.iwasacar.api.domain.roles.entity.RoleName;
@@ -68,6 +69,23 @@ public class Dummy {
 			.originalName("performanceCheck")
 			.status(EntityStatus.CREATED)
 			.url(url)
+			.build();
+	}
+
+	public static Resource getResource() {
+		return Resource.builder()
+			.originalName("resource")
+			.status(EntityStatus.CREATED)
+			.url("www.google.com")
+			.build();
+	}
+
+	public static ProductImage getProductImage(Product product, Resource resource, Role role) {
+
+		return ProductImage.builder()
+			.product(product)
+			.resource(resource)
+			.role(role)
 			.build();
 	}
 

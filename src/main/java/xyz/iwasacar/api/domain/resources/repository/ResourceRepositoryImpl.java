@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.domain.common.constant.EntityStatus;
 import xyz.iwasacar.api.domain.resources.entity.ProductImage;
 import xyz.iwasacar.api.domain.resources.entity.Resource;
-import xyz.iwasacar.api.domain.roles.entity.RoleName;
 
 @RequiredArgsConstructor
 public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
@@ -103,6 +102,7 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 							.select(role.id)
 							.from(role)
 							.where(role.name.eq(ADMIN))
+							.limit(1)
 					)
 				)
 			).orderBy(productImage.id.productId.desc(), productImage.id.resourceId.asc())

@@ -3,6 +3,7 @@ package xyz.iwasacar.api.domain.resources.repository;
 import static org.assertj.core.api.Assertions.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -30,6 +31,7 @@ import xyz.iwasacar.api.domain.resources.entity.Resource;
 import xyz.iwasacar.api.domain.roles.entity.Role;
 import xyz.iwasacar.api.domain.roles.entity.RoleName;
 import xyz.iwasacar.api.domain.roles.repository.RoleRepository;
+import xyz.iwasacar.api.dummy.Dummy;
 
 @DataJpaTest
 @Import(TestConfig.class)
@@ -117,6 +119,60 @@ class ResourceRepositoryTest {
 		List<Resource> resources = resourceRepository.findByProductId(1L);
 
 		assertThat(resources).hasSize(1);
+	}
+
+	@DisplayName("상품 목록 전체 10개씩 찾기 ")
+	@Test
+	void testFindByProducts() {
+
+		List<CarType> carTypes = new ArrayList<>();
+		List<Color> colors = new ArrayList<>();
+		List<Label> labels = new ArrayList<>();
+		List<Brand> brands = new ArrayList<>();
+		List<Role> roles = new ArrayList<>();
+
+		List<Resource> performanceChecks = new ArrayList<>();
+		List<Resource> resources = new ArrayList<>();
+		List<Product> products = new ArrayList<>();
+		List<ProductImage> productImages = new ArrayList<>();
+
+		Role role = Dummy.getAdminRole();
+		roles.add(role);
+
+		for (int i = 1; i < 11; i++) {
+			CarType carType = Dummy.getCarTypeDummy();
+			Color color = Dummy.getColor();
+			Label label = Dummy.getLabel();
+			Brand brand = Dummy.getBrand();
+
+			carTypes.add(carType);
+			colors.add(color);
+			labels.add(label);
+			brands.add(brand);
+
+			Resource performanceCheck = Dummy.getPerformanceCheck();
+			Resource resource = Dummy.getResource();
+			Product product = Dummy.getProduct(carType, color, label, brand, performanceCheck);
+
+			performanceChecks.add(performanceCheck);
+			resources.add(resource);
+			products.add(product);
+			productImages.add(Dummy.getProductImage(product, resource, role));
+
+		}
+
+		carTypeRepository.saveAll(carTypes);
+		colorRepository.saveAll(colors);
+		brandRepository.saveAll(brands);
+		resourceRepository.saveAll(resources);
+		labelRepository.saveAll(labels);
+		resourceRepository.saveAll(performanceChecks);
+		productRepository.saveAll(products);
+		roleRepository.saveAll(roles);
+		productImageRepository.saveAll(productImages);
+
+		List<ProductImage> productImagesRes = resourceRepository.findByProducts(11L);
+		assertThat(productImagesRes).hasSize(10);
 	}
 
 }
