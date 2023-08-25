@@ -25,4 +25,7 @@ public class CarType {
 	@Column(name = "name", nullable = false, length = 20)
 	private String name;
 
+	public CarType(String name) {
+		this.name = name;
+	}
 }

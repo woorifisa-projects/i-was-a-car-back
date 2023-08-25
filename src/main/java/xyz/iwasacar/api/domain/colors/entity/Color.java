@@ -25,4 +25,7 @@ public class Color {
 	@Column(name = "name", nullable = false, length = 20)
 	private String name;
 
+	public Color(String name) {
+		this.name = name;
+	}
 }
