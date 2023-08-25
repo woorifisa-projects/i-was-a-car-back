@@ -108,7 +108,7 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 	}
 
 	private BooleanExpression littleThanLastProductId(Long lastProductId) {
-		return lastProductId == null ? null : product.id.lt(lastProductId);
+		return lastProductId == null ? null : productImage.product.id.lt(lastProductId);
 	}
 
 }
