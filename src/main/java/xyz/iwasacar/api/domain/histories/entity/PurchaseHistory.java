@@ -73,7 +73,7 @@ public class PurchaseHistory {
 	@Column(name = "status", nullable = false, length = 20)
 	private EntityStatus status;
 
-	@Column(name = "create_at", nullable = false)
+	@Column(name = "created_at", nullable = false)
 	@CreationTimestamp
 	private LocalDateTime createAt;
 

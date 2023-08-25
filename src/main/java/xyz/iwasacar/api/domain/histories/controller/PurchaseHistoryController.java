@@ -1,19 +1,18 @@
 package xyz.iwasacar.api.domain.histories.controller;
 
-import java.util.List;
+import static org.springframework.http.HttpStatus.*;
 
-import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.common.dto.response.CommonResponse;
+import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.histories.dto.PurchaseResponse;
-import xyz.iwasacar.api.domain.histories.entity.PurchaseHistory;
 import xyz.iwasacar.api.domain.histories.service.PurchaseHistoryService;
 
 @RestController
@@ -21,16 +20,20 @@ import xyz.iwasacar.api.domain.histories.service.PurchaseHistoryService;
 @RequiredArgsConstructor
 public class PurchaseHistoryController {
 
-	private PurchaseHistoryService purchaseHistoryService;
-
+	private final PurchaseHistoryService purchaseHistoryService;
 
 	@GetMapping("/{memberId}/purchase-histories")
-	public ResponseEntity<CommonResponse<List<PurchaseResponse>>> findAllPurchase (
-	@PathVariable final Long memberId, HttpRequest request){
-		// request.getS
-		// List<PurchaseResponse> allPurchase = purchaseHistoryService.findAllPurchase()
-		return
+	public ResponseEntity<CommonResponse<PageResponse<PurchaseResponse>>> findAllPurchase(
+		@PathVariable final Long memberId, @RequestParam(defaultValue = "0") Integer page,
+		@RequestParam(defaultValue = "10") Integer size) {
+		// String cookieById = String.valueOf(request.getAttribute("Authorization"));
+		// if (memberId == Integer.parseInt(cookieById)) {
+		PageResponse<PurchaseResponse> allPurchase = purchaseHistoryService.findAllPurchase(memberId, page, size);
+		return CommonResponse.success(OK, OK.value(), allPurchase);
+		// }
+
+		// throw new IllegalArgumentException("접근 권한이 없다.");
 	}
 
-
+	@
 }
