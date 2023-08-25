@@ -17,8 +17,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import xyz.iwasacar.api.domain.caroptions.entity.CarOption;
 import xyz.iwasacar.api.domain.caroptions.repository.CarOptionRepository;
 import xyz.iwasacar.api.domain.products.dto.response.ProductDetailResponse;
+import xyz.iwasacar.api.domain.products.dto.response.ProductResponse;
 import xyz.iwasacar.api.domain.products.entity.Product;
 import xyz.iwasacar.api.domain.products.repository.ProductRepository;
+import xyz.iwasacar.api.domain.resources.entity.ProductImage;
 import xyz.iwasacar.api.domain.resources.entity.Resource;
 import xyz.iwasacar.api.domain.resources.repository.ResourceRepository;
 import xyz.iwasacar.api.dummy.Dummy;
@@ -70,8 +72,34 @@ class DefaultProductServiceTest {
 		assertThat(productDetail.getOptions()).hasSize(times);
 		assertThat(productDetail.getImages()).hasSize(times);
 
+		then(resourceRepository).should(times(1)).findByProductId(productId);
 		then(productRepository).should(times(1)).findProductDetail(productId);
 		then(carOptionRepository).should(times(1)).findOptionsByProductId(productId);
+	}
+
+	@DisplayName("상품 목록 조회 10개씩")
+	@Test
+	void testFindProducts() {
+		int times = 10;
+		Long lastProductId = 11L;
+		List<ProductImage> productImageList = new ArrayList<>();
+
+		for (int i = 0; i < times; i++) {
+			Product product = Dummy.getProduct(Dummy.getCarTypeDummy(), Dummy.getColor(), Dummy.getLabel(),
+				Dummy.getBrand(), Dummy.getPerformanceCheck());
+
+			productImageList.add(Dummy.getProductImage(product, Dummy.getResource(),
+				Dummy.getAdminRole()));
+
+		}
+
+		given(resourceRepository.findByProducts(lastProductId)).willReturn(productImageList);
+
+		List<ProductResponse> products = productService.findProducts(lastProductId);
+
+		assertThat(products).hasSize(times);
+
+		then(resourceRepository).should(times(1)).findByProducts(lastProductId);
 	}
 
 }
