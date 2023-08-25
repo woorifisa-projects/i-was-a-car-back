@@ -13,6 +13,7 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
+import xyz.iwasacar.api.domain.common.constant.EntityStatus;
 import xyz.iwasacar.api.domain.resources.entity.ProductImage;
 import xyz.iwasacar.api.domain.resources.entity.Resource;
 import xyz.iwasacar.api.domain.roles.entity.RoleName;
@@ -92,7 +93,8 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 					JPAExpressions
 						.select(product.id)
 						.from(product)
-						.where(productImage.id.productId.eq(product.id))
+						.where(productImage.id.productId.eq(product.id)
+							.and(product.status.ne(EntityStatus.DELETED)))
 						.limit(1))
 				.and(littleThanLastProductId(lastProductId))
 				.and(
@@ -109,7 +111,7 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 	}
 
 	private BooleanExpression littleThanLastProductId(Long lastProductId) {
-		return lastProductId == null ? null : product.id.lt(lastProductId);
+		return lastProductId == null ? null : productImage.product.id.lt(lastProductId);
 	}
 
 }
