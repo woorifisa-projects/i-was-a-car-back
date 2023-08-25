@@ -13,6 +13,7 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
+import xyz.iwasacar.api.domain.common.constant.EntityStatus;
 import xyz.iwasacar.api.domain.resources.entity.ProductImage;
 import xyz.iwasacar.api.domain.resources.entity.Resource;
 
@@ -91,7 +92,8 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 					JPAExpressions
 						.select(product.id)
 						.from(product)
-						.where(productImage.id.productId.eq(product.id))
+						.where(productImage.id.productId.eq(product.id)
+							.and(product.status.ne(EntityStatus.DELETED)))
 						.limit(1))
 				.and(littleThanLastProductId(lastProductId))
 				.and(
