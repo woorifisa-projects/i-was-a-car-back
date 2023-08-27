@@ -29,8 +29,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 			.order(1);
 
 		registry.addInterceptor(new AdminInterceptor(parser))
-			.addPathPatterns("/api/v1/**")
-			.excludePathPatterns("/api/v1/members/login", "/api/v1/members/signup", "/api/v1/products")
+			.addPathPatterns("/api/v1/admin/**")
 			.order(2);
 	}
 
