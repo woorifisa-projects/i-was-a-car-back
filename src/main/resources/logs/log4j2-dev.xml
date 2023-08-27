@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration scan="true" scanPeriod="60 seconds">
+
+    <Properties>
+        <Property name="fileName" value="iwasacar.%d{yyyy-MM-dd}"/>
+        <Property name="originFileName" value="iwasacar.origin.%d{yyyy-MM-dd}"/>
+        <Property name="errorFileName" value="iwasacar.error.%d{yyyy-MM-dd}"/>
+        <Property name="filePath" value="${sys:user.home}/iwasacar_logs"/>
+        <Property name="originLogPath" value="${sys:user.home}/iwasacar_logs"/>
+        <Property name="errorLogPath" value="${sys:user.home}/iwasacar_logs/error"/>
+        <Property name="consoleLayout">
+            %highlight{[%level]} %d{yyyy-MM-dd HH:mm:ss} [%thread] [%C.%M: %L] - %msg%n
+        </Property>
+        <Property name="fileLayout">
+            %level %d{yyyy-MM-dd HH:mm:ss} [%thread] [%C.%M: %L] - %msg%n
+        </Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <patternLayout>
+                <pattern>${consoleLayout}</pattern>
+            </patternLayout>
+        </Console>
+
+        <RollingFile name="file" fileName="${filePath}/${fileName}.log"
+                     filepattern="${filePath}/${fileName}T%d{HH:mm}_%i.log">
+            <PatternLayout>
+                <pattern>${fileLayout}</pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="200KB"/>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30" fileIndex="min"/>
+        </RollingFile>
+
+        <RollingFile name="originLog" fileName="${originLogPath}/${originFileName}.log"
+                     filepattern="${originLogPath}/${originFileName}T%d{HH:mm}_%i.log">
+            <PatternLayout>
+                <pattern>${fileLayout}</pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="200KB"/>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30" fileIndex="min"/>
+        </RollingFile>
+
+        <RollingFile name="error" fileName="${errorLogPath}/${errorFileName}.log"
+                     filepattern="${errorLogPath}/${errorFileName}T%d{HH:mm}_%i.log">
+            <PatternLayout>
+                <pattern>${fileLayout}</pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="200KB"/>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30" fileIndex="min"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <root level="INFO">
+            <appender-ref ref="console"/>
+            <appender-ref ref="file"/>
+        </root>
+    </Loggers>
+
+</Configuration>

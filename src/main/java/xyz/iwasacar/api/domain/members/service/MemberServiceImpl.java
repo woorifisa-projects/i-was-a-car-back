@@ -1,26 +1,30 @@
 package xyz.iwasacar.api.domain.members.service;
 
+import static java.util.stream.Collectors.*;
+
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import xyz.iwasacar.api.common.auth.jwt.Jwt;
+import xyz.iwasacar.api.common.auth.jwt.JwtDto;
 import xyz.iwasacar.api.common.auth.jwt.JwtTokenProvider;
+import xyz.iwasacar.api.common.auth.jwt.MemberClaim;
 import xyz.iwasacar.api.common.component.PasswordEncoder;
 import xyz.iwasacar.api.domain.common.constant.EntityStatus;
 import xyz.iwasacar.api.domain.members.dto.request.LoginRequest;
 import xyz.iwasacar.api.domain.members.dto.request.SignupRequest;
-import xyz.iwasacar.api.domain.members.dto.response.MemberResponse;
+import xyz.iwasacar.api.domain.members.dto.response.MemberJwtResponse;
 import xyz.iwasacar.api.domain.members.entity.Member;
 import xyz.iwasacar.api.domain.members.exception.UnauthorizedException;
 import xyz.iwasacar.api.domain.members.repository.MemberRepository;
 import xyz.iwasacar.api.domain.roles.entity.MemberRole;
 import xyz.iwasacar.api.domain.roles.entity.Role;
-import xyz.iwasacar.api.domain.roles.repository.MemberRoleRepostiory;
+import xyz.iwasacar.api.domain.roles.entity.RoleName;
+import xyz.iwasacar.api.domain.roles.exception.RoleNotFoundException;
+import xyz.iwasacar.api.domain.roles.repository.MemberRoleRepository;
 import xyz.iwasacar.api.domain.roles.repository.RoleRepository;
 
 @Service
@@ -28,18 +32,14 @@ import xyz.iwasacar.api.domain.roles.repository.RoleRepository;
 public class MemberServiceImpl implements MemberService {
 
 	private final MemberRepository memberRepository;
-
-	private final JwtTokenProvider jwtTokenProvider;
-
-	private final PasswordEncoder passwordEncoder;
-
 	private final RoleRepository roleRepository;
-
-	private final MemberRoleRepostiory memberRoleRepostiory;
+	private final MemberRoleRepository memberRoleRepostiory;
+	private final JwtTokenProvider jwtTokenProvider;
+	private final PasswordEncoder passwordEncoder;
 
 	@Transactional
 	@Override
-	public MemberResponse signup(final SignupRequest signupRequest) {
+	public MemberJwtResponse signup(final SignupRequest signupRequest) {
 
 		String encodedPassword = passwordEncoder.encode(signupRequest.getPassword());
 
@@ -55,44 +55,41 @@ public class MemberServiceImpl implements MemberService {
 			.status(EntityStatus.CREATED)
 			.build();
 
-		Role role = roleRepository.findById(2L)
-			.orElseThrow(IllegalArgumentException::new);
-
-		MemberRole memberRole = new MemberRole(role, member);
-
 		Member savedMember = memberRepository.save(member);
 
-		MemberRole savedMemberRole = memberRoleRepostiory.save(memberRole);
+		Role role = roleRepository.findByName(RoleName.MEMBER)
+			.orElseThrow(RoleNotFoundException::new);
 
-		String roleName = String.valueOf(savedMemberRole.getRole().getName());
+		MemberRole savedMemberRole = memberRoleRepostiory.save(new MemberRole(role, member));
+		List<RoleName> roles = List.of(savedMemberRole.getRole().getName());
 
-		Map<String, Object> claims = new HashMap<>();
-		claims.put("memberId", savedMember.getId());
-		claims.put("role", roleName);
-		Jwt jwt = jwtTokenProvider.createJwt(claims, member.getId());
+		MemberClaim memberClaim = new MemberClaim(member.getId(), roles);
 
-		return new MemberResponse(savedMember, jwt);
+		JwtDto jwtDto = jwtTokenProvider.createJwt(memberClaim);
+
+		return new MemberJwtResponse(savedMember, jwtDto);
 	}
 
 	@Transactional
 	@Override
-	public MemberResponse login(final LoginRequest loginRequest) {
+	public MemberJwtResponse login(final LoginRequest loginRequest) {
 
-		Member memberEntity = memberRepository.findByEmail(loginRequest.getEmail())
+		Member member = memberRepository.findByEmail(loginRequest.getEmail())
 			.orElseThrow(IllegalArgumentException::new);
+		member.updateLastLoginAt();
 
-		if (passwordEncoder.matches(loginRequest.getPassword(), memberEntity.getPassword())) {
+		List<RoleName> roles = roleRepository.findRolesByMemberId(member.getId())
+			.stream()
+			.map(Role::getName)
+			.collect(toList());
 
-			Map<String, Object> claims = new HashMap<>();
-			claims.put("memberId", memberEntity.getId());
-			Jwt jwt = jwtTokenProvider.createJwt(claims, memberEntity.getId());
-
-			memberEntity.updateLastLoginAt();
-
-			return new MemberResponse(memberEntity, jwt);
+		if (!passwordEncoder.matches(loginRequest.getPassword(), member.getPassword())) {
+			throw new UnauthorizedException();
 		}
 
-		throw new UnauthorizedException();
+		JwtDto jwtDto = jwtTokenProvider.createJwt(new MemberClaim(member.getId(), roles));
+
+		return new MemberJwtResponse(member, jwtDto);
 	}
 
 }
