@@ -28,4 +28,28 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 				.fetchOne());
 	}
 
+	/**
+	 * select *
+	 * from products p
+	 *          inner join brand br on p.brand_no = br.brand_no
+	 *          inner join car_types ct on p.car_type_no = ct.car_type_no
+	 *          inner join labels l on p.label_no = l.label_no
+	 * where product_no = ${productId};
+	 */
+
+	@Override
+	public Optional<Product> findSpecificProduct(final Long productId) {
+		QProduct product = QProduct.product;
+
+		return Optional.ofNullable(
+			jpaQueryFactory
+				.selectFrom(product)
+				.join(product.brand)
+				.join(product.carType)
+				.join(product.label)
+				.where(product.id.eq(productId))
+				.fetchOne()
+		);
+	}
+
 }

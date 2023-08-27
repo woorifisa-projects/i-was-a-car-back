@@ -7,6 +7,7 @@ import static xyz.iwasacar.api.domain.roles.entity.QRole.*;
 import static xyz.iwasacar.api.domain.roles.entity.RoleName.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
@@ -14,8 +15,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.domain.resources.entity.ProductImage;
+import xyz.iwasacar.api.domain.resources.entity.QProductImage;
 import xyz.iwasacar.api.domain.resources.entity.Resource;
-import xyz.iwasacar.api.domain.roles.entity.RoleName;
 
 @RequiredArgsConstructor
 public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
@@ -110,6 +111,28 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 
 	private BooleanExpression littleThanLastProductId(Long lastProductId) {
 		return lastProductId == null ? null : product.id.lt(lastProductId);
+	}
+
+	/**
+	 * select *
+	 * from products_images pi
+	 *         inner join products p on  pi.product_no = p.product_no
+	 *         inner join resources r on pi.resource_no = r.resource_no
+	 * where p.product_no = ${productId};
+	 */
+
+	@Override
+	public Optional<ProductImage> findSpecificProductImage(final Long productId) {
+		QProductImage productImage = QProductImage.productImage;
+
+		return Optional.ofNullable(
+			jpaQueryFactory
+				.selectFrom(productImage)
+				.join(productImage.product).fetchJoin()
+				.join(productImage.resource).fetchJoin()
+				.where(productImage.product.id.eq(productId))
+				.fetchOne()
+		);
 	}
 
 }

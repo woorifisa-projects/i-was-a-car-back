@@ -8,4 +8,6 @@ public interface ProductRepositoryCustom {
 
 	Optional<Product> findProductDetail(final Long id);
 
+	Optional<Product> findSpecificProduct(final Long productId);
+
 }
