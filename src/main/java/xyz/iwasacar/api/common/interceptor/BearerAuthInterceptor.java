@@ -6,7 +6,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,6 @@ import xyz.iwasacar.api.common.auth.jwt.MemberClaim;
 import xyz.iwasacar.api.domain.members.exception.UnauthorizedException;
 
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class BearerAuthInterceptor implements HandlerInterceptor {
 
