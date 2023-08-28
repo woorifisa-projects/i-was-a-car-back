@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 public enum ExceptionStatus {
 
 	LOGIN_FAIL(401, "", UNAUTHORIZED),
+
 	AUTHORIZE_FORBIDDEN(403, "", FORBIDDEN),
 
 	PRODUCT_NOT_FOUNT(404201, "해당 상품을 찾을 수 없습니다.", NOT_FOUND),
@@ -26,6 +27,8 @@ public enum ExceptionStatus {
 	ROLE_SERVER_ERROR(500, "잘못된 권한으로 인해 서버에 오류가 발생했습니다.", INTERNAL_SERVER_ERROR),
 
 	FILE_CONVERT_FAIL(500301, "파일 변환을 실패했습니다.", INTERNAL_SERVER_ERROR);
+
+	SERVER_ERROR(500, "서버에 오류가 발생했습니다.", INTERNAL_SERVER_ERROR);
 
 	private final int code;
 	private final String message;
