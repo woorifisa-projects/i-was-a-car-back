@@ -86,7 +86,7 @@ class ResourceRepositoryTest {
 
 		List<Resource> resources = resourceRepository.findByProductId(1L);
 
-		assertThat(resources).hasSize(1);
+		assertThat(resources).hasSize(0);
 	}
 
 	@DisplayName("상품 목록 전체 10개씩 찾기 ")

@@ -16,6 +16,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import xyz.iwasacar.api.domain.common.constant.EntityStatus;
@@ -60,7 +61,7 @@ public class Member {
 	@CreationTimestamp
 	private LocalDateTime createdAt;
 
-	@Column(name = "update_at", nullable = false)
+	@Column(name = "updated_at", nullable = false)
 	@UpdateTimestamp
 	private LocalDateTime updatedAt;
 
@@ -69,6 +70,20 @@ public class Member {
 
 	@Column(name = "deleted_at")
 	private LocalDateTime deletedAt;
+
+	@Builder
+	public Member(String email, String password, String name, String tel, Gender gender, LocalDate birth,
+		Boolean hasLicense, EntityStatus status, LocalDateTime lastLoginAt) {
+		this.email = email;
+		this.password = password;
+		this.name = name;
+		this.tel = tel;
+		this.gender = gender;
+		this.birth = birth;
+		this.hasLicense = hasLicense;
+		this.status = status;
+		this.lastLoginAt = lastLoginAt;
+	}
 
 	public void updateLastLogin() {
 		this.lastLoginAt = LocalDateTime.now();

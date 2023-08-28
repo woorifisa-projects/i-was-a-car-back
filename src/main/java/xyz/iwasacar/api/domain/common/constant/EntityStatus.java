@@ -5,5 +5,4 @@ public enum EntityStatus {
 	CREATED,
 	UPDATED,
 	DELETED;
-
 }

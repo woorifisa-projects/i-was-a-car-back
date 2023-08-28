@@ -15,9 +15,13 @@ public enum ExceptionStatus {
 
 	MEMBER_NOT_FOUND(404, "", NOT_FOUND),
 	LOGIN_FAIL(401, "", UNAUTHORIZED),
+
 	AUTHORIZE_FORBIDDEN(403, "", FORBIDDEN),
 
-	POST_NOT_FOUND(404, "", NOT_FOUND);
+	POST_NOT_FOUND(404, "", NOT_FOUND),
+
+	ROLE_SERVER_ERROR(500, "잘못된 권한으로 인해 서버에 오류가 발생했습니다.", INTERNAL_SERVER_ERROR),
+	SERVER_ERROR(500, "서버에 오류가 발생했습니다.", INTERNAL_SERVER_ERROR);
 
 	private final int code;
 	private final String message;
