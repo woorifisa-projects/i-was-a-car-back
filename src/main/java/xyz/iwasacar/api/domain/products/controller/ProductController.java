@@ -40,4 +40,19 @@ public class ProductController {
 		return CommonResponse.success(OK, OK.value(), productDetail);
 	}
 
+	/*
+	 * @param carType: String 차종
+	 * @param capital: int 자본금
+	 * @param loan: int 원하는 대출금
+	 */
+	@GetMapping("/specific")
+	public ResponseEntity<CommonResponse<List<ProductResponse>>> findSpecificProducts(
+		@RequestParam final Long carType, @RequestParam final Integer capital, @RequestParam final Integer loan,
+		@RequestParam(required = false) final Long lastProductId) {
+		List<ProductResponse> productDetail = productService.findSpecificProducts(carType, capital, loan,
+			lastProductId);
+
+		return CommonResponse.success(OK, OK.value(), productDetail);
+	}
+
 }

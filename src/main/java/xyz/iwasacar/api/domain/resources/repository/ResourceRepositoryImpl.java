@@ -110,6 +110,39 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 			.fetch();
 	}
 
+	@Override
+	public List<ProductImage> findBySepcificProducts(Long carType, Integer capital, Integer loan, Long lastProductId) {
+
+		return jpaQueryFactory
+			.selectFrom(productImage)
+			.join(productImage.product).fetchJoin()
+			.join(productImage.resource).fetchJoin()
+			.where(productImage.product.id.eq(
+					JPAExpressions
+						.select(product.id)
+						.from(product)
+						.where(productImage.id.productId.eq(product.id)
+							.and(product.status.ne(EntityStatus.DELETED)))
+						.limit(1))
+				.and(littleThanLastProductId(lastProductId))
+				.and(productImage.product.carType.id.eq(carType))
+				.and(productImage.product.price.loe(capital + loan))
+				.and(
+					productImage.role.id.eq(
+						JPAExpressions
+							.select(role.id)
+							.from(role)
+							.where(role.name.eq(ADMIN))
+							.limit(1)
+					)
+				)
+			).orderBy(productImage.id.productId.desc(), productImage.id.resourceId.asc())
+			.limit(3)
+			.fetch();
+
+		//최신 순으로 3개씩 해서 무한 스크롤
+	}
+
 	private BooleanExpression littleThanLastProductId(Long lastProductId) {
 		return lastProductId == null ? null : productImage.product.id.lt(lastProductId);
 	}
