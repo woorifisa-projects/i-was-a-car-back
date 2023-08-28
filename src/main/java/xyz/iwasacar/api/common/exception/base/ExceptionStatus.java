@@ -17,7 +17,9 @@ public enum ExceptionStatus {
 	LOGIN_FAIL(401, "", UNAUTHORIZED),
 	AUTHORIZE_FORBIDDEN(403, "", FORBIDDEN),
 
-	POST_NOT_FOUND(404, "", NOT_FOUND);
+	POST_NOT_FOUND(404, "", NOT_FOUND),
+
+	FILE_CONVERT_FAIL(500301, "파일 변환을 실패했습니다.", INTERNAL_SERVER_ERROR);
 
 	private final int code;
 	private final String message;

@@ -29,9 +29,8 @@ public class SaleHistoryController {
 	@PostMapping
 	public ResponseEntity<CommonResponse<SaleResponse>> saveSalesHistory(
 		@RequestPart List<MultipartFile> carImages,
-		@RequestPart @Valid SaleRequest saleRequest
+		@RequestPart(required = false) @Valid SaleRequest saleRequest
 	) {
-
 		SaleResponse saleResponse = saleService.saveSalesHistory(carImages, saleRequest);
 
 		return CommonResponse.success(CREATED, CREATED.value(), saleResponse);
