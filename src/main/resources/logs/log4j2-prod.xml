@@ -50,6 +50,11 @@
         <root level="INFO">
             <appender-ref ref="console"/>
         </root>
+
+        <logger name="xyz.iwasacar.api" level="info" additivity="false">
+            <appender-ref ref="console"/>
+            <appender-ref ref="file"/>
+        </logger>
     </Loggers>
 
 </Configuration>
