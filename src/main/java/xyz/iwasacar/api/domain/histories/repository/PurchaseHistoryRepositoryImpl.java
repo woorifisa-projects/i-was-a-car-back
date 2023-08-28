@@ -11,6 +11,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
+import xyz.iwasacar.api.domain.histories.dto.PurchaseHistoryDetailResponse;
 import xyz.iwasacar.api.domain.histories.dto.PurchaseResponse;
 import xyz.iwasacar.api.domain.histories.entity.QPurchaseHistory;
 
@@ -20,15 +21,6 @@ public class PurchaseHistoryRepositoryImpl implements PurchaseHistoryCustom {
 
 	public Page<PurchaseResponse> findAllPurchase(Long memberId, Integer page, Integer size) {
 		QPurchaseHistory purchaseHistory = QPurchaseHistory.purchaseHistory;
-
-		// 실제로 데이터베이스에서 데이터를 조회하는 쿼리 작성
-		// List<PurchaseHistory> purchaseHistories = jpaQueryFactory
-		// 	.selectFrom(purchaseHistory)
-		// 	.fetchJoin()
-		// 	.where(purchaseHistory.member.id.eq(memberId))
-		// 	.offset(page * size)
-		// 	.limit(size)
-		// 	.fetch();
 
 		int offset = (page - 1) * size;
 
@@ -53,5 +45,30 @@ public class PurchaseHistoryRepositoryImpl implements PurchaseHistoryCustom {
 
 		return new PageImpl<>(list, PageRequest.of(page - 1, size), totalCount);
 
+	}
+
+	// DTO에서 from을 사용하는데,, 흠.. 이렇게 만드는 방법말고 더 좋은 바업ㅂ이 있을거 같단 말이지
+	@Override
+	public PurchaseHistoryDetailResponse findDetailPurchase(Long purchaseHistoryNo) {
+		QPurchaseHistory purchaseHistory = QPurchaseHistory.purchaseHistory;
+
+		PurchaseHistoryDetailResponse purchaseHistoryDetailResponse = jpaQueryFactory
+			.select(Projections.constructor(
+				PurchaseHistoryDetailResponse.class, purchaseHistory.id, purchaseHistory.createAt,
+				purchaseHistory.deliverySchedule,
+				purchaseHistory.member.name, purchaseHistory.member.tel,
+				purchaseHistory.product.name, purchaseHistory.product.price, purchaseHistory.product.label.name,
+				purchaseHistory.product.name,
+				purchaseHistory.loan.name,
+				purchaseHistory.insurance.name))
+			.from(purchaseHistory)
+			.join(purchaseHistory.product)
+			.join(purchaseHistory.member)
+			.join(purchaseHistory.loan)
+			.join(purchaseHistory.insurance)
+			.where(purchaseHistory.id.eq(purchaseHistoryNo))
+			.fetchOne();
+
+		return purchaseHistoryDetailResponse;
 	}
 }
