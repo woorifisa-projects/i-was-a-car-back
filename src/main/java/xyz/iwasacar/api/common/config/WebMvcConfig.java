@@ -19,7 +19,7 @@ import xyz.iwasacar.api.common.interceptor.BearerAuthInterceptor;
 public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Value("${client-url}")
-	private String clientUrl;
+	private String[] clientUrl;
 
 	private final JwtTokenParser parser;
 	private final JwtTokenProvider provider;
