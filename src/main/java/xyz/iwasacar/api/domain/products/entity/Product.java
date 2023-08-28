@@ -119,7 +119,7 @@ public class Product {
 	public Product(CarType carType, Brand brand, Label label, Resource performanceCheck, Color color, String name,
 		Boolean fakeProductStatus, String info, String transmission, String fuel, String drivingMethod, LocalDate year,
 		Integer distance, Integer price, Double fuelEfficiency, Double displacement, Integer accidentHistory,
-		Boolean inundationHistory, EntityStatus status) {
+		Boolean inundationHistory) {
 		this.carType = carType;
 		this.brand = brand;
 		this.label = label;
@@ -138,6 +138,7 @@ public class Product {
 		this.displacement = displacement;
 		this.accidentHistory = accidentHistory;
 		this.inundationHistory = inundationHistory;
-		this.status = status;
+		this.status = EntityStatus.CREATED;
 	}
+
 }

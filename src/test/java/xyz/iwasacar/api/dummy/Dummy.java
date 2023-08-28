@@ -110,7 +110,6 @@ public class Dummy {
 			.drivingMethod("전륜")
 			.accidentHistory(1)
 			.inundationHistory(false)
-			.status(EntityStatus.CREATED)
 			.build();
 	}
 

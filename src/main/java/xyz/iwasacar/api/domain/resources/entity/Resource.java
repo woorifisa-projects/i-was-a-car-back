@@ -59,4 +59,10 @@ public class Resource {
 		this.originalName = originalName;
 	}
 
+	public Resource(String url, String originalName) {
+		this.url = url;
+		this.status = EntityStatus.CREATED;
+		this.originalName = originalName;
+	}
+
 }

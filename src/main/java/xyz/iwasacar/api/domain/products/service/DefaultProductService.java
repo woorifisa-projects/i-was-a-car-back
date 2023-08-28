@@ -2,7 +2,6 @@ package xyz.iwasacar.api.domain.products.service;
 
 import static java.util.stream.Collectors.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,16 +34,15 @@ public class DefaultProductService implements ProductService {
 		Product productDetail = productRepository.findProductDetail(id)
 			.orElseThrow(ProductNotFound::new);
 
-		Map<String, List<CarOption>> carOptionGroup = carOptionRepository.findOptionsByProductId(id)
-			.stream()
-			.collect(groupingBy(CarOption::getType));
+		Map<String, List<String>> carOptionGroup =
+			CarOption.convertCarOption(carOptionRepository.findOptionsByProductId(id));
 
 		List<String> resources = resourceRepository.findByProductId(id)
 			.stream()
 			.map(Resource::getUrl)
 			.collect(toList());
 
-		return ProductDetailResponse.of(productDetail, resources, convertCarOption(carOptionGroup));
+		return ProductDetailResponse.of(productDetail, resources, carOptionGroup);
 	}
 
 	@Override
@@ -54,17 +52,6 @@ public class DefaultProductService implements ProductService {
 			.stream()
 			.map(ProductResponse::of)
 			.collect(toList());
-	}
-
-	private Map<String, List<String>> convertCarOption(Map<String, List<CarOption>> options) {
-		Map<String, List<String>> map = new HashMap<>();
-		options.forEach(
-			(key, value) -> map.put(key, value
-				.stream()
-				.map(CarOption::getName)
-				.collect(toList()))
-		);
-		return map;
 	}
 
 }

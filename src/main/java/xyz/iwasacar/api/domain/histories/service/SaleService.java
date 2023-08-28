@@ -9,6 +9,7 @@ import xyz.iwasacar.api.domain.histories.dto.response.SaleResponse;
 
 public interface SaleService {
 
-	SaleResponse saveSalesHistory(List<MultipartFile> carImages, SaleRequest saleRequest);
+	SaleResponse saveSalesHistory(SaleRequest saleRequest, List<MultipartFile> carImages,
+		MultipartFile performanceCheck, Long memberId);
 
 }

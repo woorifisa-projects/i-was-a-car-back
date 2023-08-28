@@ -2,11 +2,13 @@ package xyz.iwasacar.api.domain.members.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.common.dto.response.CommonResponse;
+import xyz.iwasacar.api.domain.members.dto.request.LoginRequest;
 import xyz.iwasacar.api.domain.members.dto.response.MemberResponse;
 
 @RequestMapping("/api/v1/members")
@@ -15,7 +17,7 @@ import xyz.iwasacar.api.domain.members.dto.response.MemberResponse;
 public class MemberController {
 
 	@PostMapping("/login")
-	public ResponseEntity<CommonResponse<MemberResponse>> login() {
+	public ResponseEntity<CommonResponse<MemberResponse>> login(@RequestBody LoginRequest loginRequest) {
 		System.out.println("login method");
 		return ResponseEntity.ok().build();
 	}

@@ -4,10 +4,10 @@ import static org.springframework.http.HttpStatus.*;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,14 +26,25 @@ public class SaleHistoryController {
 
 	private final SaleService saleService;
 
-	@PostMapping
+	@PostMapping(
+		consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+		produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CommonResponse<SaleResponse>> saveSalesHistory(
+		@RequestPart SaleRequest saleRequest,
 		@RequestPart List<MultipartFile> carImages,
-		@RequestPart(required = false) @Valid SaleRequest saleRequest
+		@RequestPart MultipartFile performanceCheck
+		// @Login MemberClaim memberClaim
 	) {
-		SaleResponse saleResponse = saleService.saveSalesHistory(carImages, saleRequest);
+
+		SaleResponse saleResponse = saleService.saveSalesHistory(saleRequest, carImages,
+			performanceCheck, 1L);
 
 		return CommonResponse.success(CREATED, CREATED.value(), saleResponse);
+	}
+
+	@PostMapping("/api-docs")
+	public void forSwagger(@RequestBody SaleRequest saleRequest) {
+		throw new RuntimeException();
 	}
 
 }
