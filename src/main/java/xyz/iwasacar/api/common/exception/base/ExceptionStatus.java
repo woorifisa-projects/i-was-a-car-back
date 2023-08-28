@@ -11,9 +11,15 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum ExceptionStatus {
 
+	PRODUCT_NOT_FOUNT(404101, "해당 상품을 찾을 수 없습니다.", NOT_FOUND),
+
 	MEMBER_NOT_FOUND(404, "", NOT_FOUND),
 	LOGIN_FAIL(401, "", UNAUTHORIZED),
+
 	FORBIDDEN(403, "권한이 없어 접근이 불가능합니다.", HttpStatus.FORBIDDEN),
+
+	AUTHORIZE_FORBIDDEN(403, "", FORBIDDEN),
+
 
 	POST_NOT_FOUND(404, "", NOT_FOUND),
 

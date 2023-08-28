@@ -1,4 +1,4 @@
-package xyz.iwasacar.api.domain.agreementhistories.entity;
+package xyz.iwasacar.api.domain.consenthistories.entity;
 
 import java.time.LocalDateTime;
 
@@ -40,7 +40,7 @@ public class DocumentConsentHistory {
 	private Member member;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_no", nullable = false)
+	@JoinColumn(name = "product_no")
 	private Product product;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -57,5 +57,11 @@ public class DocumentConsentHistory {
 	@Column(name = "created_at", nullable = false)
 	@CreationTimestamp
 	private LocalDateTime createdAt;
+
+	@Column(name = "updated_at", nullable = false)
+	private LocalDateTime updatedAt;
+
+	@Column(name = "deleted_at")
+	private LocalDateTime deletedAt;
 
 }

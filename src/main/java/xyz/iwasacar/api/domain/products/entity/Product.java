@@ -17,11 +17,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import xyz.iwasacar.api.domain.brands.entity.Brand;
+import xyz.iwasacar.api.domain.cartypes.entity.CarType;
 import xyz.iwasacar.api.domain.colors.entity.Color;
 import xyz.iwasacar.api.domain.common.constant.EntityStatus;
 import xyz.iwasacar.api.domain.labels.entity.Label;
@@ -37,6 +40,10 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "product_no")
 	private Long id;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "car_type_no", nullable = false)
+	private CarType carType;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "brand_no", nullable = false)
@@ -61,7 +68,7 @@ public class Product {
 	private Boolean fakeProductStatus;
 
 	@Column(name = "info", nullable = false)
-	private String info;
+	private String info;    // 번호판
 
 	@Column(name = "transmission", nullable = false, length = 20)
 	private String transmission;
@@ -101,4 +108,36 @@ public class Product {
 	@CreationTimestamp
 	private LocalDateTime createdAt;
 
+	@Column(name = "updated_at", nullable = false)
+	@UpdateTimestamp
+	private LocalDateTime updatedAt;
+
+	@Column(name = "deleted_at")
+	private LocalDateTime deletedAt;
+
+	@Builder
+	public Product(CarType carType, Brand brand, Label label, Resource performanceCheck, Color color, String name,
+		Boolean fakeProductStatus, String info, String transmission, String fuel, String drivingMethod, LocalDate year,
+		Integer distance, Integer price, Double fuelEfficiency, Double displacement, Integer accidentHistory,
+		Boolean inundationHistory, EntityStatus status) {
+		this.carType = carType;
+		this.brand = brand;
+		this.label = label;
+		this.performanceCheck = performanceCheck;
+		this.color = color;
+		this.name = name;
+		this.fakeProductStatus = fakeProductStatus;
+		this.info = info;
+		this.transmission = transmission;
+		this.fuel = fuel;
+		this.drivingMethod = drivingMethod;
+		this.year = year;
+		this.distance = distance;
+		this.price = price;
+		this.fuelEfficiency = fuelEfficiency;
+		this.displacement = displacement;
+		this.accidentHistory = accidentHistory;
+		this.inundationHistory = inundationHistory;
+		this.status = status;
+	}
 }

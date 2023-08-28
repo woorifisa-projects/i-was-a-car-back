@@ -12,7 +12,7 @@ import com.p6spy.engine.spy.P6SpyOptions;
  *
  * @author dongyeol
  */
-@Profile("local")
+@Profile({"local", "dev"})
 @Configuration
 public class P6spyLogMessageFormatConfiguration {
 

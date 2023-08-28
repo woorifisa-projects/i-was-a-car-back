@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,10 +43,12 @@ public class ProductImage {
 	@JoinColumn(name = "role_no", nullable = false)
 	private Role role;
 
-	public ProductImage(Product product, Resource resource) {
+	@Builder
+	public ProductImage(Product product, Resource resource, Role role) {
 		this.id = new Pk(product.getId(), resource.getId());
 		this.product = product;
 		this.resource = resource;
+		this.role = role;
 	}
 
 	@Embeddable

@@ -1,5 +1,6 @@
 package xyz.iwasacar.api.domain.members.controller;
 
+
 import static org.springframework.http.HttpStatus.*;
 import static xyz.iwasacar.api.common.auth.jwt.JwtUtil.*;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+
 import xyz.iwasacar.api.common.auth.jwt.JwtDto;
 import xyz.iwasacar.api.common.auth.jwt.JwtTokenProvider;
 import xyz.iwasacar.api.common.dto.response.CommonResponse;
@@ -24,10 +26,12 @@ import xyz.iwasacar.api.domain.members.dto.response.MemberJwtResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberResponse;
 import xyz.iwasacar.api.domain.members.service.MemberService;
 
+
 @RequestMapping("/api/v1/members")
 @RestController
 @RequiredArgsConstructor
 public class MemberController {
+
 
 	private final MemberService memberService;
 	private final JwtTokenProvider jwtTokenProvider;
@@ -66,6 +70,7 @@ public class MemberController {
 
 		resp.addCookie(cookie);
 		session.setAttribute(REFRESH_TOKEN, jwtDto.getRefreshToken());
+
 	}
 
 }
