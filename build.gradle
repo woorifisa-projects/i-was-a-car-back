@@ -22,6 +22,9 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
 }
 
 ext {
@@ -43,6 +46,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-aop"
     implementation "com.amazonaws:aws-java-sdk-s3:1.12.440"
     implementation "com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0"
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
 
     implementation "org.mindrot:jbcrypt:0.4"
     implementation "io.jsonwebtoken:jjwt-api:0.11.5"
@@ -58,6 +62,8 @@ dependencies {
     compileOnly "org.projectlombok:lombok"
     annotationProcessor "org.projectlombok:lombok"
 
+    testImplementation "io.jsonwebtoken:jjwt-api:0.11.5"
+    testImplementation "io.jsonwebtoken:jjwt-jackson:0.11.5"
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testRuntimeOnly "com.h2database:h2"
 }

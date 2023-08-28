@@ -2,12 +2,12 @@ package xyz.iwasacar.api.domain.members.service;
 
 import xyz.iwasacar.api.domain.members.dto.request.LoginRequest;
 import xyz.iwasacar.api.domain.members.dto.request.SignupRequest;
-import xyz.iwasacar.api.domain.members.dto.response.MemberResponse;
+import xyz.iwasacar.api.domain.members.dto.response.MemberJwtResponse;
 
 public interface MemberService {
 
-	MemberResponse signup(final SignupRequest signupRequest);
+	MemberJwtResponse signup(final SignupRequest signupRequest);
 
-	MemberResponse login(final LoginRequest loginRequest);
+	MemberJwtResponse login(final LoginRequest loginRequest);
 
 }

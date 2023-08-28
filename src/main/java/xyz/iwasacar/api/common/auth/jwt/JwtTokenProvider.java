@@ -1,10 +1,10 @@
 package xyz.iwasacar.api.common.auth.jwt;
 
+import static xyz.iwasacar.api.common.auth.jwt.JwtUtil.*;
+
 import java.security.Key;
 import java.sql.Date;
 import java.util.Map;
-
-import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -38,29 +38,41 @@ public class JwtTokenProvider {
 		this.key = Keys.hmacShaKeyFor(secretKey);
 	}
 
-	@PostConstruct
-	public void postConstruct() {
-		log.info("AccessTokenExpireTimeMils = {}", accessTokenExpireTimeMils);
-		log.info("RefreshTokenExpireTimeMils = {}", refreshTokenExpireTimeMils);
-	}
+	public JwtDto createJwt(final MemberClaim memberClaim) {
 
-	public Jwt createJwt(final Map<String, Object> claims, final Long memberId) {
-		log.info("[createJwt] Jwt 토큰 Response DTO 생성");
-		String accessToken = createToken(claims, getExpireDateAccessToken(), memberId);
-		String refreshToken = createToken(claims, getExpireDateRefreshToken(), memberId);
-		return Jwt.builder()
+		String accessToken = createToken(memberClaim, getExpireDateAccessToken());
+		String refreshToken = createToken(memberClaim, getExpireDateRefreshToken());
+
+		return JwtDto.builder()
 			.accessToken(accessToken)
 			.refreshToken(refreshToken)
 			.build();
 	}
 
-	public String createToken(final Map<String, Object> claims, final Date expireDate, final Long memberId) {
+	// public String createToken(final Map<String, Object> claims, final Date expireDate, final Long memberId) {
+	//
+	// 	long curTime = System.currentTimeMillis();
+	//
+	// 	return Jwts.builder()
+	// 		.setClaims(claims)
+	// 		.setSubject(String.valueOf(memberId)) // memberId
+	// 		.setExpiration(expireDate)
+	// 		.setIssuedAt(new Date(curTime))
+	// 		.signWith(key)
+	// 		.compact();
+	// }
+
+	private String createToken(final MemberClaim memberClaim, final Date expireDate) {
 
 		long curTime = System.currentTimeMillis();
+		Map<String, Object> claims = Map.of(
+			AUTHORIZATION_ID, memberClaim.getMemberId(),
+			ROLES, memberClaim.getRoles()
+		);
 
 		return Jwts.builder()
-			.setSubject(String.valueOf(memberId)) // memberId
 			.setClaims(claims)
+			.setSubject(SUBJECT) // memberId
 			.setExpiration(expireDate)
 			.setIssuedAt(new Date(curTime))
 			.signWith(key)
