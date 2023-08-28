@@ -76,7 +76,7 @@ public class MemberServiceImpl implements MemberService {
 
 		Member member = memberRepository.findByEmail(loginRequest.getEmail())
 			.orElseThrow(IllegalArgumentException::new);
-		member.updateLastLoginAt();
+		member.updateLastLogin();
 
 		List<RoleName> roles = roleRepository.findRolesByMemberId(member.getId())
 			.stream()

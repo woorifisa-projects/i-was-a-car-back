@@ -6,7 +6,7 @@ import xyz.iwasacar.api.common.exception.base.ExceptionStatus;
 public class ForbiddenException extends BaseAbstractException {
 
 	public ForbiddenException() {
-		super(ExceptionStatus.FORBIDDEN);
+		super(ExceptionStatus.AUTHORIZE_FORBIDDEN);
 	}
 
 }

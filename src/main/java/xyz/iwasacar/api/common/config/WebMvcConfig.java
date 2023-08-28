@@ -1,6 +1,6 @@
 package xyz.iwasacar.api.common.config;
 
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -18,6 +18,9 @@ import xyz.iwasacar.api.common.interceptor.BearerAuthInterceptor;
 @RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
 
+	@Value("${client-url}")
+	private String clientUrl;
+
 	private final JwtTokenParser parser;
 	private final JwtTokenProvider provider;
 
@@ -33,9 +36,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 			.addPathPatterns("/api/v1/admin/**")
 			.order(2);
 	}
-  @Override
+
+	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		
+
 		registry.addMapping("/**")
 			.allowedOrigins(clientUrl)
 			.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")

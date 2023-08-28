@@ -68,9 +68,9 @@ public class Member {
 	@Column(name = "last_login_at", nullable = false)
 	private LocalDateTime lastLoginAt;
 
-  @Column(name = "deleted_at")
+	@Column(name = "deleted_at")
 	private LocalDateTime deletedAt;
-  
+
 	@Builder
 	public Member(String email, String password, String name, String tel, Gender gender, LocalDate birth,
 		Boolean hasLicense, EntityStatus status, LocalDateTime lastLoginAt) {
@@ -86,7 +86,6 @@ public class Member {
 	}
 
 	public void updateLastLogin() {
-
 		this.lastLoginAt = LocalDateTime.now();
 	}
 
