@@ -67,7 +67,7 @@ public class MemberServiceImpl implements MemberService {
 
 		JwtDto jwtDto = jwtTokenProvider.createJwt(memberClaim);
 
-		return new MemberJwtResponse(savedMember, jwtDto);
+		return new MemberJwtResponse(savedMember, jwtDto, roles);
 	}
 
 	@Transactional
@@ -89,7 +89,7 @@ public class MemberServiceImpl implements MemberService {
 
 		JwtDto jwtDto = jwtTokenProvider.createJwt(new MemberClaim(member.getId(), roles));
 
-		return new MemberJwtResponse(member, jwtDto);
+		return new MemberJwtResponse(member, jwtDto, roles);
 	}
 
 }
