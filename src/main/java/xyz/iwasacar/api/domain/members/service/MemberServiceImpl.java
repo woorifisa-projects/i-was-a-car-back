@@ -16,6 +16,7 @@ import xyz.iwasacar.api.common.component.PasswordEncoder;
 import xyz.iwasacar.api.domain.common.constant.EntityStatus;
 import xyz.iwasacar.api.domain.members.dto.request.LoginRequest;
 import xyz.iwasacar.api.domain.members.dto.request.SignupRequest;
+import xyz.iwasacar.api.domain.members.dto.response.AllMemberResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberJwtResponse;
 import xyz.iwasacar.api.domain.members.entity.Member;
 import xyz.iwasacar.api.domain.members.exception.UnauthorizedException;
@@ -36,6 +37,8 @@ public class MemberServiceImpl implements MemberService {
 	private final MemberRoleRepository memberRoleRepostiory;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final PasswordEncoder passwordEncoder;
+
+
 
 	@Transactional
 	@Override
@@ -90,6 +93,14 @@ public class MemberServiceImpl implements MemberService {
 		JwtDto jwtDto = jwtTokenProvider.createJwt(new MemberClaim(member.getId(), roles));
 
 		return new MemberJwtResponse(member, jwtDto, roles);
+	}
+
+
+	@Override
+	public List<AllMemberResponse> findMembers() {
+
+		List<Member> members =
+		return null;
 	}
 
 }
