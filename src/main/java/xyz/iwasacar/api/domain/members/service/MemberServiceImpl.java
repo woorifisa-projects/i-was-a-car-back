@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ import xyz.iwasacar.api.common.auth.jwt.JwtDto;
 import xyz.iwasacar.api.common.auth.jwt.JwtTokenProvider;
 import xyz.iwasacar.api.common.auth.jwt.MemberClaim;
 import xyz.iwasacar.api.common.component.PasswordEncoder;
+import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.common.constant.EntityStatus;
 import xyz.iwasacar.api.domain.members.dto.request.LoginRequest;
 import xyz.iwasacar.api.domain.members.dto.request.SignupRequest;
@@ -37,8 +39,6 @@ public class MemberServiceImpl implements MemberService {
 	private final MemberRoleRepository memberRoleRepostiory;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final PasswordEncoder passwordEncoder;
-
-
 
 	@Transactional
 	@Override
@@ -95,11 +95,9 @@ public class MemberServiceImpl implements MemberService {
 		return new MemberJwtResponse(member, jwtDto, roles);
 	}
 
-
 	@Override
-	public List<AllMemberResponse> findMembers() {
-
-		List<Member> members =
+	public PageResponse<AllMemberResponse> findMembers(Integer page, Integer size) {
+		Page<AllMemberResponse> allMemberResponses = memberRepository.findMembers(page, size);
 		return null;
 	}
 

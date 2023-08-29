@@ -3,8 +3,6 @@ package xyz.iwasacar.api.domain.members.controller;
 import static org.springframework.http.HttpStatus.*;
 import static xyz.iwasacar.api.common.auth.jwt.JwtUtil.*;
 
-import java.util.List;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,12 +13,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.common.auth.jwt.JwtDto;
 import xyz.iwasacar.api.common.auth.jwt.JwtTokenProvider;
 import xyz.iwasacar.api.common.dto.response.CommonResponse;
+import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.members.dto.request.LoginRequest;
 import xyz.iwasacar.api.domain.members.dto.request.SignupRequest;
 import xyz.iwasacar.api.domain.members.dto.response.AllMemberResponse;
@@ -62,9 +62,11 @@ public class MemberController {
 	// 회원 전체조회
 
 	@GetMapping("/")
-	public ResponseEntity<CommonResponse<List<AllMemberResponse>>> findMembers(final Integer size, Integer page) {
+	public ResponseEntity<CommonResponse<PageResponse<AllMemberResponse>>> findMembers(
+		@RequestParam(defaultValue = "0") Integer page,
+		@RequestParam(defaultValue = "10") Integer size) {
 
-		List<AllMemberResponse> allMemberResponse = memberService.findMembers();
+		PageResponse<AllMemberResponse> allMemberResponse = memberService.findMembers(page, size);
 
 		return CommonResponse.success(OK, OK.value(), allMemberResponse);
 	}
