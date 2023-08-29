@@ -106,7 +106,7 @@ public class DefaultSaleService implements SaleService {
 				.performanceCheck(savedPerformanceCheck)
 				.color(color)
 				.name(saleRequest.getName())
-				.fakeProductStatus(false)
+				.fakeProductStatus(checkFakeProduct(saleRequest))
 				.info(saleRequest.getInfo())
 				.transmission(saleRequest.getTransmission())
 				.fuel(saleRequest.getFuel())
@@ -168,6 +168,11 @@ public class DefaultSaleService implements SaleService {
 		Map<String, List<String>> optionType = CarOption.convertCarOption(options);
 
 		return new SaleResponse(member, product, savedSaleHistory, carImageUrls, optionType);
+	}
+
+	private boolean checkFakeProduct(final SaleRequest saleRequest) {
+
+		return saleRequest != null;
 	}
 
 }
