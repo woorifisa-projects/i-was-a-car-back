@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public enum ExceptionStatus {
-
 	LOGIN_FAIL(401, "", UNAUTHORIZED),
 
 	AUTHORIZE_FORBIDDEN(403, "", FORBIDDEN),
