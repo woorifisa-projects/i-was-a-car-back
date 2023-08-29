@@ -10,5 +10,5 @@ public interface PurchaseHistoryService {
 
 	Long findMemberId(Long purchaseHistoryNo);
 
-	PurchaseHistoryDetailResponse findDetailPurchase(Long purchaseHistoryNo);
+	PurchaseHistoryDetailResponse findPurchaseDetail(Long purchaseHistoryNo);
 }

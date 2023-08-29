@@ -49,7 +49,7 @@ public class PurchaseHistoryRepositoryImpl implements PurchaseHistoryCustom {
 
 	// DTO에서 from을 사용하는데,, 흠.. 이렇게 만드는 방법말고 더 좋은 바업ㅂ이 있을거 같단 말이지
 	@Override
-	public PurchaseHistoryDetailResponse findDetailPurchase(Long purchaseHistoryNo) {
+	public PurchaseHistoryDetailResponse findPurchaseDetail(Long purchaseHistoryNo) {
 		QPurchaseHistory purchaseHistory = QPurchaseHistory.purchaseHistory;
 
 		PurchaseHistoryDetailResponse purchaseHistoryDetailResponse = jpaQueryFactory

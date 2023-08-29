@@ -37,11 +37,9 @@ public class PurchaseHistoryServiceImpl implements PurchaseHistoryService {
 	}
 
 	@Override
-	public PurchaseHistoryDetailResponse findDetailPurchase(Long purchaseHistoryNo) {
-
-		PurchaseHistoryDetailResponse purchaseHistoryDetailResponse = purchaseHistoryRepository.findDetailPurchase(
+	public PurchaseHistoryDetailResponse findPurchaseDetail(Long purchaseHistoryNo) {
+		PurchaseHistoryDetailResponse purchaseHistoryDetailResponse = purchaseHistoryRepository.findPurchaseDetail(
 			purchaseHistoryNo);
-
-		return null;
+		return purchaseHistoryDetailResponse;
 	}
 }

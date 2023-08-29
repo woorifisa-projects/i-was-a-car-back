@@ -51,7 +51,7 @@ public class PurchaseHistoryController {
 			throw new IllegalArgumentException();
 		}
 
-		PurchaseHistoryDetailResponse detail = purchaseHistoryService.findPuchaseDetail(purchaseHistoryNo);
+		PurchaseHistoryDetailResponse detail = purchaseHistoryService.findPurchaseDetail(purchaseHistoryNo);
 		return CommonResponse.success(OK, OK.value(), detail);
 	}
 
