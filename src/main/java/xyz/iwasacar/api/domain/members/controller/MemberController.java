@@ -61,9 +61,9 @@ public class MemberController {
 
 	// 회원 전체조회
 
-	@GetMapping("/")
+	@GetMapping
 	public ResponseEntity<CommonResponse<PageResponse<AllMemberResponse>>> findMembers(
-		@RequestParam(defaultValue = "0") Integer page,
+		@RequestParam(defaultValue = "1") Integer page,
 		@RequestParam(defaultValue = "10") Integer size) {
 
 		PageResponse<AllMemberResponse> allMemberResponse = memberService.findMembers(page, size);

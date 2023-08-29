@@ -98,7 +98,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public PageResponse<AllMemberResponse> findMembers(Integer page, Integer size) {
 		Page<AllMemberResponse> allMemberResponses = memberRepository.findMembers(page, size);
-		return null;
+		return new PageResponse<>(allMemberResponses,page,);
 	}
 
 }
