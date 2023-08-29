@@ -45,7 +45,7 @@ public class ProductController {
 	 * @param capital: int 자본금
 	 * @param loan: int 원하는 대출금
 	 */
-	@GetMapping("/specific")
+	@GetMapping("/recommendation")
 	public ResponseEntity<CommonResponse<List<ProductResponse>>> findSpecificProducts(
 		@RequestParam final Long carType, @RequestParam final Integer capital, @RequestParam final Integer loan,
 		@RequestParam(required = false) final Long lastProductId) {
