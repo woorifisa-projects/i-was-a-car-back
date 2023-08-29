@@ -54,4 +54,23 @@ public class DefaultProductService implements ProductService {
 			.collect(toList());
 	}
 
+	@Override
+	public List<ProductResponse> findSpecificProducts(Long carType, Integer capital, Integer loan, Long lastProductId) {
+		return resourceRepository.findBySepcificProducts(carType, capital, loan, lastProductId)
+			.stream()
+			.map(ProductResponse::of)
+			.collect(toList());
+	}
+
+	private Map<String, List<String>> convertCarOption(Map<String, List<CarOption>> options) {
+		Map<String, List<String>> map = new HashMap<>();
+		options.forEach(
+			(key, value) -> map.put(key, value
+				.stream()
+				.map(CarOption::getName)
+				.collect(toList()))
+		);
+		return map;
+	}
+
 }
