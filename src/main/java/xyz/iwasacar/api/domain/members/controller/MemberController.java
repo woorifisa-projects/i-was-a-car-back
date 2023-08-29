@@ -70,7 +70,6 @@ public class MemberController {
 
 		resp.addCookie(cookie);
 		session.setAttribute(REFRESH_TOKEN, jwtDto.getRefreshToken());
-
 	}
 
 }

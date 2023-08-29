@@ -33,7 +33,7 @@ public class MemberServiceImpl implements MemberService {
 
 	private final MemberRepository memberRepository;
 	private final RoleRepository roleRepository;
-	private final MemberRoleRepository memberRoleRepostiory;
+	private final MemberRoleRepository memberRoleRepository;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final PasswordEncoder passwordEncoder;
 
@@ -60,7 +60,7 @@ public class MemberServiceImpl implements MemberService {
 		Role role = roleRepository.findByName(RoleName.MEMBER)
 			.orElseThrow(RoleNotFoundException::new);
 
-		MemberRole savedMemberRole = memberRoleRepostiory.save(new MemberRole(role, member));
+		MemberRole savedMemberRole = memberRoleRepository.save(new MemberRole(role, member));
 		List<RoleName> roles = List.of(savedMemberRole.getRole().getName());
 
 		MemberClaim memberClaim = new MemberClaim(member.getId(), roles);
