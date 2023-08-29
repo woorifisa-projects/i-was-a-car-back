@@ -6,7 +6,7 @@ import xyz.iwasacar.api.common.exception.base.ExceptionStatus;
 public class ProductNotFound extends BaseAbstractException {
 
 	public ProductNotFound() {
-		super(ExceptionStatus.PRODUCT_NOT_FOUNT);
+		super(ExceptionStatus.PRODUCT_NOT_FOUND);
 	}
 
 }

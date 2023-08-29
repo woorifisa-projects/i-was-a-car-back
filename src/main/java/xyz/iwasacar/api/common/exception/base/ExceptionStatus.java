@@ -14,7 +14,7 @@ public enum ExceptionStatus {
 	LOGIN_FAIL(401, "", UNAUTHORIZED),
 	AUTHORIZE_FORBIDDEN(403, "", FORBIDDEN),
 
-	PRODUCT_NOT_FOUNT(404201, "해당 상품을 찾을 수 없습니다.", NOT_FOUND),
+	PRODUCT_NOT_FOUND(404201, "해당 상품을 찾을 수 없습니다.", NOT_FOUND),
 	MEMBER_NOT_FOUND(404101, "회원을 찾을 수 없습니다.", NOT_FOUND),
 	CAR_TYPE_NOT_FOUND(404301, "차종을 찾을 수 없습니다.", NOT_FOUND),
 	BRAND_NOT_FOUND(404401, "제조사를 찾을 수 없습니다.", NOT_FOUND),
