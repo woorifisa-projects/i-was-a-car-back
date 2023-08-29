@@ -17,15 +17,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import xyz.iwasacar.api.common.annotation.Login;
 import xyz.iwasacar.api.common.auth.jwt.JwtDto;
 import xyz.iwasacar.api.common.auth.jwt.JwtTokenProvider;
+import xyz.iwasacar.api.common.auth.jwt.MemberClaim;
 import xyz.iwasacar.api.common.dto.response.CommonResponse;
 import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.members.dto.request.LoginRequest;
 import xyz.iwasacar.api.domain.members.dto.request.SignupRequest;
 import xyz.iwasacar.api.domain.members.dto.response.AllMemberResponse;
+import xyz.iwasacar.api.domain.members.dto.response.MemberDetailResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberJwtResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberResponse;
+import xyz.iwasacar.api.domain.members.exception.ForbiddenException;
 import xyz.iwasacar.api.domain.members.service.MemberService;
 
 @RequestMapping("/api/v1/members")
@@ -64,7 +68,8 @@ public class MemberController {
 	@GetMapping
 	public ResponseEntity<CommonResponse<PageResponse<AllMemberResponse>>> findMembers(
 		@RequestParam(defaultValue = "1") Integer page,
-		@RequestParam(defaultValue = "10") Integer size) {
+		@RequestParam(defaultValue = "10") Integer size
+	) {
 
 		PageResponse<AllMemberResponse> allMemberResponse = memberService.findMembers(page, size);
 
@@ -73,6 +78,19 @@ public class MemberController {
 
 	// 회원 상세조회
 	@GetMapping("/detail")
+	public ResponseEntity<CommonResponse<MemberDetailResponse>> findMember(
+		@Login MemberClaim memberClaim, @RequestParam Long memberId
+	) {
+		System.out.println("==========");
+		System.out.println(memberClaim.getMemberId());
+		System.out.println(memberId);
+
+		if (!memberClaim.getMemberId().equals(memberId)) {
+			throw new ForbiddenException();
+		}
+		return CommonResponse.success(OK, OK.value(), memberService.findMember(memberId));
+
+	}
 
 	// 회원 수정
 

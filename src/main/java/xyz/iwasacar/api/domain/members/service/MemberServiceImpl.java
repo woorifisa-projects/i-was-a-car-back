@@ -19,8 +19,10 @@ import xyz.iwasacar.api.domain.common.constant.EntityStatus;
 import xyz.iwasacar.api.domain.members.dto.request.LoginRequest;
 import xyz.iwasacar.api.domain.members.dto.request.SignupRequest;
 import xyz.iwasacar.api.domain.members.dto.response.AllMemberResponse;
+import xyz.iwasacar.api.domain.members.dto.response.MemberDetailResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberJwtResponse;
 import xyz.iwasacar.api.domain.members.entity.Member;
+import xyz.iwasacar.api.domain.members.exception.MemberNotFoundException;
 import xyz.iwasacar.api.domain.members.exception.UnauthorizedException;
 import xyz.iwasacar.api.domain.members.repository.MemberRepository;
 import xyz.iwasacar.api.domain.roles.entity.MemberRole;
@@ -78,7 +80,7 @@ public class MemberServiceImpl implements MemberService {
 	public MemberJwtResponse login(final LoginRequest loginRequest) {
 
 		Member member = memberRepository.findByEmail(loginRequest.getEmail())
-			.orElseThrow(IllegalArgumentException::new);
+			.orElseThrow(MemberNotFoundException::new);
 		member.updateLastLogin();
 
 		List<RoleName> roles = roleRepository.findRolesByMemberId(member.getId())
@@ -97,8 +99,19 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public PageResponse<AllMemberResponse> findMembers(Integer page, Integer size) {
+
 		Page<AllMemberResponse> allMemberResponses = memberRepository.findMembers(page, size);
-		return new PageResponse<>(allMemberResponses,page,);
+		return new PageResponse<>(allMemberResponses.getContent(), page, allMemberResponses.getTotalPages());
 	}
 
+	@Override
+	public MemberDetailResponse findMember(Long memberId) {
+
+		Member member = memberRepository.findById(memberId)
+			.orElseThrow(MemberNotFoundException::new);
+
+		MemberDetailResponse memberDetailResponse = MemberDetailResponse.from(member);
+
+		return memberDetailResponse;
+	}
 }

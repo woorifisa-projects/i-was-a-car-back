@@ -1,10 +1,5 @@
 package xyz.iwasacar.api.common.argumentresolver;
 
-import java.util.List;
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -12,10 +7,8 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import xyz.iwasacar.api.common.annotation.Login;
-import xyz.iwasacar.api.common.auth.jwt.JwtUtil;
 import xyz.iwasacar.api.common.auth.jwt.MemberClaim;
-import xyz.iwasacar.api.domain.members.exception.UnauthorizedException;
-import xyz.iwasacar.api.domain.roles.entity.RoleName;
+import xyz.iwasacar.api.common.context.MemberClaimContext;
 
 public class MemberClaimArgumentResolver implements HandlerMethodArgumentResolver {
 
@@ -35,13 +28,7 @@ public class MemberClaimArgumentResolver implements HandlerMethodArgumentResolve
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 		NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
-		HttpServletRequest req = (HttpServletRequest)webRequest.getNativeRequest();
-		Long memberId = Optional.ofNullable((Long)req.getAttribute(JwtUtil.AUTHORIZATION_ID))
-			.orElseThrow(UnauthorizedException::new);
-		List<RoleName> roles = Optional.ofNullable((List<RoleName>)req.getAttribute(JwtUtil.ROLES))
-			.orElseThrow(UnauthorizedException::new);
-
-		return new MemberClaim(memberId, roles);
+		return MemberClaimContext.getClaim();
 	}
 
 }
