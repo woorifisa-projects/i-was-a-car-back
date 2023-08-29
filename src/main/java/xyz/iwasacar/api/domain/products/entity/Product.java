@@ -141,4 +141,8 @@ public class Product {
 		this.status = EntityStatus.CREATED;
 	}
 
+	public static Product changeLabel(Product product, Label newLabel) {
+		product.label = newLabel;
+		return product;
+	}
 }

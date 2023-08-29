@@ -15,6 +15,10 @@ import xyz.iwasacar.api.domain.histories.repository.PurchaseHistoryRepository;
 import xyz.iwasacar.api.domain.insurances.entity.Insurance;
 import xyz.iwasacar.api.domain.insurances.exception.InsuranceNotFound;
 import xyz.iwasacar.api.domain.insurances.repository.InsuranceRepository;
+import xyz.iwasacar.api.domain.labels.entity.Label;
+import xyz.iwasacar.api.domain.labels.entity.LabelName;
+import xyz.iwasacar.api.domain.labels.exception.LabelNotFoundException;
+import xyz.iwasacar.api.domain.labels.repository.LabelRepository;
 import xyz.iwasacar.api.domain.loans.entity.Loan;
 import xyz.iwasacar.api.domain.loans.exception.LoanNotFound;
 import xyz.iwasacar.api.domain.loans.repository.LoanRepository;
@@ -36,29 +40,37 @@ public class DefaultHistoryService implements HistoryService {
 	private final BankRepository bankRepository;
 	private final LoanRepository loanRepository;
 	private final InsuranceRepository insuranceRepository;
+	private final LabelRepository labelRepository;
 
 	@Transactional
 	@Override
 	public PurchaseHistoryResponse savePurchaseHistory(PurchaseHistoryRequest purchaseHistoryRequest) {
 
-		System.out.println(purchaseHistoryRequest.toString());
+		Member member = memberRepository.findById(purchaseHistoryRequest.getMemberId())
+			.orElseThrow(MemberNotFoundException::new);
 
-		Member member = memberRepository.findById(purchaseHistoryRequest.getMemberId()).orElseThrow(
-			MemberNotFoundException::new);
+		Bank bank = bankRepository.findById(purchaseHistoryRequest.getBankId())
+			.orElseThrow(BankNotFound::new);
 
-		Product product = productRepository.findById(purchaseHistoryRequest.getProductId()).orElseThrow(
-			ProductNotFound::new);
+		Loan loan = loanRepository.findById(purchaseHistoryRequest.getLoanId())
+			.orElseThrow(LoanNotFound::new);
 
-		Bank bank = bankRepository.findById(purchaseHistoryRequest.getBankId()).orElseThrow(BankNotFound::new);
+		Insurance insurance = insuranceRepository.findById(purchaseHistoryRequest.getInsuranceId())
+			.orElseThrow(InsuranceNotFound::new);
+		
+		// 판매 완료로 라벨 바꿈
+		Product product = productRepository.findById(purchaseHistoryRequest.getProductId())
+			.orElseThrow(ProductNotFound::new);
 
-		Loan loan = loanRepository.findById(purchaseHistoryRequest.getLoanId()).orElseThrow(LoanNotFound::new);
+		Label label = labelRepository.findByName(LabelName.판매완료)
+			.orElseThrow(LabelNotFoundException::new);
 
-		Insurance insurance = insuranceRepository.findById(purchaseHistoryRequest.getInsuranceId()).orElseThrow(
-			InsuranceNotFound::new);
+		Product newLabelProduct = Product.changeLabel(product, label);
 
+		// 구매 내역 저장
 		PurchaseHistory purchaseHistory = PurchaseHistory.builder()
 			.member(member)
-			.product(product)
+			.product(newLabelProduct)
 			.bank(bank)
 			.loan(loan)
 			.insurance(insurance)

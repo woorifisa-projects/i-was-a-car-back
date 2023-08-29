@@ -11,13 +11,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class PurchaseHistoryRequest {
-	/*
-	@RequestBody Long memberId, @RequestBody Long productId, @RequestBody Long bankId,
-		@RequestBody Long loanId, @RequestBody Long insuranceId, @RequestBody Integer zipCode,
-		@RequestBody String address,
-		@RequestBody String addressDetail, @RequestBody String accountNumber, @RequestBody String account_holder,
-		@RequestBody LocalDateTime deliverySchedule
-	 */
+	
 	private final Long memberId;
 
 	private final Long productId;

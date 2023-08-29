@@ -15,18 +15,17 @@ import xyz.iwasacar.api.domain.histories.dto.response.PurchaseHistoryResponse;
 import xyz.iwasacar.api.domain.histories.service.HistoryService;
 
 @RestController
-@RequestMapping("api/v1/histories")
+@RequestMapping("/api/v1/histories")
 @RequiredArgsConstructor
 public class HistoryController {
 
 	private final HistoryService historyService;
 
 	@PostMapping("/purchase")
-	// ResponseEntity<CommonResponse<>>
 	public ResponseEntity<CommonResponse<PurchaseHistoryResponse>> savePurchaseHistory(
 		@RequestBody PurchaseHistoryRequest purchaseHistoryRequest) {
 		PurchaseHistoryResponse savedpurchaseHistory = historyService.savePurchaseHistory(purchaseHistoryRequest);
-		return CommonResponse.success(OK, OK.value(), savedpurchaseHistory);
+		return CommonResponse.success(CREATED, CREATED.value(), savedpurchaseHistory);
 	}
 
 }
