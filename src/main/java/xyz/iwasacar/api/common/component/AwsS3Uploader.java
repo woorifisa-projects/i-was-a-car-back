@@ -25,7 +25,6 @@ public class AwsS3Uploader {
 	private final AmazonS3 s3Client;
 
 	public String upload(final MultipartFile file, final String dir) {
-		System.out.println(file.getOriginalFilename());
 
 		// 저장할 파일 이름 설정
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss-SSS");
