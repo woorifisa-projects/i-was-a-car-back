@@ -8,4 +8,6 @@ public interface CarOptionRepositoryCustom {
 
 	List<CarOption> findOptionsByProductId(Long productId);
 
+	List<CarOption> findListById(List<Long> id);
+
 }

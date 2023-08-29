@@ -23,6 +23,8 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import xyz.iwasacar.api.common.auth.jwt.JwtTokenParser;
+import xyz.iwasacar.api.common.auth.jwt.JwtTokenProvider;
 import xyz.iwasacar.api.domain.products.dto.response.ProductDetailResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductResponse;
 import xyz.iwasacar.api.domain.products.entity.Product;
@@ -37,6 +39,12 @@ class ProductControllerTest {
 
 	@MockBean
 	ProductService productService;
+
+	@MockBean
+	JwtTokenParser jwtTokenParser;
+
+	@MockBean
+	JwtTokenProvider jwtTokenProvider;
 
 	@Autowired
 	ProductController productController;

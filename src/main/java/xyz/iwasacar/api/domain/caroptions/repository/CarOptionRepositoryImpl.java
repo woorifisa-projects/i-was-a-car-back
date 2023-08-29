@@ -1,5 +1,7 @@
 package xyz.iwasacar.api.domain.caroptions.repository;
 
+import static xyz.iwasacar.api.domain.caroptions.entity.QCarOption.*;
+
 import java.util.List;
 
 import com.querydsl.jpa.JPAExpressions;
@@ -16,7 +18,7 @@ public class CarOptionRepositoryImpl implements CarOptionRepositoryCustom {
 	private final JPAQueryFactory jpaQueryFactory;
 
 	@Override
-	public List<CarOption> findOptionsByProductId(Long productId) {
+	public List<CarOption> findOptionsByProductId(final Long productId) {
 		QCarOption carOption = QCarOption.carOption;
 		QProductOption productOption = QProductOption.productOption;
 
@@ -33,4 +35,13 @@ public class CarOptionRepositoryImpl implements CarOptionRepositoryCustom {
 				.where(productOption.id.productId.eq(productId))))
 			.fetch();
 	}
+
+	@Override
+	public List<CarOption> findListById(final List<Long> id) {
+		return jpaQueryFactory
+			.selectFrom(carOption)
+			.where(carOption.id.in(id))
+			.fetch();
+	}
+
 }
