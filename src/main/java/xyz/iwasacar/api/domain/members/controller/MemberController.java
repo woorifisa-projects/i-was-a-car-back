@@ -81,9 +81,6 @@ public class MemberController {
 	public ResponseEntity<CommonResponse<MemberDetailResponse>> findMember(
 		@Login MemberClaim memberClaim, @RequestParam Long memberId
 	) {
-		System.out.println("==========");
-		System.out.println(memberClaim.getMemberId());
-		System.out.println(memberId);
 
 		if (!memberClaim.getMemberId().equals(memberId)) {
 			throw new ForbiddenException();
