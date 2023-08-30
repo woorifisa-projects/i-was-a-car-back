@@ -27,13 +27,10 @@ public class PurchaseHistoryController {
 	public ResponseEntity<CommonResponse<PageResponse<PurchaseResponse>>> findAllPurchase(
 		@PathVariable final Long memberId, @RequestParam(defaultValue = "0") Integer page,
 		@RequestParam(defaultValue = "10") Integer size) {
-		// String cookieById = String.valueOf(request.getAttribute("Authorization"));
-		// if (memberId == Integer.parseInt(cookieById)) {
+
 		PageResponse<PurchaseResponse> allPurchase = purchaseHistoryService.findAllPurchase(memberId, page, size);
 		return CommonResponse.success(OK, OK.value(), allPurchase);
-		// }
 
-		// throw new IllegalArgumentException("접근 권한이 없다.");
 	}
 
 	@GetMapping("/{memberId}/purchase-history/{purchase_history_no}")
@@ -45,11 +42,6 @@ public class PurchaseHistoryController {
 		// 3. find 구매내역에 있는 memberId By purchasehistory_no(purchasehistory_no)
 		// 4. 3값이랑 1번값이랑 비교한다. Yes/no
 		// 5. 구매내역을 가져오는 service를 부른 후 반환한다.
-
-		Long userIdByPurchase = purchaseHistoryService.findMemberId(purchaseHistoryNo);
-		if (userIdByPurchase != memberId) {
-			throw new IllegalArgumentException();
-		}
 
 		PurchaseHistoryDetailResponse detail = purchaseHistoryService.findPurchaseDetail(purchaseHistoryNo);
 		return CommonResponse.success(OK, OK.value(), detail);

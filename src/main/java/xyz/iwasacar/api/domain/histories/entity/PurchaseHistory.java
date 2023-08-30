@@ -56,13 +56,16 @@ public class PurchaseHistory {
 	private Insurance insurance;
 
 	@Column(name = "zip_code", nullable = false)
-	private Integer zipCode;
+	private String zipCode;
 
 	@Column(name = "address", nullable = false)
 	private String address;
 
 	@Column(name = "address_detail", nullable = false)
 	private String addressDetail;
+
+	@Column(name = "account_number", nullable = false, length = 20)
+	private String accountNumber;
 
 	@Column(name = "account_holder", nullable = false, length = 20)
 	private String accountHolder;
