@@ -25,7 +25,7 @@ public class PurchaseHistoryResponse {
 
 	private final String insuranceName;
 
-	private final Integer zipCode;
+	private final String zipCode;
 
 	private final String address;
 

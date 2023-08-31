@@ -11,7 +11,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class PurchaseHistoryRequest {
-	
+
 	private final Long memberId;
 
 	private final Long productId;
@@ -22,7 +22,7 @@ public class PurchaseHistoryRequest {
 
 	private final Long insuranceId;
 
-	private final Integer zipCode;
+	private final String zipCode;
 
 	private final String address;
 
@@ -38,7 +38,7 @@ public class PurchaseHistoryRequest {
 	// 원래는 final 안 붙이고 기본 생성자 어노테이션 class에 붙임
 	@JsonCreator
 	public PurchaseHistoryRequest(Long memberId, Long productId, Long bankId, Long loanId, Long insuranceId,
-		Integer zipcode, String address, String addressDetail, String accountNumber, String accountHolder,
+		String zipcode, String address, String addressDetail, String accountNumber, String accountHolder,
 		@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime deliverySchedule) {
 		this.memberId = memberId;
 		this.productId = productId;

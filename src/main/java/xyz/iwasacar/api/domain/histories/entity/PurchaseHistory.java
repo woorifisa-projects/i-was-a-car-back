@@ -90,7 +90,7 @@ public class PurchaseHistory {
 	private LocalDateTime deletedAt;
 
 	@Builder
-	public PurchaseHistory(Member member, Product product, Bank bank, Loan loan, Insurance insurance, Integer zipCode,
+	public PurchaseHistory(Member member, Product product, Bank bank, Loan loan, Insurance insurance, String zipCode,
 		String address, String addressDetail, String accountNumber, String accountHolder,
 		LocalDateTime deliverySchedule,
 		EntityStatus status) {

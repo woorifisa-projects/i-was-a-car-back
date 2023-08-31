@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import xyz.iwasacar.api.common.annotation.Login;
+import xyz.iwasacar.api.common.auth.jwt.MemberClaim;
 import xyz.iwasacar.api.common.dto.response.CommonResponse;
 import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.histories.dto.PurchaseHistoryDetailResponse;
@@ -25,8 +27,8 @@ public class PurchaseHistoryController {
 
 	@GetMapping("/{memberId}/purchase-histories")
 	public ResponseEntity<CommonResponse<PageResponse<PurchaseResponse>>> findAllPurchase(
-		@PathVariable final Long memberId, @RequestParam(defaultValue = "0") Integer page,
-		@RequestParam(defaultValue = "10") Integer size) {
+		@PathVariable final Long memberId, @RequestParam(defaultValue = "1") Integer page,
+		@RequestParam(defaultValue = "10") Integer size, @Login MemberClaim memberClaim) {
 
 		PageResponse<PurchaseResponse> allPurchase = purchaseHistoryService.findAllPurchase(memberId, page, size);
 		return CommonResponse.success(OK, OK.value(), allPurchase);

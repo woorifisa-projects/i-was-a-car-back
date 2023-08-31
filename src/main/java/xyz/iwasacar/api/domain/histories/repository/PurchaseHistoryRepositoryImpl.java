@@ -41,6 +41,7 @@ public class PurchaseHistoryRepositoryImpl implements PurchaseHistoryCustom {
 			jpaQueryFactory
 				.select(purchaseHistory.count())
 				.from(purchaseHistory)
+				.where(purchaseHistory.member.id.eq(memberId))
 				.fetchOne());
 
 		return new PageImpl<>(list, PageRequest.of(page - 1, size), totalCount);
