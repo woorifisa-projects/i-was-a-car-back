@@ -53,13 +53,11 @@ public class PurchaseHistoryRepositoryImpl implements PurchaseHistoryCustom {
 
 		PurchaseHistoryDetailResponse purchaseHistoryDetailResponse = jpaQueryFactory
 			.select(Projections.constructor(
-				PurchaseHistoryDetailResponse.class, purchaseHistory.id, purchaseHistory.createAt,
-				purchaseHistory.deliverySchedule,
-				purchaseHistory.member.name, purchaseHistory.member.tel,
-				purchaseHistory.product.name, purchaseHistory.product.price, purchaseHistory.product.label.name,
-				purchaseHistory.product.name,
-				purchaseHistory.loan.name,
-				purchaseHistory.insurance.name))
+				PurchaseHistoryDetailResponse.class, purchaseHistory.member.name, purchaseHistory.member.tel,
+				purchaseHistory.zipCode, purchaseHistory.address, purchaseHistory.deliverySchedule,
+				purchaseHistory.product.name, purchaseHistory.createAt, purchaseHistory.product.price,
+				purchaseHistory.bank.name, purchaseHistory.accountHolder, purchaseHistory.accountNumber,
+				purchaseHistory.loan.name, purchaseHistory.insurance.name))
 			.from(purchaseHistory)
 			.join(purchaseHistory.product)
 			.join(purchaseHistory.member)
