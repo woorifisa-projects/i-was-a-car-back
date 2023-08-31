@@ -22,6 +22,8 @@ public enum ExceptionStatus {
 	LABEL_NOT_FOUND(404601, "라벨을 찾을 수 없습니다.", NOT_FOUND),
 	BANK_NOT_FOUND(404701, "은행을 찾을 수 없습니다.", NOT_FOUND),
 	CAR_OPTION_OMIT(404801, "잘못 입력된 옵션이 있습니다.", NOT_FOUND),
+	LOAN_NOT_FOUND(404901, "대출을 찾을 수 없습니다.", NOT_FOUND),
+	INSURANCE_NOT_FOUND(404910, "보험을 찾을 수 없습니다.", NOT_FOUND),
 
 	ROLE_SERVER_ERROR(500, "잘못된 권한으로 인해 서버에 오류가 발생했습니다.", INTERNAL_SERVER_ERROR),
 

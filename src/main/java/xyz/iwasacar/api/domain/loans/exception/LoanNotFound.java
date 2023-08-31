@@ -6,7 +6,7 @@ import xyz.iwasacar.api.common.exception.base.ExceptionStatus;
 public class LoanNotFound extends BaseAbstractException {
 
 	public LoanNotFound() {
-		super(ExceptionStatus.Loan_NOT_FOUNT);
+		super(ExceptionStatus.LOAN_NOT_FOUND);
 	}
 
 }
