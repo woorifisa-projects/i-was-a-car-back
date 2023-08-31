@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,6 +39,7 @@ public class Document {
 	private String category;
 
 	@Column(name = "status", nullable = false, length = 20)
+	@Enumerated(EnumType.STRING)
 	private EntityStatus status;
 
 	@Column(name = "created_at", nullable = false)
