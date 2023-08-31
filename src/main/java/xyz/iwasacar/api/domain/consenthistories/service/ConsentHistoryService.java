@@ -6,5 +6,7 @@ import xyz.iwasacar.api.domain.consenthistories.dto.request.ConsentHistoryReques
 import xyz.iwasacar.api.domain.consenthistories.dto.response.ConsentHistoryResponse;
 
 public interface ConsentHistoryService {
+	
 	List<ConsentHistoryResponse> saveConsentHistories(List<ConsentHistoryRequest> consentHistoryRequests);
+	
 }
