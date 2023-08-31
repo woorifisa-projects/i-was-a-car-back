@@ -4,6 +4,7 @@ import static org.springframework.http.HttpStatus.*;
 import static xyz.iwasacar.api.common.auth.jwt.JwtUtil.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -40,6 +41,11 @@ public class MemberController {
 	private final MemberService memberService;
 	private final JwtTokenProvider jwtTokenProvider;
 
+	// @GetMapping("/auth")
+	// public ResponseEntity<CommonResponse<MemberResponse>> auth() {
+	//
+	// }
+
 	@PostMapping("/signup")
 	public ResponseEntity<CommonResponse<MemberResponse>> signup(
 		@Valid @RequestBody final SignupRequest signupRequest,
@@ -61,6 +67,30 @@ public class MemberController {
 		settingAccessTokenCookie(memberJwtResponse.getJwtDto(), response, session);
 
 		return CommonResponse.success(OK, OK.value(), memberJwtResponse.getMemberResponse());
+	}
+
+	@GetMapping("/logout")
+	public ResponseEntity<Void> logout(HttpServletRequest request,
+		HttpServletResponse response) {
+
+		Cookie[] cookies = request.getCookies();
+
+		for (Cookie cookie : cookies) {
+
+			if (!cookie.getName().equals(ACCESS_TOKEN)) {
+				continue;
+			}
+
+			cookie.setValue(null);
+			cookie.setHttpOnly(true);
+			cookie.setSecure(false);
+			cookie.setPath("/");
+			cookie.setMaxAge((int)(jwtTokenProvider.getRefreshTokenExpireTimeMils() / 500));
+
+			response.addCookie(cookie);
+		}
+
+		return ResponseEntity.noContent().build();
 	}
 
 	// 회원 전체조회
