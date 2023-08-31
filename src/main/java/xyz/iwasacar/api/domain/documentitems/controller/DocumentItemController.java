@@ -16,7 +16,7 @@ import xyz.iwasacar.api.domain.documentitems.dto.response.DocumentItemResponse;
 import xyz.iwasacar.api.domain.documentitems.service.DocumentItemService;
 
 @RestController
-@RequestMapping("api/v1/documents")
+@RequestMapping("/api/v1/documents")
 @RequiredArgsConstructor
 public class DocumentItemController {
 
