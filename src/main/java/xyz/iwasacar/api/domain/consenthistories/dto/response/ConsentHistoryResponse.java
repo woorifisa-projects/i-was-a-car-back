@@ -2,6 +2,8 @@ package xyz.iwasacar.api.domain.consenthistories.dto.response;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.domain.consenthistories.entity.DocumentConsentHistory;
@@ -18,6 +20,7 @@ public class ConsentHistoryResponse {
 
 	private final Boolean consent;
 
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private final LocalDateTime createdAt;
 
 	public static ConsentHistoryResponse of(DocumentConsentHistory documentConsentHistory) {
