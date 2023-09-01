@@ -4,14 +4,17 @@ import static org.springframework.http.HttpStatus.*;
 import static xyz.iwasacar.api.common.auth.jwt.JwtUtil.*;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,18 +22,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.common.annotation.Login;
-import xyz.iwasacar.api.common.auth.jwt.JwtDto;
 import xyz.iwasacar.api.common.auth.jwt.JwtTokenProvider;
 import xyz.iwasacar.api.common.auth.jwt.MemberClaim;
 import xyz.iwasacar.api.common.dto.response.CommonResponse;
 import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.members.dto.request.LoginRequest;
 import xyz.iwasacar.api.domain.members.dto.request.SignupRequest;
+import xyz.iwasacar.api.domain.members.dto.request.UpdateRequest;
 import xyz.iwasacar.api.domain.members.dto.response.AllMemberResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberDetailResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberJwtResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberResponse;
+import xyz.iwasacar.api.domain.members.dto.response.MemberUpdateResponse;
 import xyz.iwasacar.api.domain.members.exception.ForbiddenException;
+import xyz.iwasacar.api.domain.members.exception.UnauthorizedException;
 import xyz.iwasacar.api.domain.members.service.MemberService;
 
 @RequestMapping("/api/v1/members")
@@ -41,60 +46,68 @@ public class MemberController {
 	private final MemberService memberService;
 	private final JwtTokenProvider jwtTokenProvider;
 
-	// @GetMapping("/auth")
-	// public ResponseEntity<CommonResponse<MemberResponse>> auth() {
-	//
-	// }
+	// 로그인 검증
+	@GetMapping("/auth")
+	public ResponseEntity<CommonResponse<MemberResponse>> auth(final HttpSession session) {
 
+		MemberResponse memberResponse = (MemberResponse)session.getAttribute(AUTH_INFO);
+
+		return CommonResponse.success(OK, OK.value(), memberResponse);
+	}
+
+	// 회원가입
 	@PostMapping("/signup")
 	public ResponseEntity<CommonResponse<MemberResponse>> signup(
 		@Valid @RequestBody final SignupRequest signupRequest,
 		final HttpServletResponse response, final HttpSession session) {
 
 		MemberJwtResponse memberJwtResponse = memberService.signup(signupRequest);
-		settingAccessTokenCookie(memberJwtResponse.getJwtDto(), response, session);
+		settingAccessTokenCookie(memberJwtResponse, response, session);
 
 		return CommonResponse.success(OK, OK.value(), memberJwtResponse.getMemberResponse());
 
 	}
 
+	// 로그인
 	@PostMapping("/login")
 	public ResponseEntity<CommonResponse<MemberResponse>> login(
 		@Valid @RequestBody final LoginRequest loginRequest,
 		final HttpServletResponse response, final HttpSession session) {
 
+		// 회원탈퇴한 사용자가 로그인 시도 시 예외 처리
+		if (memberService.isDeletedMember(loginRequest.getEmail())) {
+			throw new UnauthorizedException();
+		}
+
 		MemberJwtResponse memberJwtResponse = memberService.login(loginRequest);
-		settingAccessTokenCookie(memberJwtResponse.getJwtDto(), response, session);
+		settingAccessTokenCookie(memberJwtResponse, response, session);
 
 		return CommonResponse.success(OK, OK.value(), memberJwtResponse.getMemberResponse());
 	}
 
+	// 로그아웃
 	@GetMapping("/logout")
-	public ResponseEntity<Void> logout(HttpServletRequest request,
-		HttpServletResponse response) {
+	public ResponseEntity<Void> logout(final HttpSession session,
+		final HttpServletResponse response,
+		@CookieValue(name = ACCESS_TOKEN) final Cookie accessToken) {
 
-		Cookie[] cookies = request.getCookies();
+		if (accessToken != null) {
+			accessToken.setValue(null);
+			accessToken.setHttpOnly(true);
+			accessToken.setSecure(false);
+			accessToken.setPath("/");
+			accessToken.setMaxAge((int)(jwtTokenProvider.getRefreshTokenExpireTimeMils() / 500));
 
-		for (Cookie cookie : cookies) {
-
-			if (!cookie.getName().equals(ACCESS_TOKEN)) {
-				continue;
-			}
-
-			cookie.setValue(null);
-			cookie.setHttpOnly(true);
-			cookie.setSecure(false);
-			cookie.setPath("/");
-			cookie.setMaxAge((int)(jwtTokenProvider.getRefreshTokenExpireTimeMils() / 500));
-
-			response.addCookie(cookie);
+			response.addCookie(accessToken);
+			session.removeAttribute(AUTH_INFO);
+			session.removeAttribute(REFRESH_TOKEN);
+			session.invalidate();
 		}
 
 		return ResponseEntity.noContent().build();
 	}
 
 	// 회원 전체조회
-
 	@GetMapping
 	public ResponseEntity<CommonResponse<PageResponse<AllMemberResponse>>> findMembers(
 		@RequestParam(defaultValue = "1") Integer page,
@@ -119,20 +132,53 @@ public class MemberController {
 
 	}
 
-	// 회원 수정
+	// 회원정보 수정
+	@PutMapping("/{id}")
+	public ResponseEntity<CommonResponse<MemberUpdateResponse>> updateMember(
+		@Valid @RequestBody final UpdateRequest updateRequest,
+		@Login final MemberClaim memberClaim, @PathVariable("id") final Long memberId) {
+
+		if (!memberClaim.getMemberId().equals(memberId)) {
+			throw new ForbiddenException();
+		}
+
+		MemberUpdateResponse memberUpdateResponse = memberService.updateMember(memberClaim.getMemberId(),
+			updateRequest);
+
+		return CommonResponse.success(OK, OK.value(), memberUpdateResponse);
+	}
 
 	// 회원 탈퇴
-	private void settingAccessTokenCookie(
-		final JwtDto jwtDto, final HttpServletResponse resp, final HttpSession session) {
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deleteMember(@Login final MemberClaim memberClaim,
+		@PathVariable("id") final Long memberId,
+		final HttpSession session) {
 
-		Cookie cookie = new Cookie(ACCESS_TOKEN, jwtDto.getAccessToken());
+		if (!memberClaim.getMemberId().equals(memberId)) {
+			throw new ForbiddenException();
+		}
+
+		memberService.deleteMember(memberClaim.getMemberId());
+
+		session.removeAttribute(AUTH_INFO);
+		session.removeAttribute(REFRESH_TOKEN);
+		session.invalidate();
+
+		return ResponseEntity.noContent().build();
+	}
+
+	private void settingAccessTokenCookie(
+		final MemberJwtResponse jwtDto, final HttpServletResponse resp, final HttpSession session) {
+
+		Cookie cookie = new Cookie(ACCESS_TOKEN, jwtDto.getJwtDto().getAccessToken());
 		cookie.setPath("/");
 		cookie.setHttpOnly(true);
 		cookie.setSecure(false);
 		cookie.setMaxAge((int)(jwtTokenProvider.getRefreshTokenExpireTimeMils() / 1000));
 
 		resp.addCookie(cookie);
-		session.setAttribute(REFRESH_TOKEN, jwtDto.getRefreshToken());
+		session.setAttribute(REFRESH_TOKEN, jwtDto.getJwtDto().getRefreshToken());
+		session.setAttribute(AUTH_INFO, jwtDto.getMemberResponse());
 	}
 
 }
