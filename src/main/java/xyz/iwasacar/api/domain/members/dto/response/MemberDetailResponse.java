@@ -2,6 +2,8 @@ package xyz.iwasacar.api.domain.members.dto.response;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.domain.members.entity.Gender;
@@ -21,7 +23,11 @@ public class MemberDetailResponse {
 
 	private final Boolean hasLicense;
 
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private final LocalDateTime lastLoginAt;
+
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private final LocalDateTime createdAt;
 
 	public static MemberDetailResponse from(Member m) {
 
@@ -30,7 +36,8 @@ public class MemberDetailResponse {
 			m.getTel(),
 			m.getGender(),
 			m.getHasLicense(),
-			m.getLastLoginAt());
+			m.getLastLoginAt(),
+			m.getCreatedAt());
 	}
 
 }

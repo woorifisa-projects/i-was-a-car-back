@@ -2,6 +2,8 @@ package xyz.iwasacar.api.domain.histories.dto.response;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +37,10 @@ public class PurchaseHistoryResponse {
 
 	private final String accountHolder;
 
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private final LocalDateTime deliverySchedule;
 
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private final LocalDateTime createAt;
 
 	public static PurchaseHistoryResponse of(PurchaseHistory purchaseHistory) {
