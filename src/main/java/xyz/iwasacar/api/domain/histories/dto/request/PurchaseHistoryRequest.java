@@ -22,7 +22,7 @@ public class PurchaseHistoryRequest {
 
 	private final Long insuranceId;
 
-	private final Integer zipCode;
+	private final String zipCode;
 
 	private final String address;
 
