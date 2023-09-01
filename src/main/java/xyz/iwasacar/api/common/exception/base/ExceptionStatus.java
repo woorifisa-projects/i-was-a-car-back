@@ -11,10 +11,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum ExceptionStatus {
 	LOGIN_FAIL(401, "", UNAUTHORIZED),
-	Loan_NOT_FOUND(404, "", NOT_FOUND),
 	AUTHORIZE_FORBIDDEN(403, "권한이 없는 회원입니다.", FORBIDDEN),
-	BANK_NOT_FOUND(404, "", NOT_FOUND),
-	INSURANCE_NOT_FOUND(404, "", NOT_FOUND),
 
 	PRODUCT_NOT_FOUND(404201, "해당 상품을 찾을 수 없습니다.", NOT_FOUND),
 	MEMBER_NOT_FOUND(404101, "회원을 찾을 수 없습니다.", NOT_FOUND),
@@ -22,17 +19,16 @@ public enum ExceptionStatus {
 	BRAND_NOT_FOUND(404401, "제조사를 찾을 수 없습니다.", NOT_FOUND),
 	COLOR_NOT_FOUND(404501, "색을 찾을 수 없습니다.", NOT_FOUND),
 	LABEL_NOT_FOUND(404601, "라벨을 찾을 수 없습니다.", NOT_FOUND),
-	BANK_NOT_FOUND(404701, "은행을 찾을 수 없습니다.", NOT_FOUND),
 	CAR_OPTION_OMIT(404801, "잘못 입력된 옵션이 있습니다.", NOT_FOUND),
 	LOAN_NOT_FOUND(404901, "대출을 찾을 수 없습니다.", NOT_FOUND),
-	INSURANCE_NOT_FOUND(404910, "보험을 찾을 수 없습니다.", NOT_FOUND),
-	DOCUMENT_ITEM_NOT_FOUND(404911, "문서항목을 찾을 수 없습니다.", NOT_FOUND),
+	DOCUMENT_ITEM_NOT_FOUND(4041001, "문서항목을 찾을 수 없습니다.", NOT_FOUND),
+	INSURANCE_NOT_FOUND(4041101, "", NOT_FOUND),
+	BANK_NOT_FOUND(4041201, "", NOT_FOUND),
 
-	ROLE_SERVER_ERROR(500, "잘못된 권한으로 인해 서버에 오류가 발생했습니다.", INTERNAL_SERVER_ERROR),
-
+	ROLE_SERVER_ERROR(500201, "잘못된 권한으로 인해 서버에 오류가 발생했습니다.", INTERNAL_SERVER_ERROR),
 	FILE_CONVERT_FAIL(500301, "파일 변환을 실패했습니다.", INTERNAL_SERVER_ERROR),
 
-	SERVER_ERROR(500, "서버에 오류가 발생했습니다.", INTERNAL_SERVER_ERROR);
+	SERVER_ERROR(500101, "서버에 오류가 발생했습니다.", INTERNAL_SERVER_ERROR);
 
 	private final int code;
 	private final String message;
