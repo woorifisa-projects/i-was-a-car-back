@@ -13,8 +13,8 @@ public enum ExceptionStatus {
 	LOGIN_FAIL(401, "", UNAUTHORIZED),
 	Loan_NOT_FOUND(404, "", NOT_FOUND),
 	AUTHORIZE_FORBIDDEN(403, "권한이 없는 회원입니다.", FORBIDDEN),
-	Bank_NOT_FOUND(404, "", NOT_FOUND),
-	Insurance_NOT_FOUND(404, "", NOT_FOUND),
+	BANK_NOT_FOUND(404, "", NOT_FOUND),
+	INSURANCE_NOT_FOUND(404, "", NOT_FOUND),
 
 	PRODUCT_NOT_FOUND(404201, "해당 상품을 찾을 수 없습니다.", NOT_FOUND),
 	MEMBER_NOT_FOUND(404101, "회원을 찾을 수 없습니다.", NOT_FOUND),
