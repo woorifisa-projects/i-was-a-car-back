@@ -32,9 +32,9 @@ import xyz.iwasacar.api.domain.products.repository.ProductRepository;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class DefaultHistoryService implements HistoryService {
+public class DefaultPurchaseService implements PurchaseService {
 
-	private final PurchaseHistoryRepository historyRepository;
+	private final PurchaseHistoryRepository purchaseHistoryRepository;
 	private final MemberRepository memberRepository;
 	private final ProductRepository productRepository;
 	private final BankRepository bankRepository;
@@ -57,7 +57,7 @@ public class DefaultHistoryService implements HistoryService {
 
 		Insurance insurance = insuranceRepository.findById(purchaseHistoryRequest.getInsuranceId())
 			.orElseThrow(InsuranceNotFound::new);
-		
+
 		// 판매 완료로 라벨 바꿈
 		Product product = productRepository.findById(purchaseHistoryRequest.getProductId())
 			.orElseThrow(ProductNotFound::new);
@@ -82,10 +82,12 @@ public class DefaultHistoryService implements HistoryService {
 			.accountNumber(purchaseHistoryRequest.getAccountNumber())
 			.accountHolder(
 				purchaseHistoryRequest.getAccountHolder())
+			.loanAmount(purchaseHistoryRequest.getLoanAmount())
+			.period(purchaseHistoryRequest.getPeriod())
 			.deliverySchedule(purchaseHistoryRequest.getDeliverySchedule())
 			.status(EntityStatus.CREATED).build();
 
-		PurchaseHistory savedpurchaseHistory = historyRepository.save(purchaseHistory);
+		PurchaseHistory savedpurchaseHistory = purchaseHistoryRepository.save(purchaseHistory);
 
 		PurchaseHistoryResponse purchaseHistoryResponse = PurchaseHistoryResponse.of(savedpurchaseHistory);
 
