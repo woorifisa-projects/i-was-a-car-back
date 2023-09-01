@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import lombok.extern.slf4j.Slf4j;
+import xyz.iwasacar.api.common.context.UuidContext;
 import xyz.iwasacar.api.common.dto.response.ErrorResponse;
 import xyz.iwasacar.api.common.exception.base.BaseAbstractException;
 
@@ -27,15 +28,19 @@ public class GlobalRestControllerAdvice {
 	 */
 	@ExceptionHandler(BaseAbstractException.class)
 	public ResponseEntity<ErrorResponse> foo(BaseAbstractException ex) {
-		log.error("[{}] {}", ex.getExceptionStatus().getCode(), ex);
+		log.error("[{}] {} {}", UuidContext.getUuid(), ex.getExceptionStatus().getCode(), ex.getMessage());
 		log.error("", ex);
+
 		return ErrorResponse.fail(ex.getExceptionStatus());
 	}
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex) {
 		ErrorResponse response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
+
+		log.error("[{}] {}", UuidContext.getUuid(), ex.getMessage());
 		log.error("", ex);
+
 		return ResponseEntity
 			.internalServerError()
 			.body(response);

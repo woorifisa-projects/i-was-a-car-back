@@ -58,7 +58,7 @@ public class PurchaseHistory {
 	private Insurance insurance;
 
 	@Column(name = "zip_code", nullable = false)
-	private Integer zipCode;
+	private String zipCode;
 
 	@Column(name = "address", nullable = false)
 	private String address;
@@ -71,6 +71,12 @@ public class PurchaseHistory {
 
 	@Column(name = "account_holder", nullable = false, length = 20)
 	private String accountHolder;
+
+	@Column(name = "loan_amount", nullable = false)
+	private Integer loanAmount;
+
+	@Column(name = "period", nullable = false)
+	private Integer period;
 
 	@Column(name = "delivery_schedule", nullable = false)
 	private LocalDateTime deliverySchedule;
@@ -90,10 +96,10 @@ public class PurchaseHistory {
 	private LocalDateTime deletedAt;
 
 	@Builder
-	public PurchaseHistory(Member member, Product product, Bank bank, Loan loan, Insurance insurance, Integer zipCode,
-		String address, String addressDetail, String accountNumber, String accountHolder,
-		LocalDateTime deliverySchedule,
-		EntityStatus status) {
+	public PurchaseHistory(Member member, Product product, Bank bank, Loan loan, Insurance insurance, String zipCode,
+		String address, String addressDetail, String accountNumber, String accountHolder, Integer loanAmount,
+		Integer period, LocalDateTime deliverySchedule, EntityStatus status) {
+
 		this.member = member;
 		this.product = product;
 		this.bank = bank;
@@ -104,6 +110,8 @@ public class PurchaseHistory {
 		this.addressDetail = addressDetail;
 		this.accountNumber = accountNumber;
 		this.accountHolder = accountHolder;
+		this.loanAmount = loanAmount;
+		this.period = period;
 		this.deliverySchedule = deliverySchedule;
 		this.status = status;
 	}

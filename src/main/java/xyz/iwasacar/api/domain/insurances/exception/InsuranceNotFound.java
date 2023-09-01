@@ -6,7 +6,7 @@ import xyz.iwasacar.api.common.exception.base.ExceptionStatus;
 public class InsuranceNotFound extends BaseAbstractException {
 
 	public InsuranceNotFound() {
-		super(ExceptionStatus.Insurance_NOT_FOUNT);
+		super(ExceptionStatus.INSURANCE_NOT_FOUND);
 	}
 
 }
