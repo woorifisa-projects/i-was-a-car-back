@@ -30,6 +30,7 @@ public class GlobalRestControllerAdvice {
 	public ResponseEntity<ErrorResponse> foo(BaseAbstractException ex) {
 		log.error("[{}] {} {}", UuidContext.getUuid(), ex.getExceptionStatus().getCode(), ex.getMessage());
 		log.error("", ex);
+
 		return ErrorResponse.fail(ex.getExceptionStatus());
 	}
 
@@ -37,6 +38,8 @@ public class GlobalRestControllerAdvice {
 	public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex) {
 		ErrorResponse response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
 		log.error("[{}] {}", UuidContext.getUuid(), ex.getMessage());
+		log.error("", ex);
+
 		return ResponseEntity
 			.internalServerError()
 			.body(response);
