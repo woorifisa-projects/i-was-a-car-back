@@ -12,8 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import xyz.iwasacar.api.domain.common.constant.EntityStatus;
@@ -44,8 +46,23 @@ public class Resource {
 	private String originalName;
 
 	@Column(name = "updated_at", nullable = false)
+	@UpdateTimestamp
 	private LocalDateTime updatedAt;
 
 	@Column(name = "deleted_at")
 	private LocalDateTime deletedAt;
+
+	@Builder
+	public Resource(String url, EntityStatus status, String originalName) {
+		this.url = url;
+		this.status = status;
+		this.originalName = originalName;
+	}
+
+	public Resource(String url, String originalName) {
+		this.url = url;
+		this.status = EntityStatus.CREATED;
+		this.originalName = originalName;
+	}
+
 }

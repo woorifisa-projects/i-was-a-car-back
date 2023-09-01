@@ -17,8 +17,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import xyz.iwasacar.api.domain.brands.entity.Brand;
@@ -107,9 +109,40 @@ public class Product {
 	private LocalDateTime createdAt;
 
 	@Column(name = "updated_at", nullable = false)
+	@UpdateTimestamp
 	private LocalDateTime updatedAt;
 
 	@Column(name = "deleted_at")
 	private LocalDateTime deletedAt;
 
+	@Builder
+	public Product(CarType carType, Brand brand, Label label, Resource performanceCheck, Color color, String name,
+		Boolean fakeProductStatus, String info, String transmission, String fuel, String drivingMethod, LocalDate year,
+		Integer distance, Integer price, Double fuelEfficiency, Double displacement, Integer accidentHistory,
+		Boolean inundationHistory) {
+		this.carType = carType;
+		this.brand = brand;
+		this.label = label;
+		this.performanceCheck = performanceCheck;
+		this.color = color;
+		this.name = name;
+		this.fakeProductStatus = fakeProductStatus;
+		this.info = info;
+		this.transmission = transmission;
+		this.fuel = fuel;
+		this.drivingMethod = drivingMethod;
+		this.year = year;
+		this.distance = distance;
+		this.price = price;
+		this.fuelEfficiency = fuelEfficiency;
+		this.displacement = displacement;
+		this.accidentHistory = accidentHistory;
+		this.inundationHistory = inundationHistory;
+		this.status = EntityStatus.CREATED;
+	}
+
+	public static Product changeLabel(Product product, Label newLabel) {
+		product.label = newLabel;
+		return product;
+	}
 }

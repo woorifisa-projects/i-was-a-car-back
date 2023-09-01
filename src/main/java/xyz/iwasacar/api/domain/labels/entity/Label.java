@@ -28,4 +28,8 @@ public class Label {
 	@Column(name = "name", nullable = false, length = 20)
 	private LabelName name;
 
+	public Label(LabelName name) {
+		this.name = name;
+	}
+
 }

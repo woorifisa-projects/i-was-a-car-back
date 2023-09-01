@@ -13,8 +13,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import xyz.iwasacar.api.domain.banks.entity.Bank;
@@ -56,7 +58,7 @@ public class PurchaseHistory {
 	private Insurance insurance;
 
 	@Column(name = "zip_code", nullable = false)
-	private Integer zipCode;
+	private String zipCode;
 
 	@Column(name = "address", nullable = false)
 	private String address;
@@ -64,8 +66,17 @@ public class PurchaseHistory {
 	@Column(name = "address_detail", nullable = false)
 	private String addressDetail;
 
+	@Column(name = "account_number", nullable = false, length = 20)
+	private String accountNumber;
+
 	@Column(name = "account_holder", nullable = false, length = 20)
 	private String accountHolder;
+
+	@Column(name = "loan_amount", nullable = false)
+	private Integer loanAmount;
+
+	@Column(name = "period", nullable = false)
+	private Integer period;
 
 	@Column(name = "delivery_schedule", nullable = false)
 	private LocalDateTime deliverySchedule;
@@ -73,13 +84,36 @@ public class PurchaseHistory {
 	@Column(name = "status", nullable = false, length = 20)
 	private EntityStatus status;
 
-	@Column(name = "create_at", nullable = false)
+	@Column(name = "created_at", nullable = false)
 	@CreationTimestamp
 	private LocalDateTime createAt;
 
 	@Column(name = "updated_at", nullable = false)
+	@UpdateTimestamp
 	private LocalDateTime updatedAt;
 
 	@Column(name = "deleted_at")
 	private LocalDateTime deletedAt;
+
+	@Builder
+	public PurchaseHistory(Member member, Product product, Bank bank, Loan loan, Insurance insurance, Integer zipCode,
+		String address, String addressDetail, String accountNumber, String accountHolder, Integer loanAmount,
+		Integer period,
+		LocalDateTime deliverySchedule,
+		EntityStatus status) {
+		this.member = member;
+		this.product = product;
+		this.bank = bank;
+		this.loan = loan;
+		this.insurance = insurance;
+		this.zipCode = zipCode;
+		this.address = address;
+		this.addressDetail = addressDetail;
+		this.accountNumber = accountNumber;
+		this.accountHolder = accountHolder;
+		this.loanAmount = loanAmount;
+		this.period = period;
+		this.deliverySchedule = deliverySchedule;
+		this.status = status;
+	}
 }

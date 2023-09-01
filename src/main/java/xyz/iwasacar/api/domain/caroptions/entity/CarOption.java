@@ -1,5 +1,11 @@
 package xyz.iwasacar.api.domain.caroptions.entity;
 
+import static java.util.stream.Collectors.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,5 +33,19 @@ public class CarOption {
 
 	@Column(name = "name", nullable = false)
 	private String name;
+
+	public static Map<String, List<String>> convertCarOption(List<CarOption> carOptions) {
+		Map<String, List<CarOption>> options = carOptions.stream()
+			.collect(groupingBy(CarOption::getType));
+
+		Map<String, List<String>> map = new HashMap<>();
+		options.forEach(
+			(key, value) -> map.put(key, value
+				.stream()
+				.map(CarOption::getName)
+				.collect(toList()))
+		);
+		return map;
+	}
 
 }

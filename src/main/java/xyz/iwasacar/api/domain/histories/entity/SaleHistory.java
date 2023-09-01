@@ -13,8 +13,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import xyz.iwasacar.api.domain.banks.entity.Bank;
@@ -54,8 +56,8 @@ public class SaleHistory {
 	@Column(name = "account_holder", nullable = false, length = 20)
 	private String accountHolder;
 
-	@Column(name = "zip_code", nullable = false)
-	private Integer zipCode;
+	@Column(name = "zip_code", nullable = false, length = 20)
+	private String zipCode;
 
 	@Column(name = "address", nullable = false)
 	private String address;
@@ -66,14 +68,30 @@ public class SaleHistory {
 	@Column(name = "status", nullable = false, length = 20)
 	private EntityStatus status;
 
-	@Column(name = "create_at", nullable = false)
+	@Column(name = "created_at", nullable = false)
 	@CreationTimestamp
 	private LocalDateTime createAt;
 
 	@Column(name = "updated_at", nullable = false)
+	@UpdateTimestamp
 	private LocalDateTime updatedAt;
 
 	@Column(name = "deleted_at")
 	private LocalDateTime deletedAt;
+
+	@Builder
+	public SaleHistory(Product product, Member member, Bank bank, LocalDateTime meetingSchedule, String accountNumber,
+		String accountHolder, String zipCode, String address, String addressDetail) {
+		this.product = product;
+		this.member = member;
+		this.bank = bank;
+		this.meetingSchedule = meetingSchedule;
+		this.accountNumber = accountNumber;
+		this.accountHolder = accountHolder;
+		this.zipCode = zipCode;
+		this.address = address;
+		this.addressDetail = addressDetail;
+		this.status = EntityStatus.CREATED;
+	}
 
 }

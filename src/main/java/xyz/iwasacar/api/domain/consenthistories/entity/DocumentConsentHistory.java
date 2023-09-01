@@ -15,8 +15,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import xyz.iwasacar.api.domain.common.constant.EntityStatus;
@@ -59,9 +61,38 @@ public class DocumentConsentHistory {
 	private LocalDateTime createdAt;
 
 	@Column(name = "updated_at", nullable = false)
+	@UpdateTimestamp
 	private LocalDateTime updatedAt;
 
 	@Column(name = "deleted_at")
 	private LocalDateTime deletedAt;
+
+	@Builder
+	public DocumentConsentHistory(Member member, Product product, DocumentItem documentItem, Boolean consent) {
+		this.member = member;
+		this.product = product;
+		this.documentItem = documentItem;
+		this.consent = consent;
+		this.status = EntityStatus.CREATED;
+	}
+
+	public static DocumentConsentHistory signupConsent(Member member, DocumentItem documentItem, Boolean consent) {
+		return DocumentConsentHistory.builder()
+			.member(member)
+			.documentItem(documentItem)
+			.product(null)
+			.consent(consent)
+			.build();
+	}
+
+	public static DocumentConsentHistory ContractConsent(Member member, DocumentItem documentItem, Product product,
+		Boolean consent) {
+		return DocumentConsentHistory.builder()
+			.member(member)
+			.documentItem(documentItem)
+			.product(product)
+			.consent(consent)
+			.build();
+	}
 
 }
