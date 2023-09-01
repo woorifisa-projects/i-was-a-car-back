@@ -29,6 +29,7 @@ public class GlobalRestControllerAdvice {
 	@ExceptionHandler(BaseAbstractException.class)
 	public ResponseEntity<ErrorResponse> foo(BaseAbstractException ex) {
 		log.error("[{}] {} {}", UuidContext.getUuid(), ex.getExceptionStatus().getCode(), ex.getMessage());
+		log.error("", ex);
 		return ErrorResponse.fail(ex.getExceptionStatus());
 	}
 

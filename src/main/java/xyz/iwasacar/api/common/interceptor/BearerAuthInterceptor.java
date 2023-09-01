@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import xyz.iwasacar.api.common.auth.jwt.JwtDto;
 import xyz.iwasacar.api.common.auth.jwt.JwtTokenParser;
 import xyz.iwasacar.api.common.auth.jwt.JwtTokenProvider;
 import xyz.iwasacar.api.common.auth.jwt.MemberClaim;
+import xyz.iwasacar.api.common.context.MemberClaimContext;
 import xyz.iwasacar.api.domain.members.exception.UnauthorizedException;
 
 @Slf4j
@@ -25,7 +27,6 @@ public class BearerAuthInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-
 		Cookie[] cookies = request.getCookies(); // [accessToken, jsessionID]
 
 		if (cookies == null) {
@@ -42,9 +43,7 @@ public class BearerAuthInterceptor implements HandlerInterceptor {
 
 			// accessToken(jwt) 만료 시간 검사
 			if (!isInvalidToken(accessToken)) {
-				Long memberId = jwtTokenParser.getMemberClaims(accessToken)
-					.getMemberId();
-				request.setAttribute(AUTHORIZATION_ID, memberId);
+				MemberClaimContext.setClaim(jwtTokenParser.getMemberClaims(accessToken));
 				return true;
 			}
 
@@ -54,18 +53,24 @@ public class BearerAuthInterceptor implements HandlerInterceptor {
 				throw new UnauthorizedException();
 			}
 
-			MemberClaim memberClaims = jwtTokenParser.getMemberClaims(accessToken);
+			MemberClaim memberClaims = jwtTokenParser.getMemberClaims(refreshToken);
 			JwtDto newJwtDto = jwtTokenProvider.createJwt(memberClaims);
 
 			refreshCookie(cookie, accessToken);
 
 			response.addCookie(cookie);
 			request.getSession().setAttribute(REFRESH_TOKEN, newJwtDto.getRefreshToken());
-			request.setAttribute(AUTHORIZATION_ID, memberClaims.getMemberId());
-			request.setAttribute(ROLES, memberClaims.getRoles());
+			MemberClaimContext.setClaim(memberClaims);
 		}
 
 		return true;
+	}
+
+	@Override
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+		ModelAndView modelAndView) throws Exception {
+
+		MemberClaimContext.remove();
 	}
 
 	private void refreshCookie(final Cookie cookie, final String accessToken) {

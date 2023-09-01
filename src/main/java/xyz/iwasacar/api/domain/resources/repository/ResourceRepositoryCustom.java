@@ -11,4 +11,5 @@ public interface ResourceRepositoryCustom {
 
 	List<ProductImage> findByProducts(Long lastProductId);
 
+	List<ProductImage> findBySepcificProducts(Long carType, Integer capital, Integer loan, Long lastProductId);
 }
