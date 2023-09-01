@@ -3,13 +3,24 @@
 
     <Properties>
         <Property name="fileName" value="iwasacar.%d{yyyy-MM-dd}"/>
-        <Property name="originFileName" value="iwasacar.origin.%d{yyyy-MM-dd}"/>
-        <Property name="filePath" value="${sys:user.home}/iwasacar_logs"/>
-        <Property name="originLogPath" value="${sys:user.home}/iwasacar_logs"/>
+        <Property name="filePath" value="${sys:user.home}/iwasacar_logs/logs"/>
+
+        <Property name="errorFileName" value="iwasacar_error.%d{yyyy-MM-dd}"/>
+        <Property name="errorFilePath" value="${sys:user.home}/iwasacar_logs/error"/>
+
+        <Property name="entryFileName" value="iwasacar_entry.%d{yyyy-MM-dd}"/>
+        <Property name="entryFilePath" value="${sys:user.home}/iwasacar_logs/entry"/>
+
         <Property name="consoleLayout">
             %highlight{[%level]} %d{yyyy-MM-dd HH:mm:ss} [%thread] [%C.%M: %L] - %msg%n
         </Property>
         <Property name="fileLayout">
+            %level %d{yyyy-MM-dd HH:mm:ss} [%thread] [%C.%M: %L] - %msg%n
+        </Property>
+        <Property name="errorFileLayout">
+            %level %d{yyyy-MM-dd HH:mm:ss} [%thread] [%C.%M: %L] - %msg%n
+        </Property>
+        <Property name="entryFileLayout">
             %level %d{yyyy-MM-dd HH:mm:ss} [%thread] [%C.%M: %L] - %msg%n
         </Property>
     </Properties>
@@ -33,10 +44,22 @@
             <DefaultRolloverStrategy max="30" fileIndex="min"/>
         </RollingFile>
 
-        <RollingFile name="originLog" fileName="${originLogPath}/${originFileName}.log"
-                     filepattern="${originLogPath}/${originFileName}T%d{HH:mm}_%i.log">
+        <RollingFile name="errorFile" fileName="${errorFilePath}/${errorFileName}.log"
+                     filepattern="${errorFilePath}/${errorFileName}T%d{HH:mm}_%i.log">
             <PatternLayout>
-                <pattern>${fileLayout}</pattern>
+                <pattern>${errorFileLayout}</pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="200KB"/>
+                <TimeBasedTriggeringPolicy interval="30"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30" fileIndex="min"/>
+        </RollingFile>
+
+        <RollingFile name="entryFile" fileName="${entryFilePath}/${entryFileName}.log"
+                     filepattern="${entryFilePath}/${entryFileName}T%d{HH:mm}_%i.log">
+            <PatternLayout>
+                <pattern>${entryFileLayout}</pattern>
             </PatternLayout>
             <Policies>
                 <SizeBasedTriggeringPolicy size="200KB"/>
@@ -51,6 +74,16 @@
             <appender-ref ref="console"/>
             <appender-ref ref="file"/>
         </root>
+
+        <logger name="xyz.iwasacar.api.common.exception.advice" level="info" additivity="false">
+            <appender-ref ref="console"/>
+            <appender-ref ref="errorFile"/>
+        </logger>
+
+        <logger name="xyz.iwasacar.api.common.filter.UuidContextFilter" level="info" additivity="false">
+            <appender-ref ref="console"/>
+            <appender-ref ref="entryFile"/>
+        </logger>
     </Loggers>
 
 </Configuration>
