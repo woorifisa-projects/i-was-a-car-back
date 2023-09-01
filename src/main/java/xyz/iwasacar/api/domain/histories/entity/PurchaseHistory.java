@@ -99,6 +99,7 @@ public class PurchaseHistory {
 	public PurchaseHistory(Member member, Product product, Bank bank, Loan loan, Insurance insurance, String zipCode,
 		String address, String addressDetail, String accountNumber, String accountHolder, Integer loanAmount,
 		Integer period, LocalDateTime deliverySchedule, EntityStatus status) {
+
 		this.member = member;
 		this.product = product;
 		this.bank = bank;

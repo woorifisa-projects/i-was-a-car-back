@@ -33,6 +33,7 @@ public class PurchaseHistoryRequest {
 		String zipcode, String address, String addressDetail, String accountNumber, String accountHolder,
 		Integer loanAmount, Integer period,
 		@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime deliverySchedule) {
+    
 		this.memberId = memberId;
 		this.productId = productId;
 		this.bankId = bankId;

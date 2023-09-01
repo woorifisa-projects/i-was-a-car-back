@@ -13,12 +13,14 @@ public enum ExceptionStatus {
 	LOGIN_FAIL(401, "", UNAUTHORIZED),
 	AUTHORIZE_FORBIDDEN(403, "권한이 없는 회원입니다.", FORBIDDEN),
 
+
 	PRODUCT_NOT_FOUND(404201, "해당 상품을 찾을 수 없습니다.", NOT_FOUND),
 	MEMBER_NOT_FOUND(404101, "회원을 찾을 수 없습니다.", NOT_FOUND),
 	CAR_TYPE_NOT_FOUND(404301, "차종을 찾을 수 없습니다.", NOT_FOUND),
 	BRAND_NOT_FOUND(404401, "제조사를 찾을 수 없습니다.", NOT_FOUND),
 	COLOR_NOT_FOUND(404501, "색을 찾을 수 없습니다.", NOT_FOUND),
 	LABEL_NOT_FOUND(404601, "라벨을 찾을 수 없습니다.", NOT_FOUND),
+
 	CAR_OPTION_OMIT(404801, "잘못 입력된 옵션이 있습니다.", NOT_FOUND),
 	LOAN_NOT_FOUND(404901, "대출을 찾을 수 없습니다.", NOT_FOUND),
 	DOCUMENT_ITEM_NOT_FOUND(4041001, "문서항목을 찾을 수 없습니다.", NOT_FOUND),
