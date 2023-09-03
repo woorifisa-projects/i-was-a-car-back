@@ -17,10 +17,12 @@ import xyz.iwasacar.api.common.component.PasswordEncoder;
 import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.common.constant.EntityStatus;
 import xyz.iwasacar.api.domain.members.dto.request.LoginRequest;
+import xyz.iwasacar.api.domain.members.dto.request.MemberUpdateRequest;
 import xyz.iwasacar.api.domain.members.dto.request.SignupRequest;
 import xyz.iwasacar.api.domain.members.dto.response.AllMemberResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberDetailResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberJwtResponse;
+import xyz.iwasacar.api.domain.members.dto.response.MemberUpdateResponse;
 import xyz.iwasacar.api.domain.members.entity.Member;
 import xyz.iwasacar.api.domain.members.exception.MemberNotFoundException;
 import xyz.iwasacar.api.domain.members.exception.UnauthorizedException;
@@ -33,6 +35,7 @@ import xyz.iwasacar.api.domain.roles.repository.MemberRoleRepository;
 import xyz.iwasacar.api.domain.roles.repository.RoleRepository;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
@@ -98,20 +101,29 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public PageResponse<AllMemberResponse> findMembers(Integer page, Integer size) {
+	public PageResponse<AllMemberResponse> findMembers(final Integer page, final Integer size) {
 
 		Page<AllMemberResponse> allMemberResponses = memberRepository.findMembers(page, size);
 		return new PageResponse<>(allMemberResponses.getContent(), page, allMemberResponses.getTotalPages());
 	}
 
 	@Override
-	public MemberDetailResponse findMember(Long memberId) {
+	public MemberDetailResponse findMember(final Long memberId) {
 
-		Member member = memberRepository.findById(memberId)
-			.orElseThrow(MemberNotFoundException::new);
-
-		MemberDetailResponse memberDetailResponse = MemberDetailResponse.from(member);
-
-		return memberDetailResponse;
+		return MemberDetailResponse.from(memberRepository.getBy(memberId));
 	}
+
+	public MemberUpdateResponse updateMember(final Long memberId, final MemberUpdateRequest memberUpdateRequest) {
+		Member member = memberRepository.getBy(memberId);
+		member.update(memberUpdateRequest.getGender(), member.getTel(), memberUpdateRequest.getHasLicense());
+
+		return MemberUpdateResponse.from(member);
+	}
+
+	@Transactional
+	@Override
+	public void deleteMember(final Long memberId) {
+		memberRepository.getBy(memberId).delete();
+	}
+
 }

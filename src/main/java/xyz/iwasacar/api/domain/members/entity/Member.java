@@ -89,4 +89,14 @@ public class Member {
 		this.lastLoginAt = LocalDateTime.now();
 	}
 
+	public void delete() {
+		this.deletedAt = LocalDateTime.now();
+	}
+
+	public void update(final Gender gender, final String tel, final Boolean hasLicense) {
+		this.gender = gender;
+		this.tel = tel;
+		this.hasLicense = hasLicense;
+	}
+
 }
