@@ -2,8 +2,11 @@ package xyz.iwasacar.api.domain.histories.service;
 
 import static java.util.stream.Collectors.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +31,9 @@ import xyz.iwasacar.api.domain.cartypes.repository.CarTypeRepository;
 import xyz.iwasacar.api.domain.colors.entity.Color;
 import xyz.iwasacar.api.domain.colors.exception.ColorNotFoundException;
 import xyz.iwasacar.api.domain.colors.repository.ColorRepository;
+import xyz.iwasacar.api.domain.histories.client.SaleClient;
 import xyz.iwasacar.api.domain.histories.dto.request.SaleRequest;
+import xyz.iwasacar.api.domain.histories.dto.response.CarInfoResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleResponse;
 import xyz.iwasacar.api.domain.histories.entity.SaleHistory;
 import xyz.iwasacar.api.domain.histories.repository.SaleHistoryRepository;
@@ -57,6 +62,8 @@ public class DefaultSaleService implements SaleService {
 	private static final String DIR_NAME = "images";
 	private static final String PERFORMANCE_CHECK = "performance_check";
 
+	private final SaleClient saleClient;
+
 	private final MemberRepository memberRepository;
 	private final CarTypeRepository carTypeRepository;
 	private final BrandRepository brandRepository;
@@ -72,6 +79,11 @@ public class DefaultSaleService implements SaleService {
 	private final RoleRepository roleRepository;
 
 	private final AwsS3Uploader uploader;
+
+	@Override
+	public CarInfoResponse findCarInfoByCarNumber(final String name, final String carNumber) {
+		return saleClient.findCarInfoByCarNumber(name, carNumber);
+	}
 
 	@Transactional
 	@Override
@@ -105,8 +117,8 @@ public class DefaultSaleService implements SaleService {
 				.label(label)
 				.performanceCheck(savedPerformanceCheck)
 				.color(color)
-				.name(saleRequest.getName())
-				.fakeProductStatus(checkFakeProduct(saleRequest))
+				.name(saleRequest.getCarName())
+				.fakeProductStatus(guessFakeCar(saleRequest, member))
 				.info(saleRequest.getInfo())
 				.transmission(saleRequest.getTransmission())
 				.fuel(saleRequest.getFuel())
@@ -151,7 +163,7 @@ public class DefaultSaleService implements SaleService {
 			.product(product)
 			.member(member)
 			.bank(bank)
-			.meetingSchedule(saleRequest.getDeliverySchedule())
+			.meetingSchedule(saleRequest.getMeetingDate())
 			.accountNumber(saleRequest.getAccountNumber())
 			.accountHolder(saleRequest.getAccountHolder())
 			.zipCode(saleRequest.getZipCode())
@@ -170,9 +182,42 @@ public class DefaultSaleService implements SaleService {
 		return new SaleResponse(member, product, savedSaleHistory, carImageUrls, optionType);
 	}
 
-	private boolean checkFakeProduct(final SaleRequest saleRequest) {
+	private boolean guessFakeCar(final SaleRequest saleRequest, final Member member) {
+		LocalDate today = LocalDate.now();
+		return !Objects.equals(saleRequest.getMemberName(), member.getName())
+			|| isOldCar(today, saleRequest.getYear())
+			|| isDistanceTooShort(saleRequest.getDistance())
+			|| isBusyCustomer(today, saleRequest.getMeetingDate())
+			|| isMinorMember(today, member.getBirth())
+			|| hasNoLicense(member);
+	}
 
-		return saleRequest != null;
+	private boolean isOldCar(final LocalDate today, final LocalDate carBirth) {
+		return today.getYear() - carBirth.getYear() >= 12;
+	}
+
+	private boolean isDistanceTooShort(final int distance) {
+		return distance <= 5_000;
+	}
+
+	private boolean isBusyCustomer(final LocalDate today, final LocalDateTime meetingSchedule) {
+		int year = meetingSchedule.getYear();
+		int month = meetingSchedule.getMonthValue();
+		int day = meetingSchedule.getDayOfMonth();
+
+		LocalDate meetingDate = LocalDate.of(year, month, day);
+		LocalDate tomorrow = today.plusDays(1L);
+
+		return Objects.equals(meetingDate, tomorrow);
+	}
+
+	private boolean isMinorMember(final LocalDate today, final LocalDate memberBirth) {
+		LocalDate birthAtAdult = memberBirth.plusYears(19);
+		return birthAtAdult.isAfter(today);
+	}
+
+	private boolean hasNoLicense(final Member member) {
+		return !member.getHasLicense();
 	}
 
 }

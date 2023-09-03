@@ -18,9 +18,11 @@ public class SaleRequest {
 	private Long colorId;
 	private Long bankId;
 
+	private String memberName;
+
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate year;
-	private String name;
+	private String carName;
 	private Integer price;
 	private String info;
 	private String transmission;
@@ -39,7 +41,7 @@ public class SaleRequest {
 	private String accountHolder;
 
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-	private LocalDateTime deliverySchedule;
+	private LocalDateTime meetingDate;
 
 	private List<Long> carOptions;
 

@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class CarInfoResponse {
 
-	private String name;
+	private String memberName;
+	private String carName;
 	private String carType;
 	private String brand;
 	private String color;

@@ -8,10 +8,10 @@ import xyz.iwasacar.api.common.config.FeignClientBasicConfig;
 import xyz.iwasacar.api.domain.histories.dto.response.CarInfoResponse;
 
 // @FeignClient(name = "sales", url = "${api-server-url}", configuration = {FeignClientBasicConfig.class})
-@FeignClient(name = "sales", url = "localhost:8081", configuration = {FeignClientBasicConfig.class})
+@FeignClient(name = "sales", url = "${api-server-url}", configuration = {FeignClientBasicConfig.class})
 public interface SaleClient {
 
 	@GetMapping("/api/v1/carInfo")
-	CarInfoResponse findCarInfoByCarNumber(@RequestParam String carNumber);
+	CarInfoResponse findCarInfoByCarNumber(@RequestParam String name, @RequestParam String carNumber);
 
 }
