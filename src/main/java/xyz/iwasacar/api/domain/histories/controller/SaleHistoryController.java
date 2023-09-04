@@ -44,12 +44,11 @@ public class SaleHistoryController {
 	public ResponseEntity<CommonResponse<SaleResponse>> saveSalesHistory(
 		@RequestPart ProductCreateRequest productCreateRequest,
 		@RequestPart List<MultipartFile> carImages,
-		@RequestPart MultipartFile performanceCheck,
 		@Login MemberClaim memberClaim
 	) {
 
-		SaleResponse saleResponse = saleService.saveSalesHistory(productCreateRequest, carImages,
-			performanceCheck, memberClaim.getMemberId());
+		SaleResponse saleResponse = saleService
+			.saveSalesHistory(productCreateRequest, carImages, memberClaim.getMemberId());
 
 		return CommonResponse.success(CREATED, CREATED.value(), saleResponse);
 	}
