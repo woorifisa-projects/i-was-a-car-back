@@ -13,6 +13,7 @@ public enum ExceptionStatus {
 	LOGIN_FAIL(401, "", UNAUTHORIZED),
 	AUTHORIZE_FORBIDDEN(403, "권한이 없는 회원입니다.", FORBIDDEN),
 
+	EMAIL_CODE_NOT_FOUND(401101, "이메일 코드 값을 찾을 수 없습니다.", NOT_FOUND),
 
 	PRODUCT_NOT_FOUND(404201, "해당 상품을 찾을 수 없습니다.", NOT_FOUND),
 	MEMBER_NOT_FOUND(404101, "회원을 찾을 수 없습니다.", NOT_FOUND),

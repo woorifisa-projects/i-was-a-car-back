@@ -14,6 +14,7 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import xyz.iwasacar.api.common.auth.email.EmailMessage;
+import xyz.iwasacar.api.common.auth.email.EmailSession;
 
 @Slf4j
 @Service
@@ -21,9 +22,13 @@ import xyz.iwasacar.api.common.auth.email.EmailMessage;
 public class EmailService {
 
 	private final JavaMailSender javaMailSender;
+
 	private final SpringTemplateEngine templateEngine;
 
+	private final EmailSession redisUtil;
+
 	public String sendMail(EmailMessage emailMessage) {
+
 		String authNum = createCode();
 
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
@@ -36,6 +41,8 @@ public class EmailService {
 			javaMailSender.send(mimeMessage);
 
 			log.info("이메일 전송 성공");
+
+			redisUtil.setEmailCode(emailMessage.getTo(), authNum);
 
 			return authNum;
 
@@ -73,4 +80,11 @@ public class EmailService {
 		context.setVariable("code", code);
 		return templateEngine.process("email", context);
 	}
+
+	public void confirmEmailCode(String email, String code) {
+
+		redisUtil.updateEmailCode(email, code);
+
+	}
+
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.common.auth.email.EmailMessage;
+import xyz.iwasacar.api.common.auth.email.dto.request.EmailConfirmRequest;
 import xyz.iwasacar.api.common.auth.email.dto.request.EmailRequest;
 import xyz.iwasacar.api.common.auth.email.dto.response.EmailResponse;
 import xyz.iwasacar.api.common.auth.email.service.EmailService;
@@ -39,4 +40,14 @@ public class EmailController {
 
 		return CommonResponse.success(OK, OK.value(), emailResponse);
 	}
+
+	@PostMapping("/email-confirm")
+	public ResponseEntity<CommonResponse<Void>> confirmEmailCode(
+		@Valid @RequestBody final EmailConfirmRequest request) {
+
+		emailService.confirmEmailCode(request.getEmail(), request.getCode());
+
+		return CommonResponse.success(OK, OK.value(), null);
+	}
+
 }
