@@ -16,9 +16,9 @@ import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.common.dto.response.CommonResponse;
 import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.members.dto.request.MemberUpdateRequest;
+import xyz.iwasacar.api.domain.members.dto.response.AdminMemberUpdateResponse;
 import xyz.iwasacar.api.domain.members.dto.response.AllMemberResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberDetailResponse;
-import xyz.iwasacar.api.domain.members.dto.response.MemberUpdateResponse;
 import xyz.iwasacar.api.domain.members.service.MemberService;
 
 @RestController
@@ -44,11 +44,11 @@ public class AdminMemberController {
 	}
 
 	@PutMapping("/{memberId}")
-	public ResponseEntity<CommonResponse<MemberUpdateResponse>> updateMember(
+	public ResponseEntity<CommonResponse<AdminMemberUpdateResponse>> updateMember(
 		@PathVariable Long memberId,
 		@RequestBody MemberUpdateRequest memberUpdateRequest) {
 
-		MemberUpdateResponse memberUpdateResponse = memberService.updateMember(memberId, memberUpdateRequest);
+		AdminMemberUpdateResponse memberUpdateResponse = memberService.updateMember(memberId, memberUpdateRequest);
 
 		return CommonResponse.success(OK, OK.value(), memberUpdateResponse);
 	}

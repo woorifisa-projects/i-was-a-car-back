@@ -13,7 +13,7 @@ import xyz.iwasacar.api.domain.members.entity.Member;
 @Builder
 @RequiredArgsConstructor
 @Getter
-public class MemberUpdateResponse {
+public class AdminMemberUpdateResponse {
 
 	private final Long id;
 	private final String email;
@@ -30,8 +30,8 @@ public class MemberUpdateResponse {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private final LocalDateTime createdAt;
 
-	public static MemberUpdateResponse from(Member member) {
-		return MemberUpdateResponse.builder()
+	public static AdminMemberUpdateResponse from(Member member) {
+		return AdminMemberUpdateResponse.builder()
 			.id(member.getId())
 			.email(member.getEmail())
 			.name(member.getName())

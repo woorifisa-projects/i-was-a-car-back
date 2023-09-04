@@ -19,10 +19,10 @@ import xyz.iwasacar.api.domain.common.constant.EntityStatus;
 import xyz.iwasacar.api.domain.members.dto.request.LoginRequest;
 import xyz.iwasacar.api.domain.members.dto.request.MemberUpdateRequest;
 import xyz.iwasacar.api.domain.members.dto.request.SignupRequest;
+import xyz.iwasacar.api.domain.members.dto.response.AdminMemberUpdateResponse;
 import xyz.iwasacar.api.domain.members.dto.response.AllMemberResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberDetailResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberJwtResponse;
-import xyz.iwasacar.api.domain.members.dto.response.MemberUpdateResponse;
 import xyz.iwasacar.api.domain.members.entity.Member;
 import xyz.iwasacar.api.domain.members.exception.MemberNotFoundException;
 import xyz.iwasacar.api.domain.members.exception.UnauthorizedException;
@@ -113,11 +113,11 @@ public class MemberServiceImpl implements MemberService {
 		return MemberDetailResponse.from(memberRepository.getBy(memberId));
 	}
 
-	public MemberUpdateResponse updateMember(final Long memberId, final MemberUpdateRequest memberUpdateRequest) {
+	public AdminMemberUpdateResponse updateMember(final Long memberId, final MemberUpdateRequest memberUpdateRequest) {
 		Member member = memberRepository.getBy(memberId);
 		member.update(memberUpdateRequest.getGender(), member.getTel(), memberUpdateRequest.getHasLicense());
 
-		return MemberUpdateResponse.from(member);
+		return AdminMemberUpdateResponse.from(member);
 	}
 
 	@Transactional

@@ -6,10 +6,10 @@ import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.members.dto.request.LoginRequest;
 import xyz.iwasacar.api.domain.members.dto.request.MemberUpdateRequest;
 import xyz.iwasacar.api.domain.members.dto.request.SignupRequest;
+import xyz.iwasacar.api.domain.members.dto.response.AdminMemberUpdateResponse;
 import xyz.iwasacar.api.domain.members.dto.response.AllMemberResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberDetailResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberJwtResponse;
-import xyz.iwasacar.api.domain.members.dto.response.MemberUpdateResponse;
 
 @Service
 public interface MemberService {
@@ -22,7 +22,7 @@ public interface MemberService {
 
 	MemberDetailResponse findMember(Long memberId);
 
-	MemberUpdateResponse updateMember(Long memberId, MemberUpdateRequest memberUpdateRequest);
+	AdminMemberUpdateResponse updateMember(Long memberId, MemberUpdateRequest memberUpdateRequest);
 
 	void deleteMember(Long memberId);
 }
