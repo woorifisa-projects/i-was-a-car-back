@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.*;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +22,7 @@ import xyz.iwasacar.api.domain.products.repository.ProductRepository;
 import xyz.iwasacar.api.domain.resources.entity.Resource;
 import xyz.iwasacar.api.domain.resources.repository.ResourceRepository;
 
+@Primary
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
