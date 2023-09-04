@@ -19,19 +19,19 @@ import xyz.iwasacar.api.domain.products.repository.ProductRepository;
 import xyz.iwasacar.api.domain.resources.entity.Resource;
 import xyz.iwasacar.api.domain.resources.repository.ResourceRepository;
 
-@Service
+@Service("AdminProductService")
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class DefaultProductService implements ProductService {
+public class AdminProductService implements ProductService {
 
 	private final ProductRepository productRepository;
-	private final CarOptionRepository carOptionRepository;
 	private final ResourceRepository resourceRepository;
+	private final CarOptionRepository carOptionRepository;
 
 	@Override
 	public ProductDetailResponse findProductDetail(final Long id) {
 
-		Product productDetail = productRepository.findProductDetail(id)
+		Product productDetail = productRepository.findProductDetailAdmin(id)
 			.orElseThrow(ProductNotFound::new);
 
 		Map<String, List<String>> carOptionGroup =
@@ -46,28 +46,21 @@ public class DefaultProductService implements ProductService {
 	}
 
 	@Override
-	public List<ProductResponse> findProducts(final Long lastProductId) {
-
-		return resourceRepository.findByProducts(lastProductId)
-			.stream()
-			.map(ProductResponse::of)
-			.collect(toList());
-	}
-
-	@Override
-	public List<ProductResponse> findProducts(int page, int size) {
+	public List<ProductResponse> findProducts(Long id) {
 		throw new IllegalArgumentException();
 	}
 
 	@Override
-	public List<ProductResponse> findSpecificProducts(
-		final Long carType, final Integer capital, final Integer loan, final Long lastProductId
-	) {
-
-		return resourceRepository.findBySpecificProducts(carType, capital, loan, lastProductId)
+	public List<ProductResponse> findProducts(final int page, final int size) {
+		// TODO: 쿼리 수정
+		return resourceRepository.findByProducts(page, size)
 			.stream()
 			.map(ProductResponse::of)
 			.collect(toList());
 	}
 
+	@Override
+	public List<ProductResponse> findSpecificProducts(Long carType, Integer capital, Integer loan, Long lastProductId) {
+		throw new IllegalArgumentException();
+	}
 }

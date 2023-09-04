@@ -57,7 +57,7 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 	}
 
 	@Override
-	public List<ProductImage> findByProducts(Long lastProductId) {
+	public List<ProductImage> findByProducts(final Long lastProductId) {
 
 		/**
 		 select *
@@ -111,7 +111,35 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 	}
 
 	@Override
-	public List<ProductImage> findBySepcificProducts(Long carType, Integer capital, Integer loan, Long lastProductId) {
+	public List<ProductImage> findByProducts(final int page, final int size) {
+		return jpaQueryFactory
+			.selectFrom(productImage)
+			.join(productImage.product).fetchJoin()
+			.join(productImage.resource).fetchJoin()
+			.where(productImage.product.id.eq(
+					JPAExpressions
+						.select(product.id)
+						.from(product)
+						.where(productImage.id.productId.eq(product.id))
+						.limit(1))
+				.and(
+					productImage.role.id.eq(
+						JPAExpressions
+							.select(role.id)
+							.from(role)
+							.where(role.name.eq(ADMIN))
+							.limit(1)
+					)
+				)
+			).orderBy(productImage.id.productId.desc(), productImage.id.resourceId.asc())
+			.limit(10)
+			.fetch();
+	}
+
+	@Override
+	public List<ProductImage> findBySpecificProducts(
+		final Long carType, final Integer capital, final Integer loan, final Long lastProductId
+	) {
 
 		return jpaQueryFactory
 			.selectFrom(productImage)
@@ -143,7 +171,7 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 		//최신 순으로 3개씩 해서 무한 스크롤
 	}
 
-	private BooleanExpression littleThanLastProductId(Long lastProductId) {
+	private BooleanExpression littleThanLastProductId(final Long lastProductId) {
 		return lastProductId == null ? null : productImage.product.id.lt(lastProductId);
 	}
 
