@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class SaleRequest {
+public class ProductCreateRequest {
 
 	private Long carTypeId;
 	private Long brandId;
@@ -55,11 +55,11 @@ public class SaleRequest {
 	}
 
 	public boolean isBusyCustomer(final LocalDate today) {
-		int year = this.meetingSchedule.getYear();
+		int createdYear = this.meetingSchedule.getYear();
 		int month = this.meetingSchedule.getMonthValue();
 		int day = this.meetingSchedule.getDayOfMonth();
 
-		LocalDate meetingDate = LocalDate.of(year, month, day);
+		LocalDate meetingDate = LocalDate.of(createdYear, month, day);
 		LocalDate tomorrow = today.plusDays(1L);
 
 		return Objects.equals(meetingDate, tomorrow);

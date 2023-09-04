@@ -6,6 +6,7 @@ import static xyz.iwasacar.api.domain.products.service.ProductService.*;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +19,13 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import xyz.iwasacar.api.common.annotation.Login;
+import xyz.iwasacar.api.common.auth.jwt.MemberClaim;
 import xyz.iwasacar.api.common.dto.response.CommonResponse;
 import xyz.iwasacar.api.common.dto.response.PageResponse;
+import xyz.iwasacar.api.domain.histories.dto.request.ProductCreateRequest;
+import xyz.iwasacar.api.domain.histories.dto.response.SaleResponse;
+import xyz.iwasacar.api.domain.histories.service.SaleService;
 import xyz.iwasacar.api.domain.products.dto.response.ProductDetailResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductResponse;
 import xyz.iwasacar.api.domain.products.service.ProductService;
@@ -29,9 +35,14 @@ import xyz.iwasacar.api.domain.products.service.ProductService;
 public class AdminProductController {
 
 	private final ProductService productService;
+	private final SaleService saleService;
 
-	public AdminProductController(@Qualifier(ADMIN_PRODUCT_SERVICE) ProductService productService) {
+	public AdminProductController(
+		@Qualifier(ADMIN_PRODUCT_SERVICE) ProductService productService,
+		SaleService saleService) {
+
 		this.productService = productService;
+		this.saleService = saleService;
 	}
 
 	@GetMapping
@@ -53,10 +64,19 @@ public class AdminProductController {
 		return CommonResponse.success(OK, OK.value(), productDetail);
 	}
 
-	@PostMapping
-	public ResponseEntity<CommonResponse<ProductDetailResponse>> addProduct() {
+	@PostMapping(
+		consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+		produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<CommonResponse<SaleResponse>> createProduct(
+		@RequestPart ProductCreateRequest productCreateRequest,
+		@RequestPart List<MultipartFile> carImages,
+		@Login MemberClaim memberClaim
+	) {
 
-		return CommonResponse.success(OK, OK.value(), null);
+		SaleResponse saleResponse = saleService
+			.saveSalesHistory(productCreateRequest, carImages, memberClaim.getMemberId());
+
+		return CommonResponse.success(CREATED, CREATED.value(), saleResponse);
 	}
 
 	@PutMapping("/{productId}")

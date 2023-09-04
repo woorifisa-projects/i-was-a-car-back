@@ -56,7 +56,7 @@ public class Product {
 	private Label label;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "performance_check", nullable = false)
+	@JoinColumn(name = "performance_check")
 	private Resource performanceCheck;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -118,14 +118,13 @@ public class Product {
 	private LocalDateTime deletedAt;
 
 	@Builder
-	public Product(CarType carType, Brand brand, Label label, Resource performanceCheck, Color color, String name,
+	public Product(CarType carType, Brand brand, Label label, Color color, String name,
 		Boolean fakeProductStatus, String info, String transmission, String fuel, String drivingMethod, LocalDate year,
 		Integer distance, Integer price, Double fuelEfficiency, Double displacement, Integer accidentHistory,
 		Boolean inundationHistory) {
 		this.carType = carType;
 		this.brand = brand;
 		this.label = label;
-		this.performanceCheck = performanceCheck;
 		this.color = color;
 		this.name = name;
 		this.fakeProductStatus = fakeProductStatus;

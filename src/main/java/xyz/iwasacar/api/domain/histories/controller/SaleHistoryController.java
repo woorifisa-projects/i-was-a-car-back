@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.common.annotation.Login;
 import xyz.iwasacar.api.common.auth.jwt.MemberClaim;
 import xyz.iwasacar.api.common.dto.response.CommonResponse;
-import xyz.iwasacar.api.domain.histories.dto.request.SaleRequest;
+import xyz.iwasacar.api.domain.histories.dto.request.ProductCreateRequest;
 import xyz.iwasacar.api.domain.histories.dto.response.CarInfoResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleResponse;
 import xyz.iwasacar.api.domain.histories.service.SaleService;
@@ -42,20 +42,20 @@ public class SaleHistoryController {
 		consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
 		produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CommonResponse<SaleResponse>> saveSalesHistory(
-		@RequestPart SaleRequest saleRequest,
+		@RequestPart ProductCreateRequest productCreateRequest,
 		@RequestPart List<MultipartFile> carImages,
 		@RequestPart MultipartFile performanceCheck,
 		@Login MemberClaim memberClaim
 	) {
 
-		SaleResponse saleResponse = saleService.saveSalesHistory(saleRequest, carImages,
+		SaleResponse saleResponse = saleService.saveSalesHistory(productCreateRequest, carImages,
 			performanceCheck, memberClaim.getMemberId());
 
 		return CommonResponse.success(CREATED, CREATED.value(), saleResponse);
 	}
 
 	@PostMapping("/api-docs")
-	public void forSwagger(@RequestBody SaleRequest saleRequest) {
+	public void forSwagger(@RequestBody ProductCreateRequest productCreateRequest) {
 		throw new RuntimeException();
 	}
 
