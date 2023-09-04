@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import xyz.iwasacar.api.common.config.FeignClientBasicConfig;
 import xyz.iwasacar.api.domain.histories.dto.response.CarInfoResponse;
 
-// @FeignClient(name = "sales", url = "${api-server-url}", configuration = {FeignClientBasicConfig.class})
 @FeignClient(name = "sales", url = "${api-server-url}", configuration = {FeignClientBasicConfig.class})
 public interface SaleClient {
 
