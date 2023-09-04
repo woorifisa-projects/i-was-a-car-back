@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -133,14 +132,10 @@ public class MemberController {
 	}
 
 	// 회원정보 수정
-	@PutMapping("/{id}")
+	@PutMapping
 	public ResponseEntity<CommonResponse<MemberUpdateResponse>> updateMember(
 		@Valid @RequestBody final UpdateRequest updateRequest,
-		@Login final MemberClaim memberClaim, @PathVariable("id") final Long memberId) {
-
-		if (!memberClaim.getMemberId().equals(memberId)) {
-			throw new ForbiddenException();
-		}
+		@Login final MemberClaim memberClaim) {
 
 		MemberUpdateResponse memberUpdateResponse = memberService.updateMember(memberClaim.getMemberId(),
 			updateRequest);
@@ -149,14 +144,9 @@ public class MemberController {
 	}
 
 	// 회원 탈퇴
-	@DeleteMapping("/{id}")
+	@DeleteMapping
 	public ResponseEntity<Void> deleteMember(@Login final MemberClaim memberClaim,
-		@PathVariable("id") final Long memberId,
 		final HttpSession session) {
-
-		if (!memberClaim.getMemberId().equals(memberId)) {
-			throw new ForbiddenException();
-		}
 
 		memberService.deleteMember(memberClaim.getMemberId());
 

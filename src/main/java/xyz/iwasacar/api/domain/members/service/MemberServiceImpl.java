@@ -146,7 +146,7 @@ public class MemberServiceImpl implements MemberService {
 
 		Member member = memberRepository.findByEmail(email)
 			.orElse(null);
-
+		
 		return member.getStatus().equals(EntityStatus.DELETED);
 	}
 }
