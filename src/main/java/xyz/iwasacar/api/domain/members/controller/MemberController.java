@@ -145,7 +145,7 @@ public class MemberController {
 
 	// 회원 탈퇴
 	@DeleteMapping
-	public ResponseEntity<Void> deleteMember(@Login final MemberClaim memberClaim,
+	public ResponseEntity<CommonResponse<Void>> deleteMember(@Login final MemberClaim memberClaim,
 		final HttpSession session) {
 
 		memberService.deleteMember(memberClaim.getMemberId());
@@ -154,7 +154,7 @@ public class MemberController {
 		session.removeAttribute(REFRESH_TOKEN);
 		session.invalidate();
 
-		return ResponseEntity.noContent().build();
+		return CommonResponse.success(NO_CONTENT, NO_CONTENT.value(), null);
 	}
 
 	private void settingAccessTokenCookie(
