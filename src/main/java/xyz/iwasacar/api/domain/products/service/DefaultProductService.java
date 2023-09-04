@@ -7,8 +7,10 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
+import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.caroptions.entity.CarOption;
 import xyz.iwasacar.api.domain.caroptions.repository.CarOptionRepository;
 import xyz.iwasacar.api.domain.products.dto.response.ProductDetailResponse;
@@ -55,7 +57,7 @@ public class DefaultProductService implements ProductService {
 	}
 
 	@Override
-	public List<ProductResponse> findProducts(int page, int size) {
+	public PageResponse<ProductResponse> findProducts(int page, int size) {
 		throw new IllegalArgumentException();
 	}
 
@@ -68,6 +70,19 @@ public class DefaultProductService implements ProductService {
 			.stream()
 			.map(ProductResponse::of)
 			.collect(toList());
+	}
+
+	@Override
+	public ProductDetailResponse updateProduct(
+		Long productId, MultipartFile performanceCheck, List<MultipartFile> images
+	) {
+		throw new IllegalArgumentException();
+	}
+
+	@Transactional
+	@Override
+	public void deleteProduct(final Long productId) {
+		productRepository.getBy(productId).delete();
 	}
 
 }

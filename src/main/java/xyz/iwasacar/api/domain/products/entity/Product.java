@@ -1,5 +1,7 @@
 package xyz.iwasacar.api.domain.products.entity;
 
+import static xyz.iwasacar.api.domain.common.constant.EntityStatus.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -138,11 +140,21 @@ public class Product {
 		this.displacement = displacement;
 		this.accidentHistory = accidentHistory;
 		this.inundationHistory = inundationHistory;
-		this.status = EntityStatus.CREATED;
+		this.status = CREATED;
 	}
 
-	public static Product changeLabel(Product product, Label newLabel) {
+	public void addPerformanceCheck(final Resource performanceCheck) {
+		this.performanceCheck = performanceCheck;
+	}
+
+	public static Product changeLabel(final Product product, final Label newLabel) {
 		product.label = newLabel;
 		return product;
 	}
+
+	public void delete() {
+		this.deletedAt = LocalDateTime.now();
+		this.status = DELETED;
+	}
+
 }

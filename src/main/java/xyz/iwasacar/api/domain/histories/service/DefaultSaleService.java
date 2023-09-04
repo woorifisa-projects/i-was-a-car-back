@@ -1,6 +1,7 @@
 package xyz.iwasacar.api.domain.histories.service;
 
 import static java.util.stream.Collectors.*;
+import static xyz.iwasacar.api.common.component.AwsS3Uploader.*;
 
 import java.util.List;
 import java.util.Map;
@@ -56,9 +57,6 @@ import xyz.iwasacar.api.domain.roles.repository.RoleRepository;
 @RequiredArgsConstructor
 public class DefaultSaleService implements SaleService {
 
-	private static final String DIR_NAME = "images";
-	private static final String PERFORMANCE_CHECK = "performance_check";
-
 	private final SaleClient saleClient;
 
 	private final MemberRepository memberRepository;
@@ -84,8 +82,10 @@ public class DefaultSaleService implements SaleService {
 
 	@Transactional
 	@Override
-	public SaleResponse saveSalesHistory(final SaleRequest saleRequest, final List<MultipartFile> carImages,
-		final MultipartFile performanceCheck, final Long memberId) {
+	public SaleResponse saveSalesHistory(
+		final SaleRequest saleRequest, final List<MultipartFile> carImages,
+		final MultipartFile performanceCheck, final Long memberId
+	) {
 
 		Member member = memberRepository.findById(memberId)
 			.orElseThrow(MemberNotFoundException::new);
@@ -139,7 +139,7 @@ public class DefaultSaleService implements SaleService {
 
 		List<Resource> images = carImages
 			.stream()
-			.map(i -> new Resource(uploader.upload(i, DIR_NAME), i.getOriginalFilename()))
+			.map(i -> new Resource(uploader.upload(i, IMAGES), i.getOriginalFilename()))
 			.collect(toList());
 
 		List<Resource> resources = resourceRepository.saveAll(images);
