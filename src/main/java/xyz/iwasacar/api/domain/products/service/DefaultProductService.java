@@ -2,7 +2,6 @@ package xyz.iwasacar.api.domain.products.service;
 
 import static java.util.stream.Collectors.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -61,17 +60,6 @@ public class DefaultProductService implements ProductService {
 			.stream()
 			.map(ProductResponse::of)
 			.collect(toList());
-	}
-
-	private Map<String, List<String>> convertCarOption(Map<String, List<CarOption>> options) {
-		Map<String, List<String>> map = new HashMap<>();
-		options.forEach(
-			(key, value) -> map.put(key, value
-				.stream()
-				.map(CarOption::getName)
-				.collect(toList()))
-		);
-		return map;
 	}
 
 }

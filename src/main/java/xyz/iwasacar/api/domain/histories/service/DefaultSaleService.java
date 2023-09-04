@@ -2,11 +2,8 @@ package xyz.iwasacar.api.domain.histories.service;
 
 import static java.util.stream.Collectors.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -163,7 +160,7 @@ public class DefaultSaleService implements SaleService {
 			.product(product)
 			.member(member)
 			.bank(bank)
-			.meetingSchedule(saleRequest.getMeetingDate())
+			.meetingSchedule(saleRequest.getMeetingSchedule())
 			.accountNumber(saleRequest.getAccountNumber())
 			.accountHolder(saleRequest.getAccountHolder())
 			.zipCode(saleRequest.getZipCode())
@@ -180,44 +177,6 @@ public class DefaultSaleService implements SaleService {
 		Map<String, List<String>> optionType = CarOption.convertCarOption(options);
 
 		return new SaleResponse(member, product, savedSaleHistory, carImageUrls, optionType);
-	}
-
-	private boolean guessFakeCar(final SaleRequest saleRequest, final Member member) {
-		LocalDate today = LocalDate.now();
-		return !Objects.equals(saleRequest.getMemberName(), member.getName())
-			|| isOldCar(today, saleRequest.getYear())
-			|| isDistanceTooShort(saleRequest.getDistance())
-			|| isBusyCustomer(today, saleRequest.getMeetingDate())
-			|| isMinorMember(today, member.getBirth())
-			|| hasNoLicense(member);
-	}
-
-	private boolean isOldCar(final LocalDate today, final LocalDate carBirth) {
-		return today.getYear() - carBirth.getYear() >= 12;
-	}
-
-	private boolean isDistanceTooShort(final int distance) {
-		return distance <= 5_000;
-	}
-
-	private boolean isBusyCustomer(final LocalDate today, final LocalDateTime meetingSchedule) {
-		int year = meetingSchedule.getYear();
-		int month = meetingSchedule.getMonthValue();
-		int day = meetingSchedule.getDayOfMonth();
-
-		LocalDate meetingDate = LocalDate.of(year, month, day);
-		LocalDate tomorrow = today.plusDays(1L);
-
-		return Objects.equals(meetingDate, tomorrow);
-	}
-
-	private boolean isMinorMember(final LocalDate today, final LocalDate memberBirth) {
-		LocalDate birthAtAdult = memberBirth.plusYears(19);
-		return birthAtAdult.isAfter(today);
-	}
-
-	private boolean hasNoLicense(final Member member) {
-		return !member.getHasLicense();
 	}
 
 }
