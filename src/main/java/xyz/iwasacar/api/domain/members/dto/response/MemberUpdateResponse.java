@@ -15,6 +15,8 @@ public class MemberUpdateResponse {
 
 	private final String name;
 
+	private final String password;
+
 	private final String tel;
 
 	private final Gender gender;
@@ -27,6 +29,7 @@ public class MemberUpdateResponse {
 	public static MemberUpdateResponse from(Member m) {
 		return new MemberUpdateResponse(
 			m.getName(),
+			m.getPassword(),
 			m.getTel(),
 			m.getGender(),
 			m.getHasLicense(),

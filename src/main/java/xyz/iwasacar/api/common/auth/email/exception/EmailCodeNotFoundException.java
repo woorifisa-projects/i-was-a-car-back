@@ -4,9 +4,9 @@ import static xyz.iwasacar.api.common.exception.base.ExceptionStatus.*;
 
 import xyz.iwasacar.api.common.exception.base.BaseAbstractException;
 
-public class InvalidEmailCodeException extends BaseAbstractException {
+public class EmailCodeNotFoundException extends BaseAbstractException {
 
-	public InvalidEmailCodeException() {
+	public EmailCodeNotFoundException() {
 		super(EMAIL_CODE_NOT_FOUND);
 	}
 }

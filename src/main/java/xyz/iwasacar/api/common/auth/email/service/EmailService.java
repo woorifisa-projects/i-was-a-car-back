@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import xyz.iwasacar.api.common.auth.email.EmailMessage;
 import xyz.iwasacar.api.common.auth.email.EmailSession;
+import xyz.iwasacar.api.common.auth.email.exception.EmailServerException;
 
 @Slf4j
 @Service
@@ -48,7 +49,7 @@ public class EmailService {
 
 		} catch (MessagingException e) {
 			log.info("이메일 전송 실패");
-			throw new RuntimeException(e);
+			throw new EmailServerException();
 		}
 	}
 

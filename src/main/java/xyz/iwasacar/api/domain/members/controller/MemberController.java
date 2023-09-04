@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.common.annotation.Login;
+import xyz.iwasacar.api.common.auth.email.EmailSession;
+import xyz.iwasacar.api.common.auth.email.exception.InvalidEmailVerificationException;
 import xyz.iwasacar.api.common.auth.jwt.JwtTokenProvider;
 import xyz.iwasacar.api.common.auth.jwt.MemberClaim;
 import xyz.iwasacar.api.common.dto.response.CommonResponse;
@@ -44,6 +46,7 @@ public class MemberController {
 
 	private final MemberService memberService;
 	private final JwtTokenProvider jwtTokenProvider;
+	private final EmailSession emailSession;
 
 	// 로그인 검증
 	@GetMapping("/auth")
@@ -60,8 +63,14 @@ public class MemberController {
 		@Valid @RequestBody final SignupRequest signupRequest,
 		final HttpServletResponse response, final HttpSession session) {
 
+		if (!emailSession.verifyEmailCode(signupRequest.getEmail(), signupRequest.getCode())) {
+			throw new InvalidEmailVerificationException();
+		}
+
 		MemberJwtResponse memberJwtResponse = memberService.signup(signupRequest);
 		settingAccessTokenCookie(memberJwtResponse, response, session);
+
+		emailSession.deleteEmailCode(signupRequest.getEmail());
 
 		return CommonResponse.success(OK, OK.value(), memberJwtResponse.getMemberResponse());
 

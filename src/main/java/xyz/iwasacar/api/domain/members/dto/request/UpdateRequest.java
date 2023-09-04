@@ -15,6 +15,9 @@ public class UpdateRequest {
 	private String name;
 
 	@NotBlank
+	private String password;
+
+	@NotBlank
 	private String tel;
 
 	@NotNull

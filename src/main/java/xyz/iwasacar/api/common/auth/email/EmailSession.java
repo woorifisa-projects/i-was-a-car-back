@@ -6,7 +6,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import xyz.iwasacar.api.common.auth.email.exception.InvalidEmailCodeException;
+import xyz.iwasacar.api.common.auth.email.exception.EmailCodeNotFoundException;
 
 @RequiredArgsConstructor
 @Component
@@ -15,7 +15,7 @@ public class EmailSession {
 	private static final String TRUE = "true";
 
 	private static final String FALSE = "false";
-	
+
 	private final StringRedisTemplate stringRedisTemplate;
 
 	private static final long DURATION = 60 * 5 * 1L; // 5분
@@ -33,13 +33,12 @@ public class EmailSession {
 
 		String value = (String)stringRedisTemplate.opsForHash().get(email, code);
 
-		return !(value == null || value.equals(FALSE));
+		return value != null && value.equals(TRUE);
 	}
 
 	public void updateEmailCode(String email, String code) {
-
 		if (stringRedisTemplate.opsForHash().get(email, code) == null) {
-			throw new InvalidEmailCodeException();
+			throw new EmailCodeNotFoundException();
 		}
 
 		stringRedisTemplate.opsForHash().put(email, code, TRUE);

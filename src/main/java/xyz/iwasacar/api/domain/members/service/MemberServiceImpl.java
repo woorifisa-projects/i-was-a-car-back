@@ -125,7 +125,9 @@ public class MemberServiceImpl implements MemberService {
 		Member member = memberRepository.findById(memberId)
 			.orElseThrow(MemberNotFoundException::new);
 
-		member.update(updateRequest);
+		String encodedPassword = passwordEncoder.encode(updateRequest.getPassword());
+
+		member.update(updateRequest, encodedPassword);
 
 		return MemberUpdateResponse.from(member);
 	}
@@ -146,7 +148,7 @@ public class MemberServiceImpl implements MemberService {
 
 		Member member = memberRepository.findByEmail(email)
 			.orElse(null);
-		
+
 		return member.getStatus().equals(EntityStatus.DELETED);
 	}
 }

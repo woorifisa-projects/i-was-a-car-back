@@ -13,7 +13,8 @@ public enum ExceptionStatus {
 	LOGIN_FAIL(401, "", UNAUTHORIZED),
 	AUTHORIZE_FORBIDDEN(403, "권한이 없는 회원입니다.", FORBIDDEN),
 
-	EMAIL_CODE_NOT_FOUND(401101, "이메일 코드 값을 찾을 수 없습니다.", NOT_FOUND),
+	EMAIL_AUTHENTICATION_FAIL(401, "이메일 인증에 실패했습니다.", UNAUTHORIZED),
+	EMAIL_CODE_NOT_FOUND(404, "이메일 코드 값을 찾을 수 없습니다.", NOT_FOUND),
 
 	PRODUCT_NOT_FOUND(404201, "해당 상품을 찾을 수 없습니다.", NOT_FOUND),
 	MEMBER_NOT_FOUND(404101, "회원을 찾을 수 없습니다.", NOT_FOUND),
@@ -30,7 +31,7 @@ public enum ExceptionStatus {
 
 	ROLE_SERVER_ERROR(500201, "잘못된 권한으로 인해 서버에 오류가 발생했습니다.", INTERNAL_SERVER_ERROR),
 	FILE_CONVERT_FAIL(500301, "파일 변환을 실패했습니다.", INTERNAL_SERVER_ERROR),
-
+	EMAIL_SERVER_ERROR(500401, "이메일 서버에 오류가 발생했습니다.", INTERNAL_SERVER_ERROR),
 	SERVER_ERROR(500101, "서버에 오류가 발생했습니다.", INTERNAL_SERVER_ERROR);
 
 	private final int code;

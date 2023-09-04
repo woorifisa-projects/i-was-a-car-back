@@ -90,8 +90,9 @@ public class Member {
 		this.lastLoginAt = LocalDateTime.now();
 	}
 
-	public void update(UpdateRequest request) {
+	public void update(UpdateRequest request, String encodedPassword) {
 		this.name = request.getName();
+		this.password = encodedPassword;
 		this.tel = request.getTel();
 		this.gender = request.getGender();
 		this.hasLicense = request.getHasLicense();
