@@ -1,0 +1,12 @@
+package xyz.iwasacar.api.common.auth.email.dto.request;
+
+import javax.validation.constraints.NotBlank;
+
+import lombok.Getter;
+
+@Getter
+public class EmailRequest {
+	@NotBlank
+	private String email;
+}
+
