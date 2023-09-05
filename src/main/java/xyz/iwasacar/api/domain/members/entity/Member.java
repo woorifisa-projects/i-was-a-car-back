@@ -90,6 +90,7 @@ public class Member {
 	}
 
 	public void delete() {
+		this.status = EntityStatus.DELETED;
 		this.deletedAt = LocalDateTime.now();
 	}
 
