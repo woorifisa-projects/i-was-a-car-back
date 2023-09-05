@@ -34,7 +34,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		registry.addInterceptor(new BearerAuthInterceptor(parser, provider))
 			.addPathPatterns("/api/v1/**")
 			.excludePathPatterns("/api/v1/members/login", "/api/v1/members/signup", "/api/v1/products",
-				"/api/v1/members/logout", "/api/v1/auth/email", "/api/v1/auth/email-confirm")
+				"/api/v1/products/[0-9]+", "/api/v1/members/logout", "/api/v1/auth/email",
+                           "/api/v1/auth/email-confirm")
 			.order(1);
 
 		registry.addInterceptor(new AdminInterceptor(parser))
