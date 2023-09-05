@@ -35,7 +35,7 @@ public class PurchaseHistoryController {
 
 	}
 
-	@GetMapping("/{memberId}/purchase-history/{purchase_history_no}")
+	@GetMapping("/{memberId}/purchase-history/{purchaseHistoryNo}")
 	public ResponseEntity<CommonResponse<PurchaseHistoryDetailResponse>> findPurchaseDetail(
 		@PathVariable final Long memberId, @PathVariable final Long purchaseHistoryNo
 		//@Login MemberClaim memberclaim

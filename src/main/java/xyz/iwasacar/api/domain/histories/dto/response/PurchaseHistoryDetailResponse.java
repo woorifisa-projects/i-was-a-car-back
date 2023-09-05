@@ -25,7 +25,7 @@ public class PurchaseHistoryDetailResponse {
 	private final String zipCode;
 
 	private final String address;
-
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private final LocalDateTime deliverySchedule;
 
 	private final String productName;
