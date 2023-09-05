@@ -1,4 +1,4 @@
-package xyz.iwasacar.api.domain.banks;
+package xyz.iwasacar.api.domain.banks.controller;
 
 import static org.springframework.http.HttpStatus.*;
 

@@ -92,6 +92,7 @@ class ResourceRepositoryTest {
 	@DisplayName("상품 목록 전체 10개씩 찾기 ")
 	@Test
 	void testFindByProducts() {
+		int times = 10;
 
 		List<CarType> carTypes = new ArrayList<>();
 		List<Color> colors = new ArrayList<>();
@@ -107,7 +108,7 @@ class ResourceRepositoryTest {
 		Role role = Dummy.getAdminRole();
 		roles.add(role);
 
-		for (int i = 1; i < 11; i++) {
+		for (int i = 0; i < times; i++) {
 			CarType carType = Dummy.getCarTypeDummy();
 			Color color = Dummy.getColor();
 			Label label = Dummy.getLabel();
@@ -139,7 +140,7 @@ class ResourceRepositoryTest {
 		roleRepository.saveAll(roles);
 		productImageRepository.saveAll(productImages);
 
-		List<ProductImage> productImagesRes = resourceRepository.findByProducts(11L);
+		List<ProductImage> productImagesRes = resourceRepository.findByProducts(null, null, 11L);
 		assertThat(productImagesRes).hasSize(10);
 	}
 
