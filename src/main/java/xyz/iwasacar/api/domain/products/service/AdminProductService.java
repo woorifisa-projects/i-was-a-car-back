@@ -61,7 +61,7 @@ public class AdminProductService implements ProductService {
 	}
 
 	@Override
-	public PageResponse<ProductResponse> findProducts(final int page, final int size) {
+	public PageResponse<ProductResponse> findProducts(final Integer page, final Integer size) {
 
 		return PageResponse.of(productRepository.findProductsForAdmin(page, size));
 	}

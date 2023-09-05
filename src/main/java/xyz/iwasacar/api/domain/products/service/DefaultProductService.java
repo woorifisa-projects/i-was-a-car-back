@@ -59,7 +59,7 @@ public class DefaultProductService implements ProductService {
 	}
 
 	@Override
-	public PageResponse<ProductResponse> findProducts(int page, int size) {
+	public PageResponse<ProductResponse> findProducts(Integer page, Integer size) {
 		throw new IllegalArgumentException();
 	}
 

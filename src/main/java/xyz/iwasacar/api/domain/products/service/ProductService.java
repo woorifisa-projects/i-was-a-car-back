@@ -16,7 +16,7 @@ public interface ProductService {
 
 	List<ProductResponse> findProducts(Long id);
 
-	PageResponse<ProductResponse> findProducts(int page, int size);
+	PageResponse<ProductResponse> findProducts(Integer page, Integer size);
 
 	List<ProductResponse> findSpecificProducts(Long carType, Integer capital, Integer loan, Long lastProductId);
 

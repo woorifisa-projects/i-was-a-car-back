@@ -9,7 +9,7 @@ import xyz.iwasacar.api.domain.products.entity.Product;
 
 public interface ProductRepositoryCustom {
 
-	Page<ProductResponse> findProductsForAdmin(final int page, final int size);
+	Page<ProductResponse> findProductsForAdmin(final Integer page, final Integer size);
 
 	Optional<Product> findProductDetail(final Long id);
 

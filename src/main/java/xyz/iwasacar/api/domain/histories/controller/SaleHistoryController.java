@@ -47,6 +47,9 @@ public class SaleHistoryController {
 		@Login MemberClaim memberClaim
 	) {
 
+		System.out.println(productCreateRequest);
+		carImages.forEach(System.out::println);
+
 		SaleResponse saleResponse = saleService
 			.saveSalesHistory(productCreateRequest, carImages, memberClaim.getMemberId());
 

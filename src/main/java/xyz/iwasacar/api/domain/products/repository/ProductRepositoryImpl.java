@@ -23,7 +23,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 	private final JPAQueryFactory jpaQueryFactory;
 
 	@Override
-	public Page<ProductResponse> findProductsForAdmin(int page, int size) {
+	public Page<ProductResponse> findProductsForAdmin(Integer page, Integer size) {
 		int offset = (page - 1) * size;
 
 		List<ProductResponse> content = jpaQueryFactory
