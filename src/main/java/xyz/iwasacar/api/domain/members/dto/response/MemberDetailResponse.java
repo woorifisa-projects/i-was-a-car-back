@@ -29,6 +29,8 @@ public class MemberDetailResponse {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private final LocalDateTime createdAt;
 
+
+
 	public static MemberDetailResponse from(Member m) {
 
 		return new MemberDetailResponse(m.getEmail(),

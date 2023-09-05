@@ -88,10 +88,6 @@ public class SaleHistoryController {
 		return CommonResponse.success(OK, OK.value(), specificSaleHistory);
 	}
 
-
-
-
-
 	@PostMapping("/api-docs")
 	public void forSwagger(@RequestBody SaleRequest saleRequest) {
 		throw new RuntimeException();
