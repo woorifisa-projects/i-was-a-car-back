@@ -1,4 +1,4 @@
-package xyz.iwasacar.api.domain.cartypes.controller;
+package xyz.iwasacar.api.domain.insurances.controller;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.BDDMockito.*;
@@ -23,18 +23,18 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import xyz.iwasacar.api.common.auth.jwt.JwtTokenParser;
 import xyz.iwasacar.api.common.auth.jwt.JwtTokenProvider;
-import xyz.iwasacar.api.domain.cartypes.dto.response.CarTypeResponse;
-import xyz.iwasacar.api.domain.cartypes.entity.CarType;
-import xyz.iwasacar.api.domain.cartypes.service.CarTypeService;
+import xyz.iwasacar.api.domain.insurances.dto.response.InsuranceResponse;
+import xyz.iwasacar.api.domain.insurances.entity.Insurance;
+import xyz.iwasacar.api.domain.insurances.service.InsuranceService;
 import xyz.iwasacar.api.dummy.Dummy;
 
-@WebMvcTest(CarTypeController.class)
-class CarTypeControllerTest {
+@WebMvcTest(InsuranceController.class)
+class InsuranceControllerTest {
 
 	MockMvc mockMvc;
 
 	@MockBean
-	CarTypeService carTypeService;
+	InsuranceService insuranceService;
 
 	@MockBean
 	JwtTokenParser jwtTokenParser;
@@ -43,33 +43,33 @@ class CarTypeControllerTest {
 	JwtTokenProvider jwtTokenProvider;
 
 	@Autowired
-	CarTypeController carTypeController;
+	InsuranceController insuranceController;
 
 	@BeforeEach
 	void setUp() {
 		mockMvc = MockMvcBuilders
-			.standaloneSetup(carTypeController)
+			.standaloneSetup(insuranceController)
 			.alwaysDo(print())
 			.build();
 	}
 
-	@DisplayName("차종 전체 조회")
+	@DisplayName("사용가능한 보험 전체 조회")
 	@Test
-	void testFindCarTypes() throws Exception {
+	void testFindUsableInsurances() throws Exception {
 		int times = 10; // 전체 개수라 가정
-		List<CarTypeResponse> carTypeResponses = new ArrayList<>();
+		List<InsuranceResponse> insuranceResponses = new ArrayList<>();
 
 		for (int i = 1; i <= times; i++) {
-			CarType carType = Dummy.getCarTypeDummy();
+			Insurance insurance = Dummy.getInsurance();
 
-			CarTypeResponse carTypeResponse = CarTypeResponse.of(carType);
-			carTypeResponses.add(carTypeResponse);
+			InsuranceResponse insuranceResponse = InsuranceResponse.of(insurance);
+			insuranceResponses.add(insuranceResponse);
 		}
 
-		given(carTypeService.findCarTypes()).willReturn(carTypeResponses);
+		given(insuranceService.findUsableInsurances()).willReturn(insuranceResponses);
 
 		mockMvc.perform(
-				get("/api/v1/car-types")
+				get("/api/v1/insurances")
 					.characterEncoding(StandardCharsets.UTF_8)
 			)
 			.andExpect(status().isOk())
@@ -77,7 +77,8 @@ class CarTypeControllerTest {
 			.andExpect(jsonPath("$.code", is(OK.value())))
 			.andExpect(jsonPath("$.data", hasSize(10)));
 
-		then(carTypeService).should(times(1)).findCarTypes();
+		then(insuranceService).should(times(1)).findUsableInsurances();
 
 	}
+
 }
