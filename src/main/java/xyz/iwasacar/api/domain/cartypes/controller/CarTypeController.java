@@ -15,7 +15,7 @@ import xyz.iwasacar.api.domain.cartypes.dto.response.CarTypeResponse;
 import xyz.iwasacar.api.domain.cartypes.service.CarTypeService;
 
 @RestController
-@RequestMapping("/api/v1/car-type")
+@RequestMapping("/api/v1/car-types")
 @RequiredArgsConstructor
 public class CarTypeController {
 

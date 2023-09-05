@@ -69,7 +69,7 @@ class CarTypeControllerTest {
 		given(carTypeService.findCarTypes()).willReturn(carTypeResponses);
 
 		mockMvc.perform(
-				get("/api/v1/car-type")
+				get("/api/v1/car-types")
 					.characterEncoding(StandardCharsets.UTF_8)
 			)
 			.andExpect(status().isOk())
