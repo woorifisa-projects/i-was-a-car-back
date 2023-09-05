@@ -1,5 +1,6 @@
 package xyz.iwasacar.api.domain.members.dto.response;
 
+import java.io.Serializable;
 import java.util.List;
 
 import lombok.Builder;
@@ -11,7 +12,9 @@ import xyz.iwasacar.api.domain.roles.entity.RoleName;
 @Builder
 @RequiredArgsConstructor
 @Getter
-public class MemberResponse {
+public class MemberResponse implements Serializable {
+
+	private static final long serialVersionUID = 2920753163261664224L;
 
 	private final Long id;
 	private final String email;

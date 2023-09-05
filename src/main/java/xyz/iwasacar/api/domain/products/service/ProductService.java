@@ -9,7 +9,8 @@ public interface ProductService {
 
 	ProductDetailResponse findProductDetail(Long id);
 
-	List<ProductResponse> findProducts(Long id);
+	List<ProductResponse> findProducts(Long category, String keyword, Long lastProductId);
 
 	List<ProductResponse> findSpecificProducts(Long carType, Integer capital, Integer loan, Long lastProductId);
+
 }

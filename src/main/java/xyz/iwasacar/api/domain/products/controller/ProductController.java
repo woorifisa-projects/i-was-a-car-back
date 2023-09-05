@@ -24,10 +24,15 @@ public class ProductController {
 
 	private final ProductService productService;
 
+	/*
+	 * @param category: Long (1:차종 , 2:제조사)
+	 * @param keyword: String 사용자가 검색한 내용
+	 */
 	@GetMapping
 	public ResponseEntity<CommonResponse<List<ProductResponse>>> findProducts(
+		@RequestParam(required = false) final Long category, @RequestParam(required = false) final String keyword,
 		@RequestParam(required = false) final Long lastProductId) {
-		List<ProductResponse> products = productService.findProducts(lastProductId);
+		List<ProductResponse> products = productService.findProducts(category, keyword, lastProductId);
 
 		return CommonResponse.success(OK, OK.value(), products);
 	}
@@ -54,5 +59,4 @@ public class ProductController {
 
 		return CommonResponse.success(OK, OK.value(), productDetail);
 	}
-
 }
