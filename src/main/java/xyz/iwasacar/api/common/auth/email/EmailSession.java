@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.common.auth.email.exception.EmailCodeNotFoundException;
 
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class EmailSession {
 
 	private static final String TRUE = "true";

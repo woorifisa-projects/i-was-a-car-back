@@ -1,12 +1,11 @@
 package xyz.iwasacar.api.common.auth.email.dto.response;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Getter
 public class EmailResponse {
-	private String code;
+	private final String code;
 
-	public void setCode(String code) {
-		this.code = code;
-	}
 }

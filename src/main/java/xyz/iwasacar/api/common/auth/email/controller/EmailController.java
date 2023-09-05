@@ -18,8 +18,8 @@ import xyz.iwasacar.api.common.auth.email.dto.response.EmailResponse;
 import xyz.iwasacar.api.common.auth.email.service.EmailService;
 import xyz.iwasacar.api.common.dto.response.CommonResponse;
 
-@RequestMapping("/api/v1/auth")
 @RestController
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class EmailController {
 
@@ -35,8 +35,7 @@ public class EmailController {
 
 		String code = emailService.sendMail(emailMessage);
 
-		EmailResponse emailResponse = new EmailResponse();
-		emailResponse.setCode(code);
+		EmailResponse emailResponse = new EmailResponse(code);
 
 		return CommonResponse.success(OK, OK.value(), emailResponse);
 	}

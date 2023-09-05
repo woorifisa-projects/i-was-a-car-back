@@ -4,11 +4,13 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.domain.members.entity.Gender;
 import xyz.iwasacar.api.domain.members.entity.Member;
 
+@Builder
 @Getter
 @RequiredArgsConstructor
 public class MemberUpdateResponse {
@@ -27,13 +29,14 @@ public class MemberUpdateResponse {
 	private final LocalDateTime lastLoginAt;
 
 	public static MemberUpdateResponse from(Member m) {
-		return new MemberUpdateResponse(
-			m.getName(),
-			m.getPassword(),
-			m.getTel(),
-			m.getGender(),
-			m.getHasLicense(),
-			m.getLastLoginAt()
-		);
+		return MemberUpdateResponse
+			.builder()
+			.name(m.getName())
+			.password(m.getPassword())
+			.tel(m.getTel())
+			.gender(m.getGender())
+			.hasLicense(m.getHasLicense())
+			.lastLoginAt(m.getLastLoginAt())
+			.build();
 	}
 }

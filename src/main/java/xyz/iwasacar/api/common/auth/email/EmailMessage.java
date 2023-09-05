@@ -2,14 +2,16 @@ package xyz.iwasacar.api.common.auth.email;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@Getter
 @Builder
+@RequiredArgsConstructor
+@Getter
 public class EmailMessage {
 
-	private String to;
+	private final String to;
 
-	private String subject;
+	private final String subject;
 
-	private String message;
+	private final String message;
 }
