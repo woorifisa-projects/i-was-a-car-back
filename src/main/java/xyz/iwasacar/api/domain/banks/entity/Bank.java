@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,4 +26,8 @@ public class Bank {
 	@Column(name = "name", nullable = false, length = 20)
 	private String name;
 
+	@Builder
+	public Bank(String name) {
+		this.name = name;
+	}
 }

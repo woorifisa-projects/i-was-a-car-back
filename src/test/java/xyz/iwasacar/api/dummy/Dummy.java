@@ -2,6 +2,7 @@ package xyz.iwasacar.api.dummy;
 
 import java.time.LocalDate;
 
+import xyz.iwasacar.api.domain.banks.entity.Bank;
 import xyz.iwasacar.api.domain.brands.entity.Brand;
 import xyz.iwasacar.api.domain.cartypes.entity.CarType;
 import xyz.iwasacar.api.domain.colors.entity.Color;
@@ -111,6 +112,10 @@ public class Dummy {
 			.accidentHistory(1)
 			.inundationHistory(false)
 			.build();
+	}
+
+	public static Bank getBank() {
+		return Bank.builder().name("우리 은행").build();
 	}
 
 }
