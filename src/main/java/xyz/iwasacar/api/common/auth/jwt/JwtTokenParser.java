@@ -58,6 +58,10 @@ public class JwtTokenParser {
 			return false;
 
 		} catch (ExpiredJwtException e) {
+			log.error("", e);
+			return true;
+		} catch (Exception e) {
+			log.error("", e);
 			return true;
 		}
 	}
