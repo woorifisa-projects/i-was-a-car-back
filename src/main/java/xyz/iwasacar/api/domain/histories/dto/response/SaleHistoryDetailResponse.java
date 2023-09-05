@@ -27,12 +27,15 @@ public class SaleHistoryDetailResponse {
 
 	private final String productName;
 
+
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private final LocalDateTime createdAt;
 
 	private final Integer productPrice;
 
 	private final String bankName;
+
+	private final String accountHolder;
 
 	private final String accountNum;
 

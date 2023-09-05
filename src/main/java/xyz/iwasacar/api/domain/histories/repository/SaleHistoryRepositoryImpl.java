@@ -56,7 +56,7 @@ public class SaleHistoryRepositoryImpl implements SaleHistoryRepositoryCustom {
 			.select(Projections.constructor(
 				SaleHistoryDetailResponse.class, saleHistory.member.name, saleHistory.member.tel, saleHistory.zipCode,
 				saleHistory.address, saleHistory.meetingSchedule, saleHistory.product.name, saleHistory.createAt,
-				saleHistory.product.price, saleHistory.bank.name, saleHistory.accountNumber,
+				saleHistory.product.price, saleHistory.bank.name, saleHistory.accountHolder,saleHistory.accountNumber,
 				saleHistory.product.label.name))
 			.from(saleHistory)
 			.join(saleHistory.product)
