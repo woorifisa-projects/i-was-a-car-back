@@ -1,10 +1,10 @@
 package xyz.iwasacar.api.domain.histories.controller;
 
 import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.*;
 
 import java.util.List;
 
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,16 +39,13 @@ public class SaleHistoryController {
 	}
 
 	@PostMapping(
-		consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-		produces = MediaType.APPLICATION_JSON_VALUE)
+		consumes = {MULTIPART_FORM_DATA_VALUE, APPLICATION_JSON_VALUE},
+		produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<CommonResponse<SaleResponse>> saveSalesHistory(
-		@RequestPart ProductCreateRequest productCreateRequest,
 		@RequestPart List<MultipartFile> carImages,
+		@RequestPart ProductCreateRequest productCreateRequest,
 		@Login MemberClaim memberClaim
 	) {
-
-		System.out.println(productCreateRequest);
-		carImages.forEach(System.out::println);
 
 		SaleResponse saleResponse = saleService
 			.saveSalesHistory(productCreateRequest, carImages, memberClaim.getMemberId());

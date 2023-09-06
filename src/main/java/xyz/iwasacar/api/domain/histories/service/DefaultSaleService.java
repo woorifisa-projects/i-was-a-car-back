@@ -20,7 +20,6 @@ import xyz.iwasacar.api.domain.brands.exception.BrandNotFoundException;
 import xyz.iwasacar.api.domain.brands.repository.BrandRepository;
 import xyz.iwasacar.api.domain.caroptions.entity.CarOption;
 import xyz.iwasacar.api.domain.caroptions.entity.ProductOption;
-import xyz.iwasacar.api.domain.caroptions.exception.CarOptionException;
 import xyz.iwasacar.api.domain.caroptions.repository.CarOptionRepository;
 import xyz.iwasacar.api.domain.caroptions.repository.ProductOptionRepository;
 import xyz.iwasacar.api.domain.cartypes.entity.CarType;
@@ -96,11 +95,7 @@ public class DefaultSaleService implements SaleService {
 			.orElseThrow(LabelNotFoundException::new);
 		Color color = colorRepository.findById(productCreateRequest.getColorId())
 			.orElseThrow(ColorNotFoundException::new);
-		List<CarOption> options = carOptionRepository.findListById(productCreateRequest.getCarOptions());
-
-		if (options.size() != productCreateRequest.getCarOptions().size()) {
-			throw new CarOptionException();
-		}
+		List<CarOption> options = carOptionRepository.findByNames(productCreateRequest.getOptions());
 
 		Product product =
 			Product.builder()
@@ -170,7 +165,7 @@ public class DefaultSaleService implements SaleService {
 
 		Map<String, List<String>> optionType = CarOption.convertCarOption(options);
 
-		return new SaleResponse(member, product, savedSaleHistory, carImageUrls, optionType);
+		return SaleResponse.from(member, product, savedSaleHistory, carImageUrls, optionType);
 	}
 
 }

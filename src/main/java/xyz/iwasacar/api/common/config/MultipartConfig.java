@@ -12,7 +12,7 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 @Configuration
 public class MultipartConfig {
 
-	private static final long SIZE_100MB = 104857600L;
+	private static final long SIZE_1000MB = 1048576000L;
 
 	@Bean
 	public MultipartResolver multipartResolver() {
@@ -34,9 +34,9 @@ public class MultipartConfig {
 		MultipartConfigFactory factory = new MultipartConfigFactory();
 
 		factory.setLocation(location);
-		factory.setFileSizeThreshold(DataSize.ofBytes(SIZE_100MB / 100));
-		factory.setMaxRequestSize(DataSize.ofBytes(SIZE_100MB));
-		factory.setMaxFileSize(DataSize.ofBytes(SIZE_100MB));
+		factory.setFileSizeThreshold(DataSize.ofBytes(SIZE_1000MB / 100));
+		factory.setMaxRequestSize(DataSize.ofBytes(SIZE_1000MB));
+		factory.setMaxFileSize(DataSize.ofBytes(SIZE_1000MB));
 
 		return factory.createMultipartConfig();
 	}

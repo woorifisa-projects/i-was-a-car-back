@@ -42,10 +42,19 @@ public class ProductDetailResponse {
 
 	public static ProductDetailResponse of(Product product, List<String> images, Map<String, List<String>> options) {
 		return new ProductDetailResponse(
-			product.getId(), product.getName(), product.getCarType().getName(), product.getBrand().getName(),
-			product.getLabel().getName(), product.getPerformanceCheck().getUrl(), product.getColor().getName(),
-			product.getFakeProductStatus(), product.getInfo(), product.getTransmission(), product.getFuel(),
-			product.getDrivingMethod(), product.getYear(), product.getDistance(), product.getPrice(),
+			product.getId(),
+			product.getName(),
+			product.getCarType().getName(),
+			product.getBrand().getName(),
+			product.getLabel().getName(),
+			product.getPerformanceCheck().getUrl(),
+			product.getColor().getName(),
+			product.getFakeProductStatus(),
+			product.getInfo(),
+			product.getTransmission(),
+			product.getFuel(),
+			product.getDrivingMethod(),
+			product.getYear(), product.getDistance(), product.getPrice(),
 			product.getFuelEfficiency(), product.getDisplacement(), product.getAccidentHistory(),
 			product.getInundationHistory(),
 			images, options

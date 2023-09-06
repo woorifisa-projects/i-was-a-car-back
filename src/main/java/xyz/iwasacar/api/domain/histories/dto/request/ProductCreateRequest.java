@@ -3,6 +3,7 @@ package xyz.iwasacar.api.domain.histories.dto.request;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -46,7 +47,7 @@ public class ProductCreateRequest {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private LocalDateTime meetingSchedule;
 
-	private List<Long> carOptions;
+	private Map<String, List<String>> options;
 
 	public boolean isOldCar(final LocalDate today) {
 		return today.getYear() - this.year.getYear() >= 12;

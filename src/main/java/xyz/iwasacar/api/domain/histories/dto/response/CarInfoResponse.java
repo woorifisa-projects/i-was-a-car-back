@@ -13,6 +13,10 @@ import lombok.NoArgsConstructor;
 @Getter
 public class CarInfoResponse {
 
+	private Long carTypeId;
+	private Long brandId;
+	private Long colorId;
+	
 	private String memberName;
 	private String carName;
 	private String carType;
