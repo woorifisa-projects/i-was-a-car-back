@@ -9,7 +9,7 @@ public interface ResourceRepositoryCustom {
 
 	List<Resource> findByProductId(Long productId);
 
-	List<ProductImage> findByProducts(Long lastProductId);
+	List<ProductImage> findByProducts(Long category, String keyword, Long lastProductId);
 
 	List<ProductImage> findByProducts(int page, int size);
 

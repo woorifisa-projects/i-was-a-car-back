@@ -11,8 +11,8 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
-import xyz.iwasacar.api.domain.histories.dto.PurchaseHistoryDetailResponse;
-import xyz.iwasacar.api.domain.histories.dto.PurchaseResponse;
+import xyz.iwasacar.api.domain.histories.dto.response.PurchaseHistoryDetailResponse;
+import xyz.iwasacar.api.domain.histories.dto.response.PurchaseResponse;
 import xyz.iwasacar.api.domain.histories.entity.QPurchaseHistory;
 
 @RequiredArgsConstructor

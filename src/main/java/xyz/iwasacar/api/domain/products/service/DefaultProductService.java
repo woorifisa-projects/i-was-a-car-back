@@ -50,9 +50,9 @@ public class DefaultProductService implements ProductService {
 	}
 
 	@Override
-	public List<ProductResponse> findProducts(final Long lastProductId) {
+	public List<ProductResponse> findProducts(final Long category, final String keyword, final Long lastProductId) {
 
-		return resourceRepository.findByProducts(lastProductId)
+		return resourceRepository.findByProducts(category, keyword, lastProductId)
 			.stream()
 			.map(ProductResponse::of)
 			.collect(toList());

@@ -57,7 +57,7 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 	}
 
 	@Override
-	public List<ProductImage> findByProducts(final Long lastProductId) {
+	public List<ProductImage> findByProducts(final Long category, final String keyword, final Long lastProductId) {
 
 		/**
 		 select *
@@ -96,6 +96,7 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 							.and(product.status.ne(EntityStatus.DELETED)))
 						.limit(1))
 				.and(littleThanLastProductId(lastProductId))
+				.and(setCategory(category, keyword))
 				.and(
 					productImage.role.id.eq(
 						JPAExpressions
@@ -173,6 +174,15 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 
 	private BooleanExpression littleThanLastProductId(final Long lastProductId) {
 		return lastProductId == null ? null : productImage.product.id.lt(lastProductId);
+	}
+
+	private BooleanExpression setCategory(Long category, String keyword) {
+		if (category == null || keyword == null) {
+			return null;
+		}
+		
+		return category == 1 ? productImage.product.name.like('%' + keyword + '%') :
+			productImage.product.brand.name.like('%' + keyword + '%');
 	}
 
 }

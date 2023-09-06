@@ -37,6 +37,7 @@ public class GlobalRestControllerAdvice {
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex) {
 		ErrorResponse response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
+
 		log.error("[{}] {}", UuidContext.getUuid(), ex.getMessage());
 		log.error("", ex);
 

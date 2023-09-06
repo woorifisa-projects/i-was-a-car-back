@@ -14,7 +14,7 @@ public interface ProductService {
 
 	ProductDetailResponse findProductDetail(Long id);
 
-	List<ProductResponse> findProducts(Long id);
+	List<ProductResponse> findProducts(Long category, String keyword, Long lastProductId);
 
 	PageResponse<ProductResponse> findProducts(Integer page, Integer size);
 
