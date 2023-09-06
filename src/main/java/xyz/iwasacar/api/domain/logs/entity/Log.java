@@ -43,7 +43,7 @@ public class Log {
 
 	public Log(Member member) {
 		this.member = member;
-		this.log = String.format("%s 로그인", member.getEmail());
+		this.log = "로그인";
 	}
 
 }
