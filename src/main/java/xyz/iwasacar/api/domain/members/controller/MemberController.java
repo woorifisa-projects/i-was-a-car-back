@@ -130,12 +130,13 @@ public class MemberController {
 	// 회원 상세조회
 	@GetMapping("/detail")
 	public ResponseEntity<CommonResponse<MemberDetailResponse>> findMember(
-		@Login MemberClaim memberClaim, @RequestParam Long memberId
+		// @Login MemberClaim memberClaim,
+		@RequestParam Long memberId
 	) {
 
-		if (!memberClaim.getMemberId().equals(memberId)) {
-			throw new ForbiddenException();
-		}
+		// if (!memberClaim.getMemberId().equals(memberId)) {
+		// 	throw new ForbiddenException();
+		// }
 		return CommonResponse.success(OK, OK.value(), memberService.findMember(memberId));
 
 	}

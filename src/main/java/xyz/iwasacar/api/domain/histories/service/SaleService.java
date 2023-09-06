@@ -6,7 +6,10 @@ import java.util.Objects;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.histories.dto.request.SaleRequest;
+import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryDetailResponse;
+import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.CarInfoResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleResponse;
 import xyz.iwasacar.api.domain.members.entity.Member;
@@ -29,4 +32,7 @@ public interface SaleService {
 			|| !member.getHasLicense();
 	}
 
+	PageResponse<SaleHistoryResponse> findSaleHistoriesByMember(Long memberId, Integer page, Integer size);
+
+	SaleHistoryDetailResponse findSaleHistoryDetail(Long saleHistoryId);
 }

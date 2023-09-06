@@ -1,4 +1,4 @@
-package xyz.iwasacar.api.domain.histories.dto;
+package xyz.iwasacar.api.domain.histories.dto.response;
 
 import java.time.LocalDateTime;
 
