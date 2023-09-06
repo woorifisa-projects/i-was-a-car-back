@@ -2,6 +2,7 @@ package xyz.iwasacar.api.dummy;
 
 import java.time.LocalDate;
 
+import xyz.iwasacar.api.domain.banks.entity.Bank;
 import xyz.iwasacar.api.domain.brands.entity.Brand;
 import xyz.iwasacar.api.domain.cartypes.entity.CarType;
 import xyz.iwasacar.api.domain.colors.entity.Color;
@@ -114,6 +115,9 @@ public class Dummy {
 			.build();
 	}
 
+	public static Bank getBank() {
+		return Bank.builder().name("우리 은행").build();
+
 	public static Insurance getInsurance() {
 		return Insurance.builder()
 			.name("삼성화재 다이렉트 운전자보험")
@@ -121,6 +125,7 @@ public class Dummy {
 			.period(12)
 			.monthlyPremium(120000)
 			.build();
+
 	}
 
 }
