@@ -5,6 +5,7 @@ import static org.springframework.http.HttpStatus.*;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,4 +60,13 @@ public class ProductController {
 
 		return CommonResponse.success(OK, OK.value(), productDetail);
 	}
+
+	@DeleteMapping("/{productId}")
+	public ResponseEntity<CommonResponse<Void>> deleteProduct(@PathVariable final Long productId) {
+
+		productService.deleteProduct(productId);
+
+		return CommonResponse.success(NO_CONTENT, NO_CONTENT.value(), null);
+	}
+
 }

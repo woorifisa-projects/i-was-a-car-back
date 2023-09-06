@@ -1,6 +1,7 @@
 package xyz.iwasacar.api.domain.histories.service;
 
 import static java.util.stream.Collectors.*;
+import static xyz.iwasacar.api.common.component.AwsS3Uploader.*;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,6 @@ import xyz.iwasacar.api.domain.brands.exception.BrandNotFoundException;
 import xyz.iwasacar.api.domain.brands.repository.BrandRepository;
 import xyz.iwasacar.api.domain.caroptions.entity.CarOption;
 import xyz.iwasacar.api.domain.caroptions.entity.ProductOption;
-import xyz.iwasacar.api.domain.caroptions.exception.CarOptionException;
 import xyz.iwasacar.api.domain.caroptions.repository.CarOptionRepository;
 import xyz.iwasacar.api.domain.caroptions.repository.ProductOptionRepository;
 import xyz.iwasacar.api.domain.cartypes.entity.CarType;
@@ -31,10 +31,10 @@ import xyz.iwasacar.api.domain.colors.entity.Color;
 import xyz.iwasacar.api.domain.colors.exception.ColorNotFoundException;
 import xyz.iwasacar.api.domain.colors.repository.ColorRepository;
 import xyz.iwasacar.api.domain.histories.client.SaleClient;
-import xyz.iwasacar.api.domain.histories.dto.request.SaleRequest;
+import xyz.iwasacar.api.domain.histories.dto.request.ProductCreateRequest;
+import xyz.iwasacar.api.domain.histories.dto.response.CarInfoResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryDetailResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryResponse;
-import xyz.iwasacar.api.domain.histories.dto.response.CarInfoResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleResponse;
 import xyz.iwasacar.api.domain.histories.entity.SaleHistory;
 import xyz.iwasacar.api.domain.histories.repository.SaleHistoryRepository;
@@ -59,9 +59,6 @@ import xyz.iwasacar.api.domain.roles.repository.RoleRepository;
 @Service
 @RequiredArgsConstructor
 public class DefaultSaleService implements SaleService {
-
-	private static final String DIR_NAME = "images";
-	private static final String PERFORMANCE_CHECK = "performance_check";
 
 	private final SaleClient saleClient;
 
@@ -88,49 +85,41 @@ public class DefaultSaleService implements SaleService {
 
 	@Transactional
 	@Override
-	public SaleResponse saveSalesHistory(final SaleRequest saleRequest, final List<MultipartFile> carImages,
-		final MultipartFile performanceCheck, final Long memberId) {
+	public SaleResponse saveSalesHistory(
+		final ProductCreateRequest productCreateRequest, final List<MultipartFile> carImages, final Long memberId
+	) {
 
 		Member member = memberRepository.findById(memberId)
 			.orElseThrow(MemberNotFoundException::new);
-		CarType carType = carTypeRepository.findById(saleRequest.getCarTypeId())
+		CarType carType = carTypeRepository.findById(productCreateRequest.getCarTypeId())
 			.orElseThrow(CarTypeNotFoundException::new);
-		Brand brand = brandRepository.findById(saleRequest.getBrandId())
+		Brand brand = brandRepository.findById(productCreateRequest.getBrandId())
 			.orElseThrow(BrandNotFoundException::new);
 		Label label = labelRepository.findByName(LabelName.심사대기중)
 			.orElseThrow(LabelNotFoundException::new);
-		Color color = colorRepository.findById(saleRequest.getColorId())
+		Color color = colorRepository.findById(productCreateRequest.getColorId())
 			.orElseThrow(ColorNotFoundException::new);
-		List<CarOption> options = carOptionRepository.findListById(saleRequest.getCarOptions());
-
-		if (options.size() != saleRequest.getCarOptions().size()) {
-			throw new CarOptionException();
-		}
-
-		String performanceCheckUrl = uploader.upload(performanceCheck, PERFORMANCE_CHECK);
-		Resource savedPerformanceCheck =
-			resourceRepository.save(new Resource(performanceCheckUrl, performanceCheck.getOriginalFilename()));
+		List<CarOption> options = carOptionRepository.findByNames(productCreateRequest.getOptions());
 
 		Product product =
 			Product.builder()
 				.carType(carType)
 				.brand(brand)
 				.label(label)
-				.performanceCheck(savedPerformanceCheck)
 				.color(color)
-				.name(saleRequest.getCarName())
-				.fakeProductStatus(guessFakeCar(saleRequest, member))
-				.info(saleRequest.getInfo())
-				.transmission(saleRequest.getTransmission())
-				.fuel(saleRequest.getFuel())
-				.drivingMethod(saleRequest.getDrivingMethod())
-				.year(saleRequest.getYear())
-				.distance(saleRequest.getDistance())
-				.price(saleRequest.getPrice())
-				.fuelEfficiency(saleRequest.getFuelEfficiency())
-				.displacement(saleRequest.getDisplacement())
-				.accidentHistory(saleRequest.getAccidentHistory())
-				.inundationHistory(saleRequest.getInundationHistory())
+				.name(productCreateRequest.getCarName())
+				.fakeProductStatus(guessFakeCar(productCreateRequest, member))
+				.info(productCreateRequest.getInfo())
+				.transmission(productCreateRequest.getTransmission())
+				.fuel(productCreateRequest.getFuel())
+				.drivingMethod(productCreateRequest.getDrivingMethod())
+				.year(productCreateRequest.getYear())
+				.distance(productCreateRequest.getDistance())
+				.price(productCreateRequest.getPrice())
+				.fuelEfficiency(productCreateRequest.getFuelEfficiency())
+				.displacement(productCreateRequest.getDisplacement())
+				.accidentHistory(productCreateRequest.getAccidentHistory())
+				.inundationHistory(productCreateRequest.getInundationHistory())
 				.build();
 
 		Product savedProduct = productRepository.save(product);
@@ -143,7 +132,7 @@ public class DefaultSaleService implements SaleService {
 
 		List<Resource> images = carImages
 			.stream()
-			.map(i -> new Resource(uploader.upload(i, DIR_NAME), i.getOriginalFilename()))
+			.map(i -> new Resource(uploader.upload(i, IMAGES), i.getOriginalFilename()))
 			.collect(toList());
 
 		List<Resource> resources = resourceRepository.saveAll(images);
@@ -157,19 +146,19 @@ public class DefaultSaleService implements SaleService {
 
 		productImageRepository.saveAll(productImages);
 
-		Bank bank = bankRepository.findById(saleRequest.getBankId())
+		Bank bank = bankRepository.findById(productCreateRequest.getBankId())
 			.orElseThrow(BankNotFoundException::new);
 
 		SaleHistory saleHistory = SaleHistory.builder()
 			.product(product)
 			.member(member)
 			.bank(bank)
-			.meetingSchedule(saleRequest.getMeetingSchedule())
-			.accountNumber(saleRequest.getAccountNumber())
-			.accountHolder(saleRequest.getAccountHolder())
-			.zipCode(saleRequest.getZipCode())
-			.address(saleRequest.getAddress())
-			.addressDetail(saleRequest.getAddressDetail())
+			.meetingSchedule(productCreateRequest.getMeetingSchedule())
+			.accountNumber(productCreateRequest.getAccountNumber())
+			.accountHolder(productCreateRequest.getAccountHolder())
+			.zipCode(productCreateRequest.getZipCode())
+			.address(productCreateRequest.getAddress())
+			.addressDetail(productCreateRequest.getAddressDetail())
 			.build();
 
 		List<String> carImageUrls = images.stream()
@@ -180,9 +169,8 @@ public class DefaultSaleService implements SaleService {
 
 		Map<String, List<String>> optionType = CarOption.convertCarOption(options);
 
-		return new SaleResponse(member, product, savedSaleHistory, carImageUrls, optionType);
+		return SaleResponse.from(member, product, savedSaleHistory, carImageUrls, optionType);
 	}
-
 
 	@Override
 	public PageResponse<SaleHistoryResponse> findSaleHistoriesByMember(Long memberId, Integer page, Integer size) {
@@ -197,8 +185,4 @@ public class DefaultSaleService implements SaleService {
 		return saleHistoryDetailResponse;
 	}
 
-	private boolean checkFakeProduct(final SaleRequest saleRequest) {
-
-		return saleRequest != null;
-	}
 }

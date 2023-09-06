@@ -1,15 +1,13 @@
 package xyz.iwasacar.api.domain.histories.controller;
 
 import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.*;
 
 import java.util.List;
 
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import org.springframework.web.bind.annotation.PathVariable;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,13 +21,10 @@ import xyz.iwasacar.api.common.annotation.Login;
 import xyz.iwasacar.api.common.auth.jwt.MemberClaim;
 import xyz.iwasacar.api.common.dto.response.CommonResponse;
 import xyz.iwasacar.api.common.dto.response.PageResponse;
-import xyz.iwasacar.api.domain.histories.dto.request.SaleRequest;
-
+import xyz.iwasacar.api.domain.histories.dto.request.ProductCreateRequest;
+import xyz.iwasacar.api.domain.histories.dto.response.CarInfoResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryDetailResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryResponse;
-
-import xyz.iwasacar.api.domain.histories.dto.response.CarInfoResponse;
-
 import xyz.iwasacar.api.domain.histories.dto.response.SaleResponse;
 import xyz.iwasacar.api.domain.histories.service.SaleService;
 
@@ -48,26 +43,25 @@ public class SaleHistoryController {
 	}
 
 	@PostMapping(
-		consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-		produces = MediaType.APPLICATION_JSON_VALUE)
+		consumes = {MULTIPART_FORM_DATA_VALUE, APPLICATION_JSON_VALUE},
+		produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<CommonResponse<SaleResponse>> saveSalesHistory(
-		@RequestPart SaleRequest saleRequest,
 		@RequestPart List<MultipartFile> carImages,
-		@RequestPart MultipartFile performanceCheck,
+		@RequestPart ProductCreateRequest productCreateRequest,
 		@Login MemberClaim memberClaim
 	) {
 
-		SaleResponse saleResponse = saleService.saveSalesHistory(saleRequest, carImages,
-			performanceCheck, memberClaim.getMemberId());
+		SaleResponse saleResponse = saleService
+			.saveSalesHistory(productCreateRequest, carImages, memberClaim.getMemberId());
 
 		return CommonResponse.success(CREATED, CREATED.value(), saleResponse);
 	}
 
 	@GetMapping("/{memberId}/sale-histories")
 	public ResponseEntity<CommonResponse<PageResponse<SaleHistoryResponse>>> findSaleHistories(
-		@PathVariable final Long memberId
-		, @RequestParam(required = false, defaultValue = "1") final Integer page
-		, @RequestParam(required = false, defaultValue = "10") final Integer size
+		@PathVariable final Long memberId,
+		@RequestParam(required = false, defaultValue = "1") final Integer page,
+		@RequestParam(required = false, defaultValue = "10") final Integer size
 		// , @Login MemberClaim memberClaim
 	) {
 		//memberClaim에서의 id ,PathVariable id 비교 -> 모든 메서드에서도 해야함.
@@ -89,7 +83,7 @@ public class SaleHistoryController {
 	}
 
 	@PostMapping("/api-docs")
-	public void forSwagger(@RequestBody SaleRequest saleRequest) {
+	public void forSwagger(@RequestBody ProductCreateRequest productCreateRequest) {
 		throw new RuntimeException();
 	}
 

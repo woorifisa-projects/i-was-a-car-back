@@ -3,16 +3,19 @@ package xyz.iwasacar.api.domain.histories.dto.request;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @NoArgsConstructor
 @Getter
-public class SaleRequest {
+@ToString
+public class ProductCreateRequest {
 
 	private Long carTypeId;
 	private Long brandId;
@@ -44,7 +47,7 @@ public class SaleRequest {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private LocalDateTime meetingSchedule;
 
-	private List<Long> carOptions;
+	private Map<String, List<String>> options;
 
 	public boolean isOldCar(final LocalDate today) {
 		return today.getYear() - this.year.getYear() >= 12;
@@ -55,11 +58,11 @@ public class SaleRequest {
 	}
 
 	public boolean isBusyCustomer(final LocalDate today) {
-		int year = this.meetingSchedule.getYear();
+		int createdYear = this.meetingSchedule.getYear();
 		int month = this.meetingSchedule.getMonthValue();
 		int day = this.meetingSchedule.getDayOfMonth();
 
-		LocalDate meetingDate = LocalDate.of(year, month, day);
+		LocalDate meetingDate = LocalDate.of(createdYear, month, day);
 		LocalDate tomorrow = today.plusDays(1L);
 
 		return Objects.equals(meetingDate, tomorrow);
