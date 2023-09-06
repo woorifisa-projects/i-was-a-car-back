@@ -6,6 +6,7 @@ import xyz.iwasacar.api.domain.brands.entity.Brand;
 import xyz.iwasacar.api.domain.cartypes.entity.CarType;
 import xyz.iwasacar.api.domain.colors.entity.Color;
 import xyz.iwasacar.api.domain.common.constant.EntityStatus;
+import xyz.iwasacar.api.domain.insurances.entity.Insurance;
 import xyz.iwasacar.api.domain.labels.entity.Label;
 import xyz.iwasacar.api.domain.labels.entity.LabelName;
 import xyz.iwasacar.api.domain.products.entity.Product;
@@ -110,6 +111,15 @@ public class Dummy {
 			.drivingMethod("전륜")
 			.accidentHistory(1)
 			.inundationHistory(false)
+			.build();
+	}
+
+	public static Insurance getInsurance() {
+		return Insurance.builder()
+			.name("삼성화재 다이렉트 운전자보험")
+			.company("삼성화재")
+			.period(12)
+			.monthlyPremium(120000)
 			.build();
 	}
 
