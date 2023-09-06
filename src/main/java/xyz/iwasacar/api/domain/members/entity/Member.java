@@ -90,6 +90,12 @@ public class Member {
 		this.lastLoginAt = LocalDateTime.now();
 	}
 
+	public void update(final Gender gender, final String tel, final Boolean hasLicense) {
+		this.gender = gender;
+		this.tel = tel;
+		this.hasLicense = hasLicense;
+	}
+
 	public void update(UpdateRequest request, String encodedPassword) {
 		this.name = request.getName();
 		this.password = encodedPassword;
@@ -102,4 +108,5 @@ public class Member {
 		this.deletedAt = LocalDateTime.now();
 		this.status = EntityStatus.DELETED;
 	}
+
 }
