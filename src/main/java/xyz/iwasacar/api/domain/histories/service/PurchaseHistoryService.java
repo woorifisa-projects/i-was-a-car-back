@@ -1,8 +1,8 @@
 package xyz.iwasacar.api.domain.histories.service;
 
 import xyz.iwasacar.api.common.dto.response.PageResponse;
-import xyz.iwasacar.api.domain.histories.dto.PurchaseHistoryDetailResponse;
-import xyz.iwasacar.api.domain.histories.dto.PurchaseResponse;
+import xyz.iwasacar.api.domain.histories.dto.response.PurchaseHistoryDetailResponse;
+import xyz.iwasacar.api.domain.histories.dto.response.PurchaseResponse;
 
 public interface PurchaseHistoryService {
 

@@ -31,9 +31,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 
+		// 테스트용으로 /api/v1/members 추가했는데 나중에 커밋할때는 지워야한다 ??
 		registry.addInterceptor(new BearerAuthInterceptor(parser, provider))
 			.addPathPatterns("/api/v1/**")
-			.excludePathPatterns("/api/v1/members/login", "/api/v1/members/signup", "/api/v1/products")
+			.excludePathPatterns("/api/v1/members/login", "/api/v1/members/signup", "/api/v1/products",
+				"/api/v1/products/[0-9]+", "/api/v1/members/logout", "/api/v1/auth/email",
+				"/api/v1/auth/email-confirm", "/api/v1/members/**", "/api/v1/sales/**")
 			.order(1);
 
 		registry.addInterceptor(new AdminInterceptor(parser))
@@ -54,7 +57,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 			.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
 			.allowCredentials(true)
 			.maxAge(3000);
-
 	}
 
 }

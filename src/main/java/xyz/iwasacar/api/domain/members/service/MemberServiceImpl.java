@@ -20,9 +20,11 @@ import xyz.iwasacar.api.domain.members.dto.request.LoginRequest;
 import xyz.iwasacar.api.domain.members.dto.request.MemberUpdateRequest;
 import xyz.iwasacar.api.domain.members.dto.request.SignupRequest;
 import xyz.iwasacar.api.domain.members.dto.response.AdminMemberUpdateResponse;
+import xyz.iwasacar.api.domain.members.dto.request.UpdateRequest;
 import xyz.iwasacar.api.domain.members.dto.response.AllMemberResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberDetailResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberJwtResponse;
+import xyz.iwasacar.api.domain.members.dto.response.MemberUpdateResponse;
 import xyz.iwasacar.api.domain.members.entity.Member;
 import xyz.iwasacar.api.domain.members.exception.MemberNotFoundException;
 import xyz.iwasacar.api.domain.members.exception.UnauthorizedException;
@@ -120,10 +122,31 @@ public class MemberServiceImpl implements MemberService {
 		return AdminMemberUpdateResponse.from(member);
 	}
 
-	@Transactional
-	@Override
 	public void deleteMember(final Long memberId) {
 		memberRepository.getBy(memberId).delete();
+	}
+
+	public MemberUpdateResponse updateMember(final Long memberId,
+		final UpdateRequest updateRequest) {
+
+		Member member = memberRepository.findById(memberId)
+			.orElseThrow(MemberNotFoundException::new);
+
+		String encodedPassword = passwordEncoder.encode(updateRequest.getPassword());
+
+		member.update(updateRequest, encodedPassword);
+
+		return MemberUpdateResponse.from(member);
+	}
+
+	@Transactional
+	@Override
+	public boolean isDeletedMember(final String email) {
+
+		Member member = memberRepository.findByEmail(email)
+			.orElse(null);
+
+		return member.getStatus().equals(EntityStatus.DELETED);
 	}
 
 }

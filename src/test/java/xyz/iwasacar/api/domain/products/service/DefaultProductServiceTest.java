@@ -81,6 +81,8 @@ class DefaultProductServiceTest {
 	@Test
 	void testFindProducts() {
 		int times = 10;
+		Long carType = null;
+		String keyword = null;
 		Long lastProductId = 11L;
 		List<ProductImage> productImageList = new ArrayList<>();
 
@@ -93,13 +95,13 @@ class DefaultProductServiceTest {
 
 		}
 
-		given(resourceRepository.findByProducts(lastProductId)).willReturn(productImageList);
+		given(resourceRepository.findByProducts(carType, keyword, lastProductId)).willReturn(productImageList);
 
-		List<ProductResponse> products = productService.findProducts(lastProductId);
+		List<ProductResponse> products = productService.findProducts(carType, keyword, lastProductId);
 
 		assertThat(products).hasSize(times);
 
-		then(resourceRepository).should(times(1)).findByProducts(lastProductId);
+		then(resourceRepository).should(times(1)).findByProducts(carType, keyword, lastProductId);
 	}
 
 }

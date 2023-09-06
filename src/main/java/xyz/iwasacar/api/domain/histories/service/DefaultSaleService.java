@@ -5,12 +5,14 @@ import static java.util.stream.Collectors.*;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.common.component.AwsS3Uploader;
+import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.banks.entity.Bank;
 import xyz.iwasacar.api.domain.banks.exception.BankNotFoundException;
 import xyz.iwasacar.api.domain.banks.repository.BankRepository;
@@ -28,7 +30,11 @@ import xyz.iwasacar.api.domain.cartypes.repository.CarTypeRepository;
 import xyz.iwasacar.api.domain.colors.entity.Color;
 import xyz.iwasacar.api.domain.colors.exception.ColorNotFoundException;
 import xyz.iwasacar.api.domain.colors.repository.ColorRepository;
+import xyz.iwasacar.api.domain.histories.client.SaleClient;
 import xyz.iwasacar.api.domain.histories.dto.request.SaleRequest;
+import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryDetailResponse;
+import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryResponse;
+import xyz.iwasacar.api.domain.histories.dto.response.CarInfoResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleResponse;
 import xyz.iwasacar.api.domain.histories.entity.SaleHistory;
 import xyz.iwasacar.api.domain.histories.repository.SaleHistoryRepository;
@@ -57,6 +63,8 @@ public class DefaultSaleService implements SaleService {
 	private static final String DIR_NAME = "images";
 	private static final String PERFORMANCE_CHECK = "performance_check";
 
+	private final SaleClient saleClient;
+
 	private final MemberRepository memberRepository;
 	private final CarTypeRepository carTypeRepository;
 	private final BrandRepository brandRepository;
@@ -72,6 +80,11 @@ public class DefaultSaleService implements SaleService {
 	private final RoleRepository roleRepository;
 
 	private final AwsS3Uploader uploader;
+
+	@Override
+	public CarInfoResponse findCarInfoByCarNumber(final String name, final String carNumber) {
+		return saleClient.findCarInfoByCarNumber(name, carNumber);
+	}
 
 	@Transactional
 	@Override
@@ -105,8 +118,8 @@ public class DefaultSaleService implements SaleService {
 				.label(label)
 				.performanceCheck(savedPerformanceCheck)
 				.color(color)
-				.name(saleRequest.getName())
-				.fakeProductStatus(checkFakeProduct(saleRequest))
+				.name(saleRequest.getCarName())
+				.fakeProductStatus(guessFakeCar(saleRequest, member))
 				.info(saleRequest.getInfo())
 				.transmission(saleRequest.getTransmission())
 				.fuel(saleRequest.getFuel())
@@ -151,7 +164,7 @@ public class DefaultSaleService implements SaleService {
 			.product(product)
 			.member(member)
 			.bank(bank)
-			.meetingSchedule(saleRequest.getDeliverySchedule())
+			.meetingSchedule(saleRequest.getMeetingSchedule())
 			.accountNumber(saleRequest.getAccountNumber())
 			.accountHolder(saleRequest.getAccountHolder())
 			.zipCode(saleRequest.getZipCode())
@@ -170,9 +183,22 @@ public class DefaultSaleService implements SaleService {
 		return new SaleResponse(member, product, savedSaleHistory, carImageUrls, optionType);
 	}
 
+
+	@Override
+	public PageResponse<SaleHistoryResponse> findSaleHistoriesByMember(Long memberId, Integer page, Integer size) {
+		Page<SaleHistoryResponse> sales = saleHistoryRepository.findSales(memberId, page, size);
+		return new PageResponse<>(sales.getContent(), page, sales.getTotalPages());
+	}
+
+	@Override
+	public SaleHistoryDetailResponse findSaleHistoryDetail(Long saleHistoryId) {
+
+		SaleHistoryDetailResponse saleHistoryDetailResponse = saleHistoryRepository.findSaleDetail(saleHistoryId);
+		return saleHistoryDetailResponse;
+	}
+
 	private boolean checkFakeProduct(final SaleRequest saleRequest) {
 
 		return saleRequest != null;
 	}
-
 }

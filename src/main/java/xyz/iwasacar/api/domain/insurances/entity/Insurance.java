@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -34,4 +35,11 @@ public class Insurance {
 	@Column(name = "monthly_premium", nullable = false)
 	private Integer monthlyPremium;
 
+	@Builder
+	public Insurance(String name, String company, Integer period, Integer monthlyPremium) {
+		this.name = name;
+		this.company = company;
+		this.period = period;
+		this.monthlyPremium = monthlyPremium;
+	}
 }
