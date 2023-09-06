@@ -7,9 +7,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import org.springframework.web.bind.annotation.PathVariable;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +20,11 @@ import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.common.annotation.Login;
 import xyz.iwasacar.api.common.auth.jwt.MemberClaim;
 import xyz.iwasacar.api.common.dto.response.CommonResponse;
-import xyz.iwasacar.api.domain.histories.dto.request.ProductCreateRequest;
 import xyz.iwasacar.api.common.dto.response.PageResponse;
-import xyz.iwasacar.api.domain.histories.dto.request.SaleRequest;
+import xyz.iwasacar.api.domain.histories.dto.request.ProductCreateRequest;
+import xyz.iwasacar.api.domain.histories.dto.response.CarInfoResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryDetailResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryResponse;
-import xyz.iwasacar.api.domain.histories.dto.response.CarInfoResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleResponse;
 import xyz.iwasacar.api.domain.histories.service.SaleService;
 
@@ -62,9 +59,9 @@ public class SaleHistoryController {
 
 	@GetMapping("/{memberId}/sale-histories")
 	public ResponseEntity<CommonResponse<PageResponse<SaleHistoryResponse>>> findSaleHistories(
-		@PathVariable final Long memberId
-		, @RequestParam(required = false, defaultValue = "1") final Integer page
-		, @RequestParam(required = false, defaultValue = "10") final Integer size
+		@PathVariable final Long memberId,
+		@RequestParam(required = false, defaultValue = "1") final Integer page,
+		@RequestParam(required = false, defaultValue = "10") final Integer size
 		// , @Login MemberClaim memberClaim
 	) {
 		//memberClaim에서의 id ,PathVariable id 비교 -> 모든 메서드에서도 해야함.

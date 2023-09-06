@@ -109,7 +109,7 @@ public class AdminProductService implements ProductService {
 	}
 
 	@Override
-	public List<ProductResponse> findProducts(Long id) {
+	public List<ProductResponse> findProducts(Long category, String keyword, Long lastProductId) {
 		throw new IllegalArgumentException();
 	}
 

@@ -32,9 +32,9 @@ import xyz.iwasacar.api.domain.colors.exception.ColorNotFoundException;
 import xyz.iwasacar.api.domain.colors.repository.ColorRepository;
 import xyz.iwasacar.api.domain.histories.client.SaleClient;
 import xyz.iwasacar.api.domain.histories.dto.request.ProductCreateRequest;
+import xyz.iwasacar.api.domain.histories.dto.response.CarInfoResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryDetailResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryResponse;
-import xyz.iwasacar.api.domain.histories.dto.response.CarInfoResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleResponse;
 import xyz.iwasacar.api.domain.histories.entity.SaleHistory;
 import xyz.iwasacar.api.domain.histories.repository.SaleHistoryRepository;
@@ -172,7 +172,6 @@ public class DefaultSaleService implements SaleService {
 		return SaleResponse.from(member, product, savedSaleHistory, carImageUrls, optionType);
 	}
 
-
 	@Override
 	public PageResponse<SaleHistoryResponse> findSaleHistoriesByMember(Long memberId, Integer page, Integer size) {
 		Page<SaleHistoryResponse> sales = saleHistoryRepository.findSales(memberId, page, size);
@@ -186,8 +185,4 @@ public class DefaultSaleService implements SaleService {
 		return saleHistoryDetailResponse;
 	}
 
-	private boolean checkFakeProduct(final SaleRequest saleRequest) {
-
-		return saleRequest != null;
-	}
 }

@@ -3,6 +3,7 @@ package xyz.iwasacar.api.dummy;
 import java.time.LocalDate;
 
 import org.springframework.test.util.ReflectionTestUtils;
+
 import xyz.iwasacar.api.domain.banks.entity.Bank;
 import xyz.iwasacar.api.domain.brands.entity.Brand;
 import xyz.iwasacar.api.domain.cartypes.entity.CarType;
@@ -121,6 +122,7 @@ public class Dummy {
 
 	public static Bank getBank() {
 		return Bank.builder().name("우리 은행").build();
+	}
 
 	public static Insurance getInsurance() {
 		return Insurance.builder()
