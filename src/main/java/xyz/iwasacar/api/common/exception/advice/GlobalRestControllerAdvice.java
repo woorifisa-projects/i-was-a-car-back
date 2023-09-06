@@ -2,6 +2,7 @@ package xyz.iwasacar.api.common.exception.advice;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -27,11 +28,19 @@ public class GlobalRestControllerAdvice {
 	 * @author dongyeol
 	 */
 	@ExceptionHandler(BaseAbstractException.class)
-	public ResponseEntity<ErrorResponse> foo(BaseAbstractException ex) {
+	public ResponseEntity<ErrorResponse> handleBaseException(BaseAbstractException ex) {
 		log.error("[{}] {} {}", UuidContext.getUuid(), ex.getExceptionStatus().getCode(), ex.getMessage());
 		log.error("", ex);
 
 		return ErrorResponse.fail(ex.getExceptionStatus());
+	}
+
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<ErrorResponse> handleValidateException(MethodArgumentNotValidException ex) {
+		
+		String defaultMessage = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+
+		return ErrorResponse.validFail(defaultMessage);
 	}
 
 	@ExceptionHandler(Exception.class)

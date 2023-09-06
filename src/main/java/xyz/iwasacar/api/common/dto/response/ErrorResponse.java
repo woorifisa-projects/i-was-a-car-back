@@ -1,5 +1,6 @@
 package xyz.iwasacar.api.common.dto.response;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import lombok.Getter;
@@ -16,6 +17,11 @@ public class ErrorResponse {
 	public static ResponseEntity<ErrorResponse> fail(ExceptionStatus status) {
 		return ResponseEntity.status(status.getHttpStatus())
 			.body(new ErrorResponse(status.getCode(), status.getMessage()));
+	}
+
+	public static ResponseEntity<ErrorResponse> validFail(String message) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+			.body(new ErrorResponse(400101, message));
 	}
 
 }
