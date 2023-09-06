@@ -61,10 +61,13 @@ class ProductControllerTest {
 	@Test
 	void testFindProducts() throws Exception {
 		int times = 10;
+		//TODO: null로 해도 되나
+		Long carType = null;
+		String keyword = null;
 		Long lastProductId = 11L;
 		List<ProductResponse> productResponses = new ArrayList<>();
 
-		for (int i = 1; i <= times; i++) {
+		for (int i = 0; i < times; i++) {
 			Product product = Dummy.getProduct(Dummy.getCarTypeDummy(), Dummy.getColor(), Dummy.getLabel(),
 				Dummy.getBrand(), Dummy.getPerformanceCheck());
 
@@ -74,7 +77,7 @@ class ProductControllerTest {
 			productResponses.add(response);
 		}
 
-		given(productService.findProducts(lastProductId)).willReturn(productResponses);
+		given(productService.findProducts(carType, keyword, lastProductId)).willReturn(productResponses);
 
 		mockMvc.perform(
 				get("/api/v1/products")
@@ -86,7 +89,7 @@ class ProductControllerTest {
 			.andExpect(jsonPath("$.code", is(OK.value())))
 			.andExpect(jsonPath("$.data", hasSize(10)));
 
-		then(productService).should(times(1)).findProducts(lastProductId);
+		then(productService).should(times(1)).findProducts(carType, keyword, lastProductId);
 
 	}
 
