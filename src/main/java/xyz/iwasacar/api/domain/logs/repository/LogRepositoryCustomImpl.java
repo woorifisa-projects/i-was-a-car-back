@@ -26,7 +26,7 @@ public class LogRepositoryCustomImpl implements LogRepositoryCustom {
 
 		List<LogResponse> list = jpaQueryFactory
 			.select(Projections.constructor(
-				LogResponse.class, log.id, log.member.name, log.log, log.createdAt)
+				LogResponse.class, log.id, log.member.name, log.member.email, log.log, log.createdAt)
 			).from(log)
 			.join(log.member)
 			.orderBy(log.id.desc())
