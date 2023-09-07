@@ -32,7 +32,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 		// private final Boolean hasLicense;
 
 		List<AllMemberResponse> list = jpaQueryFactory.select(Projections.constructor(
-				AllMemberResponse.class, m.email, m.name, m.tel, m.birth, m.gender, m.hasLicense))
+				AllMemberResponse.class, m.email, m.name, m.tel, m.birth, m.gender, m.hasLicense, m.createdAt))
 			.from(m)
 			.orderBy(m.id.desc())
 			.offset(offset)

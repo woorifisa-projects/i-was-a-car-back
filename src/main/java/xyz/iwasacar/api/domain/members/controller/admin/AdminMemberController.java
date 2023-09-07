@@ -30,8 +30,8 @@ public class AdminMemberController {
 
 	@GetMapping
 	public ResponseEntity<CommonResponse<PageResponse<AllMemberResponse>>> findMembers(
-		@RequestParam(required = false) Integer page,
-		@RequestParam(required = false) Integer size
+		@RequestParam(required = false, defaultValue = "1") Integer page,
+		@RequestParam(required = false, defaultValue = "10") Integer size
 	) {
 		PageResponse<AllMemberResponse> members = memberService.findMembers(page, size);
 		return CommonResponse.success(OK, OK.value(), members);

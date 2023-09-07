@@ -16,8 +16,10 @@ import xyz.iwasacar.api.domain.resources.entity.Resource;
 @Getter
 public class ProductResponse {
 	private final Long id;
+	private final String carType;
 	private final String name;
 	private final String brand;
+	private final String info;
 	private final LabelName label;
 	private final String fuel;
 	private final String drivingMethod;
@@ -34,9 +36,9 @@ public class ProductResponse {
 		Product p = productImage.getProduct();
 		Resource image = productImage.getResource();
 
-		return new ProductResponse(p.getId(), p.getName(), p.getBrand().getName(), p.getLabel().getName(),
-			p.getFuel(), p.getDrivingMethod(), p.getDisplacement(), p.getYear(), p.getDistance(), p.getPrice(),
-			image.getUrl(), p.getCreatedAt());
+		return new ProductResponse(p.getId(), p.getCarType().getName(), p.getName(), p.getBrand().getName(),
+			p.getInfo(), p.getLabel().getName(), p.getFuel(), p.getDrivingMethod(), p.getDisplacement(), p.getYear(),
+			p.getDistance(), p.getPrice(), image.getUrl(), p.getCreatedAt());
 	}
 
 }
