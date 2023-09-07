@@ -41,11 +41,6 @@ public class Log {
 	@CreationTimestamp
 	private LocalDateTime createdAt;
 
-	private Log(Member member) {
-		this.member = member;
-		this.log = "로그인";
-	}
-
 	public Log(Member member, String log) {
 		this.member = member;
 		this.log = log;
