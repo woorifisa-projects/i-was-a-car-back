@@ -41,9 +41,29 @@ public class Log {
 	@CreationTimestamp
 	private LocalDateTime createdAt;
 
-	public Log(Member member) {
+	public Log(Member member, String log) {
 		this.member = member;
-		this.log = "로그인";
+		this.log = log;
+	}
+
+	public static Log login(Member member) {
+		return new Log(member, "로그인");
+	}
+
+	public static Log logout(Member member) {
+		return new Log(member, "로그아웃");
+	}
+
+	public static Log update(Member member) {
+		return new Log(member, "회원정보수정");
+	}
+
+	public static Log purchase(Member member, Long id) {
+		return new Log(member, "구매번호: " + id);
+	}
+
+	public static Log sale(Member member, Long id) {
+		return new Log(member, "판매번호: " + id);
 	}
 
 }
