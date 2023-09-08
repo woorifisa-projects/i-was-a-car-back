@@ -24,4 +24,5 @@ public interface ProductService {
 
 	void deleteProduct(Long productId);
 
+	PageResponse<ProductResponse> findWaitingProducts(Integer page, Integer size);
 }

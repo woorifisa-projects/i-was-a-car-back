@@ -12,6 +12,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.common.auth.jwt.JwtTokenParser;
+import xyz.iwasacar.api.common.context.MemberClaimContext;
 import xyz.iwasacar.api.domain.members.exception.ForbiddenException;
 import xyz.iwasacar.api.domain.roles.entity.RoleName;
 
@@ -24,7 +25,7 @@ public class AdminInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 		throws Exception {
 
-		List<RoleName> roles = (List<RoleName>)request.getAttribute(ROLES);
+		List<RoleName> roles = MemberClaimContext.getClaim().getRoles();
 
 		for (RoleName role : roles) {
 			if (Objects.equals(role, RoleName.ADMIN)) {
