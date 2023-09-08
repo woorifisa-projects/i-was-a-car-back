@@ -18,15 +18,10 @@ public class MemberResponse implements Serializable {
 
 	private final Long id;
 	private final String email;
-
 	private final String name;
-
 	private final String tel;
-
 	private final Gender gender;
-
 	private final Boolean hasLicense;
-
 	private final List<RoleName> roles;
 
 }
