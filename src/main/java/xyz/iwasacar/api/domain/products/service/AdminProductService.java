@@ -16,8 +16,11 @@ import xyz.iwasacar.api.common.component.AwsS3Uploader;
 import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.caroptions.entity.CarOption;
 import xyz.iwasacar.api.domain.caroptions.repository.CarOptionRepository;
+import xyz.iwasacar.api.domain.histories.dto.response.HistoryAdminResponse;
+import xyz.iwasacar.api.domain.histories.service.SaleService;
 import xyz.iwasacar.api.domain.products.dto.response.ProductDetailResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductResponse;
+import xyz.iwasacar.api.domain.products.dto.response.ProductSaleDetailResponse;
 import xyz.iwasacar.api.domain.products.entity.Product;
 import xyz.iwasacar.api.domain.products.exception.ProductNotFound;
 import xyz.iwasacar.api.domain.products.repository.ProductImageRepository;
@@ -40,7 +43,7 @@ public class AdminProductService implements ProductService {
 	private final ResourceRepository resourceRepository;
 	private final CarOptionRepository carOptionRepository;
 	private final RoleRepository roleRepository;
-
+	private final SaleService saleService;
 	private final AwsS3Uploader uploader;
 
 	@Override
@@ -118,4 +121,10 @@ public class AdminProductService implements ProductService {
 		throw new IllegalArgumentException();
 	}
 
+	@Override
+	public ProductSaleDetailResponse findProductHistory(Long productId) {
+		HistoryAdminResponse historyAdminResponse = saleService.findMemberInfo(productId);
+		Product product = productRepository.findById(productId).orElseThrow(ProductNotFound::new);
+		return ProductSaleDetailResponse.of(product,historyAdminResponse);
+	}
 }

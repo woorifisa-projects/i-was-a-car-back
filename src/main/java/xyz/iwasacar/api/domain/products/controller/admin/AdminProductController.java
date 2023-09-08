@@ -28,6 +28,7 @@ import xyz.iwasacar.api.domain.histories.dto.response.SaleResponse;
 import xyz.iwasacar.api.domain.histories.service.SaleService;
 import xyz.iwasacar.api.domain.products.dto.response.ProductDetailResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductResponse;
+import xyz.iwasacar.api.domain.products.dto.response.ProductSaleDetailResponse;
 import xyz.iwasacar.api.domain.products.service.ProductService;
 
 @RestController
@@ -98,5 +99,13 @@ public class AdminProductController {
 
 		return CommonResponse.success(NO_CONTENT, NO_CONTENT.value(), null);
 	}
+
+	@GetMapping("/history/{productId}")
+	public ResponseEntity<CommonResponse<ProductSaleDetailResponse>> findProductHistory(@PathVariable final Long productId){
+		ProductSaleDetailResponse productSaleDetailResponse = productService.findProductHistory(productId);
+
+		return CommonResponse.success(OK,OK.value(),productSaleDetailResponse);
+	}
+
 
 }
