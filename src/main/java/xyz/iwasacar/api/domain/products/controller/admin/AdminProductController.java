@@ -49,13 +49,24 @@ public class AdminProductController {
 	@GetMapping
 	public ResponseEntity<CommonResponse<PageResponse<ProductResponse>>> findProductsForAdmin(
 		@RequestParam(required = false, defaultValue = "1") final Integer page,
-		@RequestParam(required = false, defaultValue = "10") final Integer size
+		@RequestParam(required = false, defaultValue = "8") final Integer size
 	) {
 
 		PageResponse<ProductResponse> products = productService.findProducts(page, size);
 
 		return CommonResponse.success(OK, OK.value(), products);
 	}
+
+	@GetMapping("/waiting")
+	public ResponseEntity<CommonResponse<PageResponse<ProductResponse>>> findWaitingProducts(
+		@RequestParam(required = false, defaultValue = "1") final Integer page,
+		@RequestParam(required = false, defaultValue = "10") final Integer size
+	){
+		PageResponse<ProductResponse> waitingProducts = productService.findWaitingProducts(page,size);
+
+		return CommonResponse.success(OK,OK.value(),waitingProducts);
+	}
+
 
 	@GetMapping("/{productId}")
 	public ResponseEntity<CommonResponse<ProductDetailResponse>> findProduct(@PathVariable final Long productId) {
@@ -106,6 +117,4 @@ public class AdminProductController {
 
 		return CommonResponse.success(OK,OK.value(),productSaleDetailResponse);
 	}
-
-
 }

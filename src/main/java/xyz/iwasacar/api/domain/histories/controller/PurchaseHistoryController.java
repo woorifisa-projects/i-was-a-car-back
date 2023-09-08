@@ -26,7 +26,7 @@ public class PurchaseHistoryController {
 	@GetMapping("/{memberId}/purchase-histories")
 	public ResponseEntity<CommonResponse<PageResponse<PurchaseResponse>>> findAllPurchase(
 		@PathVariable final Long memberId, @RequestParam(defaultValue = "1") Integer page,
-		@RequestParam(defaultValue = "10") Integer size
+		@RequestParam(defaultValue = "8") Integer size
 		// , @Login MemberClaim memberClaim
 	) {
 

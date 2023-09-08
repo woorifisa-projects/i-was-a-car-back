@@ -53,6 +53,8 @@ public class AdminProductService implements ProductService {
 	private final MemberRepository memberRepository;
 	private final AwsS3Uploader uploader;
 
+
+
 	@Override
 	public ProductDetailResponse findProductDetail(final Long id) {
 
@@ -68,6 +70,11 @@ public class AdminProductService implements ProductService {
 			.collect(toList());
 
 		return ProductDetailResponse.of(productDetail, resources, carOptionGroup);
+	}
+
+	@Override
+	public PageResponse<ProductResponse> findWaitingProducts(Integer page, Integer size) {
+		return PageResponse.of(productRepository.findWaitingProducts(page,size));
 	}
 
 	@Override

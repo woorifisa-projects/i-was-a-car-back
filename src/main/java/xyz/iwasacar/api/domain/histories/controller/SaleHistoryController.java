@@ -61,7 +61,7 @@ public class SaleHistoryController {
 	public ResponseEntity<CommonResponse<PageResponse<SaleHistoryResponse>>> findSaleHistories(
 		@PathVariable final Long memberId,
 		@RequestParam(required = false, defaultValue = "1") final Integer page,
-		@RequestParam(required = false, defaultValue = "10") final Integer size
+		@RequestParam(required = false, defaultValue = "8") final Integer size
 		// , @Login MemberClaim memberClaim
 	) {
 		//memberClaim에서의 id ,PathVariable id 비교 -> 모든 메서드에서도 해야함.

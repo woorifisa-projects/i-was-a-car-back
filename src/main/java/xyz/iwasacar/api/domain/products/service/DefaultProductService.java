@@ -60,6 +60,11 @@ public class DefaultProductService implements ProductService {
 	}
 
 	@Override
+	public PageResponse<ProductResponse> findWaitingProducts(Integer page, Integer size) {
+		throw new IllegalArgumentException();
+	}
+
+	@Override
 	public PageResponse<ProductResponse> findProducts(Integer page, Integer size) {
 		throw new IllegalArgumentException();
 	}
