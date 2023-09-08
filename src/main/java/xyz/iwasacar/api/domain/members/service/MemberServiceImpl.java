@@ -25,6 +25,7 @@ import xyz.iwasacar.api.domain.members.dto.response.AdminMemberUpdateResponse;
 import xyz.iwasacar.api.domain.members.dto.response.AllMemberResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberDetailResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberJwtResponse;
+import xyz.iwasacar.api.domain.members.dto.response.MemberResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberUpdateResponse;
 import xyz.iwasacar.api.domain.members.entity.Member;
 import xyz.iwasacar.api.domain.members.exception.MemberNotFoundException;
@@ -102,6 +103,12 @@ public class MemberServiceImpl implements MemberService {
 		JwtDto jwtDto = jwtTokenProvider.createJwt(new MemberClaim(member.getId(), roles));
 
 		return new MemberJwtResponse(member, jwtDto, roles);
+	}
+
+	public MemberResponse tmp() {
+		Member by = memberRepository.getBy(17L);
+
+		return MemberResponse.from(by, List.of(RoleName.ADMIN));
 	}
 
 	@Override

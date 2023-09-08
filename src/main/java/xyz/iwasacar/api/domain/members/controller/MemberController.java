@@ -56,6 +56,15 @@ public class MemberController {
 		return CommonResponse.success(OK, OK.value(), memberResponse);
 	}
 
+	@GetMapping("/tmp")
+	public MemberResponse tmp(HttpSession session) {
+
+		MemberResponse tmp = memberService.tmp();
+		session.setAttribute(AUTH_INFO, tmp);
+
+		return tmp;
+	}
+
 	// 회원가입
 	@PostMapping("/signup")
 	public ResponseEntity<CommonResponse<MemberResponse>> signup(
