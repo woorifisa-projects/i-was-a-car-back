@@ -56,7 +56,7 @@ public class MemberController {
 
 		MemberResponse memberResponse = (MemberResponse)session.getAttribute(AUTH_INFO);
 
-		if (Objects.isNull(memberClaim)) {
+		if (Objects.isNull(memberResponse)) {
 			memberResponse = memberService.retrieveMemberInfo(memberClaim.getMemberId());
 		}
 

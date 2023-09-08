@@ -18,7 +18,7 @@ public class MemberRoleRepositoryImpl implements MemberRoleRepositoryCustom {
 	public List<MemberRole> findByMemberId(final Long memberId) {
 		return jpaQueryFactory
 			.selectFrom(memberRole)
-			.join(memberRole.role)
+			.join(memberRole.role).fetchJoin()
 			.where(memberRole.id.memberId.eq(memberId))
 			.fetch();
 	}
