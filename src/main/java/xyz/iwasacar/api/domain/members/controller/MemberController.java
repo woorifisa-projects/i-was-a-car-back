@@ -3,6 +3,8 @@ package xyz.iwasacar.api.domain.members.controller;
 import static org.springframework.http.HttpStatus.*;
 import static xyz.iwasacar.api.common.auth.jwt.JwtUtil.*;
 
+import java.util.Objects;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -49,20 +51,16 @@ public class MemberController {
 
 	// 로그인 검증
 	@GetMapping("/auth")
-	public ResponseEntity<CommonResponse<MemberResponse>> auth(final HttpSession session) {
+	public ResponseEntity<CommonResponse<MemberResponse>> auth(
+		final HttpSession session, @Login final MemberClaim memberClaim) {
 
 		MemberResponse memberResponse = (MemberResponse)session.getAttribute(AUTH_INFO);
 
+		if (Objects.isNull(memberClaim)) {
+			memberResponse = memberService.retrieveMemberInfo(memberClaim.getMemberId());
+		}
+
 		return CommonResponse.success(OK, OK.value(), memberResponse);
-	}
-
-	@GetMapping("/tmp")
-	public MemberResponse tmp(HttpSession session) {
-
-		MemberResponse tmp = memberService.tmp();
-		session.setAttribute(AUTH_INFO, tmp);
-
-		return tmp;
 	}
 
 	// 회원가입

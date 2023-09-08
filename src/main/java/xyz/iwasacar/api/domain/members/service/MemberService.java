@@ -32,5 +32,5 @@ public interface MemberService {
 
 	int retrieveIdentification(String name, String rrnf, String rrnb);
 
-	MemberResponse tmp();
+	MemberResponse retrieveMemberInfo(Long id);
 }

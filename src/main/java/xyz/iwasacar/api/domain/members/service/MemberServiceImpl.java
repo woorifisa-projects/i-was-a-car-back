@@ -105,10 +105,15 @@ public class MemberServiceImpl implements MemberService {
 		return new MemberJwtResponse(member, jwtDto, roles);
 	}
 
-	public MemberResponse tmp() {
-		Member by = memberRepository.getBy(17L);
+	@Override
+	public MemberResponse retrieveMemberInfo(final Long id) {
+		Member by = memberRepository.getBy(id);
+		List<RoleName> roles = memberRoleRepository.findByMemberId(id)
+			.stream()
+			.map(mr -> mr.getRole().getName())
+			.collect(toList());
 
-		return MemberResponse.from(by, List.of(RoleName.ADMIN));
+		return MemberResponse.from(by, roles);
 	}
 
 	@Override
@@ -131,10 +136,12 @@ public class MemberServiceImpl implements MemberService {
 		return AdminMemberUpdateResponse.from(member);
 	}
 
+	@Transactional
 	public void deleteMember(final Long memberId) {
 		memberRepository.getBy(memberId).delete();
 	}
 
+	@Transactional
 	public MemberUpdateResponse updateMember(final Long memberId,
 		final UpdateRequest updateRequest) {
 
@@ -148,7 +155,6 @@ public class MemberServiceImpl implements MemberService {
 		return MemberUpdateResponse.from(member);
 	}
 
-	@Transactional
 	@Override
 	public boolean isDeletedMember(final String email) {
 
