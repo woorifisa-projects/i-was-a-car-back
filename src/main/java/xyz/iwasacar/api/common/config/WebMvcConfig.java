@@ -31,7 +31,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 
-		// 테스트용으로 /api/v1/members 추가했는데 나중에 커밋할때는 지워야한다 ??
+		// 테스트용으로 /api/v1/members 추가했는데 나중에 커밋할때는 지워야한다 log도 지워야함
 		registry.addInterceptor(new BearerAuthInterceptor(parser, provider))
 			.addPathPatterns("/api/v1/**")
 			.excludePathPatterns("/api/v1/members/login", "/api/v1/members/signup", "/api/v1/products",

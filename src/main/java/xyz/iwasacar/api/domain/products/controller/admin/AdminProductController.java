@@ -57,6 +57,17 @@ public class AdminProductController {
 		return CommonResponse.success(OK, OK.value(), products);
 	}
 
+	@GetMapping("/waiting")
+	public ResponseEntity<CommonResponse<PageResponse<ProductResponse>>> findWaitingProducts(
+		@RequestParam(required = false, defaultValue = "1") final Integer page,
+		@RequestParam(required = false, defaultValue = "10") final Integer size
+	){
+		PageResponse<ProductResponse> waitingProducts = productService.findWaitingProducts(page,size);
+
+		return CommonResponse.success(OK,OK.value(),waitingProducts);
+	}
+
+
 	@GetMapping("/{productId}")
 	public ResponseEntity<CommonResponse<ProductDetailResponse>> findProduct(@PathVariable final Long productId) {
 
