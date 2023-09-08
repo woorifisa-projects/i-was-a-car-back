@@ -49,7 +49,7 @@ public class AdminProductController {
 	@GetMapping
 	public ResponseEntity<CommonResponse<PageResponse<ProductResponse>>> findProductsForAdmin(
 		@RequestParam(required = false, defaultValue = "1") final Integer page,
-		@RequestParam(required = false, defaultValue = "10") final Integer size
+		@RequestParam(required = false, defaultValue = "8") final Integer size
 	) {
 
 		PageResponse<ProductResponse> products = productService.findProducts(page, size);
@@ -117,6 +117,4 @@ public class AdminProductController {
 
 		return CommonResponse.success(OK,OK.value(),productSaleDetailResponse);
 	}
-
-
 }

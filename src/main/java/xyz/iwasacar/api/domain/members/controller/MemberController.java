@@ -119,7 +119,7 @@ public class MemberController {
 	@GetMapping
 	public ResponseEntity<CommonResponse<PageResponse<AllMemberResponse>>> findMembers(
 		@RequestParam(defaultValue = "1") Integer page,
-		@RequestParam(defaultValue = "10") Integer size
+		@RequestParam(defaultValue = "8") Integer size
 	) {
 
 		PageResponse<AllMemberResponse> allMemberResponse = memberService.findMembers(page, size);
