@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.*;
 import static xyz.iwasacar.api.common.component.AwsS3Uploader.*;
 import static xyz.iwasacar.api.domain.products.service.ProductService.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,13 +17,8 @@ import xyz.iwasacar.api.common.component.AwsS3Uploader;
 import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.caroptions.entity.CarOption;
 import xyz.iwasacar.api.domain.caroptions.repository.CarOptionRepository;
-import xyz.iwasacar.api.domain.histories.dto.response.HistoryAdminResponse;
 import xyz.iwasacar.api.domain.histories.entity.SaleHistory;
-import xyz.iwasacar.api.domain.histories.exception.SaleHistoryNotFoundException;
 import xyz.iwasacar.api.domain.histories.repository.SaleHistoryRepository;
-import xyz.iwasacar.api.domain.histories.service.SaleService;
-import xyz.iwasacar.api.domain.members.entity.Member;
-import xyz.iwasacar.api.domain.members.exception.MemberNotFoundException;
 import xyz.iwasacar.api.domain.members.repository.MemberRepository;
 import xyz.iwasacar.api.domain.products.dto.response.ProductDetailResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductResponse;
@@ -53,8 +49,6 @@ public class AdminProductService implements ProductService {
 	private final MemberRepository memberRepository;
 	private final AwsS3Uploader uploader;
 
-
-
 	@Override
 	public ProductDetailResponse findProductDetail(final Long id) {
 
@@ -74,7 +68,7 @@ public class AdminProductService implements ProductService {
 
 	@Override
 	public PageResponse<ProductResponse> findWaitingProducts(Integer page, Integer size) {
-		return PageResponse.of(productRepository.findWaitingProducts(page,size));
+		return PageResponse.of(productRepository.findWaitingProducts(page, size));
 	}
 
 	@Override
@@ -140,4 +134,39 @@ public class AdminProductService implements ProductService {
 		SaleHistory saleHistory = saleHistoryRepository.findWithMemberAndProductByProductId(productId);
 		return ProductSaleDetailResponse.of(saleHistory);
 	}
+
+	@Transactional
+	@Override
+	public String addPerformanceCheck(final Long productId, final MultipartFile performanceCheck) {
+		Product product = productRepository.getBy(productId);
+		String performanceCheckUrl = uploader.upload(performanceCheck, PERFORMANCE_CHECK);
+		Resource savedPerformanceCheck = new Resource(performanceCheckUrl, performanceCheck.getOriginalFilename());
+		product.addPerformanceCheck(savedPerformanceCheck);
+
+		return performanceCheckUrl;
+	}
+
+	@Transactional
+	@Override
+	public List<String> addAdminImages(Long productId, List<MultipartFile> images) {
+		Product product = productRepository.getBy(productId);
+		Role adminRole = roleRepository.findByName(RoleName.ADMIN).orElseThrow(RoleNotFoundException::new);
+
+		List<ProductImage> productImages = new ArrayList<>();
+		List<Resource> resources = images.stream()
+			.map(image -> {
+				String imageUrl = uploader.upload(image, IMAGES);
+				Resource resource = new Resource(imageUrl, image.getOriginalFilename());
+				productImages.add(new ProductImage(product, resource, adminRole));
+				return resource;
+			}).collect(toList());
+
+		productImageRepository.saveAll(productImages);
+		List<Resource> savedResources = resourceRepository.saveAll(resources);
+
+		return savedResources.stream()
+			.map(Resource::getUrl)
+			.collect(toList());
+	}
+
 }

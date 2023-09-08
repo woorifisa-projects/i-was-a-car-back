@@ -98,4 +98,14 @@ public class DefaultProductService implements ProductService {
 		productRepository.getBy(productId).delete();
 	}
 
+	@Override
+	public String addPerformanceCheck(Long productId, MultipartFile performanceCheck) {
+		throw new IllegalArgumentException();
+	}
+
+	@Override
+	public List<String> addAdminImages(Long productId, List<MultipartFile> images) {
+		throw new IllegalArgumentException();
+	}
+
 }

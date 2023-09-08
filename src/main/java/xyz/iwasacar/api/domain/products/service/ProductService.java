@@ -28,4 +28,9 @@ public interface ProductService {
 	PageResponse<ProductResponse> findWaitingProducts(Integer page, Integer size);
 
 	ProductSaleDetailResponse findProductHistory(Long productId);
+
+	String addPerformanceCheck(Long productId, MultipartFile performanceCheck);
+
+	List<String> addAdminImages(Long productId, List<MultipartFile> images);
+
 }

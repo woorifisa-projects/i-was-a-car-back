@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -61,12 +62,11 @@ public class AdminProductController {
 	public ResponseEntity<CommonResponse<PageResponse<ProductResponse>>> findWaitingProducts(
 		@RequestParam(required = false, defaultValue = "1") final Integer page,
 		@RequestParam(required = false, defaultValue = "10") final Integer size
-	){
-		PageResponse<ProductResponse> waitingProducts = productService.findWaitingProducts(page,size);
+	) {
+		PageResponse<ProductResponse> waitingProducts = productService.findWaitingProducts(page, size);
 
-		return CommonResponse.success(OK,OK.value(),waitingProducts);
+		return CommonResponse.success(OK, OK.value(), waitingProducts);
 	}
-
 
 	@GetMapping("/{productId}")
 	public ResponseEntity<CommonResponse<ProductDetailResponse>> findProduct(@PathVariable final Long productId) {
@@ -112,9 +112,31 @@ public class AdminProductController {
 	}
 
 	@GetMapping("/history/{productId}")
-	public ResponseEntity<CommonResponse<ProductSaleDetailResponse>> findProductHistory(@PathVariable final Long productId){
+	public ResponseEntity<CommonResponse<ProductSaleDetailResponse>> findProductHistory(
+		@PathVariable final Long productId) {
 		ProductSaleDetailResponse productSaleDetailResponse = productService.findProductHistory(productId);
 
-		return CommonResponse.success(OK,OK.value(),productSaleDetailResponse);
+		return CommonResponse.success(OK, OK.value(), productSaleDetailResponse);
 	}
+
+	@PatchMapping("/{productId}/performance-check")
+	public ResponseEntity<CommonResponse<String>> addPerformanceCheck(
+		@PathVariable final Long productId,
+		@RequestPart final MultipartFile performanceCheck
+	) {
+		String performanceCheckUrl = productService.addPerformanceCheck(performanceCheck);
+
+		return CommonResponse.success(OK, OK.value(), performanceCheckUrl);
+	}
+
+	@PatchMapping("/{productId}/images")
+	public ResponseEntity<CommonResponse<List<String>>> addAdminImages(
+		@PathVariable final Long productId,
+		@RequestPart final List<MultipartFile> images
+	) {
+		List<String> imageUrls = productService.addAdminImages(images);
+
+		return CommonResponse.success(OK, OK.value(), imageUrls);
+	}
+
 }
