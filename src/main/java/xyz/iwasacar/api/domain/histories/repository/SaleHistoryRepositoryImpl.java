@@ -1,7 +1,10 @@
 package xyz.iwasacar.api.domain.histories.repository;
 
+import static xyz.iwasacar.api.domain.histories.entity.QSaleHistory.*;
+
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -14,9 +17,12 @@ import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryDetailResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryResponse;
 import xyz.iwasacar.api.domain.histories.entity.QSaleHistory;
+import xyz.iwasacar.api.domain.histories.entity.SaleHistory;
+import xyz.iwasacar.api.domain.histories.exception.SaleHistoryNotFoundException;
 
 @RequiredArgsConstructor
 public class SaleHistoryRepositoryImpl implements SaleHistoryRepositoryCustom {
+
 	private final JPAQueryFactory jpaQueryFactory;
 
 	public Page<SaleHistoryResponse> findSales(Long memberId, Integer page, Integer size) {
@@ -56,7 +62,7 @@ public class SaleHistoryRepositoryImpl implements SaleHistoryRepositoryCustom {
 			.select(Projections.constructor(
 				SaleHistoryDetailResponse.class, saleHistory.member.name, saleHistory.member.tel, saleHistory.zipCode,
 				saleHistory.address, saleHistory.meetingSchedule, saleHistory.product.name, saleHistory.createAt,
-				saleHistory.product.price, saleHistory.bank.name, saleHistory.accountHolder,saleHistory.accountNumber,
+				saleHistory.product.price, saleHistory.bank.name, saleHistory.accountHolder, saleHistory.accountNumber,
 				saleHistory.product.label.name))
 			.from(saleHistory)
 			.join(saleHistory.product)
@@ -65,5 +71,17 @@ public class SaleHistoryRepositoryImpl implements SaleHistoryRepositoryCustom {
 			.join(saleHistory.product.label)
 			.where(saleHistory.id.eq(saleHistoryNo))
 			.fetchOne();
+	}
+
+	@Override
+	public SaleHistory findWithMemberAndProductByProductId(final Long productId) {
+
+		return Optional.ofNullable(jpaQueryFactory
+				.selectFrom(saleHistory)
+				.join(saleHistory.product).fetchJoin()
+				.join(saleHistory.member).fetchJoin()
+				.where(saleHistory.product.id.eq(productId))
+				.fetchOne())
+			.orElseThrow(SaleHistoryNotFoundException::new);
 	}
 }
