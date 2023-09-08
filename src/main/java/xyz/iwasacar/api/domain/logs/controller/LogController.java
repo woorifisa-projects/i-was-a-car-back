@@ -24,7 +24,7 @@ public class LogController {
 	@GetMapping
 	public ResponseEntity<CommonResponse<PageResponse<LogResponse>>> retrieveLogs(
 		@RequestParam(required = false, defaultValue = "1") final Integer page,
-		@RequestParam(required = false, defaultValue = "10") final Integer size
+		@RequestParam(required = false, defaultValue = "8") final Integer size
 	) {
 		PageResponse<LogResponse> logs = logService.retrieveLogs(page, size);
 		return CommonResponse.success(OK, OK.value(), logs);
