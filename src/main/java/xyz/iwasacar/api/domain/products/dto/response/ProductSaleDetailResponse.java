@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.domain.histories.dto.response.HistoryAdminResponse;
+import xyz.iwasacar.api.domain.histories.entity.SaleHistory;
 import xyz.iwasacar.api.domain.labels.entity.LabelName;
 import xyz.iwasacar.api.domain.products.entity.Product;
 
@@ -47,27 +48,27 @@ public class ProductSaleDetailResponse {
 	private final String addressDetail;
 
 
-	public static ProductSaleDetailResponse of(Product product, HistoryAdminResponse historyAdminResponse) {
+	public static ProductSaleDetailResponse of(SaleHistory saleHistory) {
 		return new ProductSaleDetailResponse(
-			product.getId(),
-			product.getName(),
-			product.getCarType().getName(),
-			product.getBrand().getName(),
-			product.getLabel().getName(),
-			product.getPerformanceCheck().getUrl(),
-			product.getColor().getName(),
-			product.getFakeProductStatus(),
-			product.getInfo(),
-			product.getTransmission(),
-			product.getFuel(),
-			product.getDrivingMethod(),
-			product.getYear(), product.getDistance(), product.getPrice(),
-			product.getFuelEfficiency(), product.getDisplacement(), product.getAccidentHistory(),
-			product.getInundationHistory(),
-			historyAdminResponse.getMemberName(),
-			historyAdminResponse.getMeetingSchedule(),
-			historyAdminResponse.getAddress(),
-			historyAdminResponse.getAddressDetail()
+			saleHistory.getProduct().getId(),
+			saleHistory.getProduct().getName(),
+			saleHistory.getProduct().getCarType().getName(),
+		saleHistory.getProduct().getBrand().getName(),
+			saleHistory.getProduct().getLabel().getName(),
+			saleHistory.getProduct().getPerformanceCheck().getUrl(),
+			saleHistory.getProduct().getColor().getName(),
+			saleHistory.getProduct().getFakeProductStatus(),
+			saleHistory.getProduct().getInfo(),
+			saleHistory.getProduct().getTransmission(),
+			saleHistory.getProduct().getFuel(),
+			saleHistory.getProduct().getDrivingMethod(),
+			saleHistory.getProduct().getYear(), saleHistory.getProduct().getDistance(), saleHistory.getProduct().getPrice(),
+			saleHistory.getProduct().getFuelEfficiency(), saleHistory.getProduct().getDisplacement(), saleHistory.getProduct().getAccidentHistory(),
+			saleHistory.getProduct().getInundationHistory(),
+			saleHistory.getMember().getName(),
+			saleHistory.getMeetingSchedule(),
+			saleHistory.getAddress(),
+			saleHistory.getAddressDetail()
 		);
 	}
 }
