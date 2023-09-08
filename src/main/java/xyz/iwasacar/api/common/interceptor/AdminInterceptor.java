@@ -13,7 +13,6 @@ import xyz.iwasacar.api.domain.members.exception.ForbiddenException;
 import xyz.iwasacar.api.domain.roles.entity.RoleName;
 
 public class AdminInterceptor implements HandlerInterceptor {
-
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 		throws Exception {
