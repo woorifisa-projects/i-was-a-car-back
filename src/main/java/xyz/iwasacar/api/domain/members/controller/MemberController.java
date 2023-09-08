@@ -35,7 +35,6 @@ import xyz.iwasacar.api.domain.members.dto.response.MemberDetailResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberJwtResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberUpdateResponse;
-import xyz.iwasacar.api.domain.members.exception.ForbiddenException;
 import xyz.iwasacar.api.domain.members.exception.UnauthorizedException;
 import xyz.iwasacar.api.domain.members.service.MemberService;
 
@@ -165,6 +164,16 @@ public class MemberController {
 		session.invalidate();
 
 		return CommonResponse.success(NO_CONTENT, NO_CONTENT.value(), null);
+	}
+
+	@GetMapping("identification")
+	public ResponseEntity<Void> retrieveIdentification(
+		@RequestParam String name,
+		@RequestParam String rrnf,
+		@RequestParam String rrnb
+	) {
+		int statusCode = memberService.retrieveIdentification(name, rrnf, rrnb);
+		return ResponseEntity.status(statusCode).build();
 	}
 
 	private void settingAccessTokenCookie(

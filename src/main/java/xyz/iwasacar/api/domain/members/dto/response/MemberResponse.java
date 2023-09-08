@@ -1,7 +1,10 @@
 package xyz.iwasacar.api.domain.members.dto.response;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -18,15 +21,13 @@ public class MemberResponse implements Serializable {
 
 	private final Long id;
 	private final String email;
-
 	private final String name;
-
 	private final String tel;
-
 	private final Gender gender;
-
 	private final Boolean hasLicense;
-
 	private final List<RoleName> roles;
+
+	@JsonFormat(pattern = "yyMMdd")
+	private final LocalDate birth;
 
 }
