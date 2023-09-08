@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductDetailResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductResponse;
+import xyz.iwasacar.api.domain.products.dto.response.ProductSaleDetailResponse;
 
 public interface ProductService {
 
@@ -25,4 +26,6 @@ public interface ProductService {
 	void deleteProduct(Long productId);
 
 	PageResponse<ProductResponse> findWaitingProducts(Integer page, Integer size);
+
+	ProductSaleDetailResponse findProductHistory(Long productId);
 }

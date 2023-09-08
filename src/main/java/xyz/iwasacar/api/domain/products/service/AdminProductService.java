@@ -16,8 +16,17 @@ import xyz.iwasacar.api.common.component.AwsS3Uploader;
 import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.caroptions.entity.CarOption;
 import xyz.iwasacar.api.domain.caroptions.repository.CarOptionRepository;
+import xyz.iwasacar.api.domain.histories.dto.response.HistoryAdminResponse;
+import xyz.iwasacar.api.domain.histories.entity.SaleHistory;
+import xyz.iwasacar.api.domain.histories.exception.SaleHistoryNotFoundException;
+import xyz.iwasacar.api.domain.histories.repository.SaleHistoryRepository;
+import xyz.iwasacar.api.domain.histories.service.SaleService;
+import xyz.iwasacar.api.domain.members.entity.Member;
+import xyz.iwasacar.api.domain.members.exception.MemberNotFoundException;
+import xyz.iwasacar.api.domain.members.repository.MemberRepository;
 import xyz.iwasacar.api.domain.products.dto.response.ProductDetailResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductResponse;
+import xyz.iwasacar.api.domain.products.dto.response.ProductSaleDetailResponse;
 import xyz.iwasacar.api.domain.products.entity.Product;
 import xyz.iwasacar.api.domain.products.exception.ProductNotFound;
 import xyz.iwasacar.api.domain.products.repository.ProductImageRepository;
@@ -40,7 +49,8 @@ public class AdminProductService implements ProductService {
 	private final ResourceRepository resourceRepository;
 	private final CarOptionRepository carOptionRepository;
 	private final RoleRepository roleRepository;
-
+	private final SaleHistoryRepository saleHistoryRepository;
+	private final MemberRepository memberRepository;
 	private final AwsS3Uploader uploader;
 
 
@@ -125,4 +135,9 @@ public class AdminProductService implements ProductService {
 		throw new IllegalArgumentException();
 	}
 
+	@Override
+	public ProductSaleDetailResponse findProductHistory(Long productId) {
+		SaleHistory saleHistory = saleHistoryRepository.findWithMemberAndProductByProductId(productId);
+		return ProductSaleDetailResponse.of(saleHistory);
+	}
 }

@@ -16,6 +16,7 @@ import xyz.iwasacar.api.domain.caroptions.entity.CarOption;
 import xyz.iwasacar.api.domain.caroptions.repository.CarOptionRepository;
 import xyz.iwasacar.api.domain.products.dto.response.ProductDetailResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductResponse;
+import xyz.iwasacar.api.domain.products.dto.response.ProductSaleDetailResponse;
 import xyz.iwasacar.api.domain.products.entity.Product;
 import xyz.iwasacar.api.domain.products.exception.ProductNotFound;
 import xyz.iwasacar.api.domain.products.repository.ProductRepository;
@@ -83,6 +84,11 @@ public class DefaultProductService implements ProductService {
 	public ProductDetailResponse updateProduct(
 		Long productId, MultipartFile performanceCheck, List<MultipartFile> images
 	) {
+		throw new IllegalArgumentException();
+	}
+
+	@Override
+	public ProductSaleDetailResponse findProductHistory(Long productId) {
 		throw new IllegalArgumentException();
 	}
 

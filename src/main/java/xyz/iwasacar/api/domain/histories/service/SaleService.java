@@ -8,10 +8,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import xyz.iwasacar.api.domain.histories.dto.request.ProductCreateRequest;
 import xyz.iwasacar.api.common.dto.response.PageResponse;
+import xyz.iwasacar.api.domain.histories.dto.response.HistoryAdminResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryDetailResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.CarInfoResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleResponse;
+import xyz.iwasacar.api.domain.histories.entity.SaleHistory;
 import xyz.iwasacar.api.domain.members.entity.Member;
 
 public interface SaleService {
@@ -35,4 +37,7 @@ public interface SaleService {
 	PageResponse<SaleHistoryResponse> findSaleHistoriesByMember(Long memberId, Integer page, Integer size);
 
 	SaleHistoryDetailResponse findSaleHistoryDetail(Long saleHistoryId);
+
+	HistoryAdminResponse findMemberInfo(Long productId);
+
 }
