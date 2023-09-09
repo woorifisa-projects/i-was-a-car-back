@@ -142,7 +142,7 @@ public class AdminProductService implements ProductService {
 	public String addPerformanceCheck(final Long productId, final MultipartFile performanceCheck) {
 		Product product = productRepository.getBy(productId);
 		String performanceCheckUrl = uploader.upload(performanceCheck, PERFORMANCE_CHECK);
-		Resource savedPerformanceCheck = new Resource(performanceCheckUrl, performanceCheck.getOriginalFilename());
+		Resource savedPerformanceCheck = resourceRepository.save(new Resource(performanceCheckUrl, performanceCheck.getOriginalFilename()));
 		product.addPerformanceCheck(savedPerformanceCheck);
 
 		return performanceCheckUrl;
