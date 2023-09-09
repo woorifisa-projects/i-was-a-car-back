@@ -19,8 +19,10 @@ import xyz.iwasacar.api.domain.resources.entity.Resource;
 public class ProductResponse {
 
 	private final Long id;
+	private final String carType;
 	private final String name;
 	private final String brand;
+	private final String info;
 	private final LabelName label;
 	private final String fuel;
 	private final String drivingMethod;
