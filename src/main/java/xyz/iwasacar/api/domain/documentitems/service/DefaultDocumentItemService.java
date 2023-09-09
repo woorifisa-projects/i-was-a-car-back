@@ -13,7 +13,6 @@ import xyz.iwasacar.api.domain.documentitems.dto.response.DocumentItemResponse;
 import xyz.iwasacar.api.domain.documentitems.entity.DocumentItem;
 import xyz.iwasacar.api.domain.documentitems.repository.DocumentConsentHistoryRepository;
 import xyz.iwasacar.api.domain.documentitems.repository.DocumentItemRepository;
-import xyz.iwasacar.api.domain.documents.entity.Document;
 import xyz.iwasacar.api.domain.documents.repository.DocumentRepository;
 import xyz.iwasacar.api.domain.members.entity.Member;
 import xyz.iwasacar.api.domain.members.repository.MemberRepository;
@@ -42,7 +41,6 @@ public class DefaultDocumentItemService implements DocumentItemService {
 
 	@Override
 	public void consent(final Long memberId, final DocumentConsentRequest documentConsentRequest) {
-		Document document = documentRepository.getBy(documentConsentRequest.getDocumentId());
 		List<DocumentItem> items = documentItemRepository.findByDocumentId(documentConsentRequest.getDocumentId());
 		List<DocumentItem> findItems = documentItemRepository.findAllInId(documentConsentRequest.getDocumentItemId());
 
