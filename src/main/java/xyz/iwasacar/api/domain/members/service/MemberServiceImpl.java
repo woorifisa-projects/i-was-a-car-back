@@ -25,6 +25,7 @@ import xyz.iwasacar.api.domain.members.dto.response.AdminMemberUpdateResponse;
 import xyz.iwasacar.api.domain.members.dto.response.AllMemberResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberDetailResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberJwtResponse;
+import xyz.iwasacar.api.domain.members.dto.response.MemberResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberUpdateResponse;
 import xyz.iwasacar.api.domain.members.entity.Member;
 import xyz.iwasacar.api.domain.members.exception.MemberNotFoundException;
@@ -105,6 +106,17 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public MemberResponse retrieveMemberInfo(final Long id) {
+		Member by = memberRepository.getBy(id);
+		List<RoleName> roles = memberRoleRepository.findByMemberId(id)
+			.stream()
+			.map(mr -> mr.getRole().getName())
+			.collect(toList());
+
+		return MemberResponse.from(by, roles);
+	}
+
+	@Override
 	public PageResponse<AllMemberResponse> findMembers(final Integer page, final Integer size) {
 
 		Page<AllMemberResponse> allMemberResponses = memberRepository.findMembers(page, size);
@@ -124,10 +136,12 @@ public class MemberServiceImpl implements MemberService {
 		return AdminMemberUpdateResponse.from(member);
 	}
 
+	@Transactional
 	public void deleteMember(final Long memberId) {
 		memberRepository.getBy(memberId).delete();
 	}
 
+	@Transactional
 	public MemberUpdateResponse updateMember(final Long memberId,
 		final UpdateRequest updateRequest) {
 
@@ -141,7 +155,6 @@ public class MemberServiceImpl implements MemberService {
 		return MemberUpdateResponse.from(member);
 	}
 
-	@Transactional
 	@Override
 	public boolean isDeletedMember(final String email) {
 

@@ -5,14 +5,18 @@ import static xyz.iwasacar.api.domain.products.service.ProductService.*;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -26,6 +30,8 @@ import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.histories.dto.request.ProductCreateRequest;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleResponse;
 import xyz.iwasacar.api.domain.histories.service.SaleService;
+import xyz.iwasacar.api.domain.products.dto.reqeust.AdminProductUpdateRequest;
+import xyz.iwasacar.api.domain.products.dto.response.AdminProductUpdateResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductDetailResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductSaleDetailResponse;
@@ -61,12 +67,11 @@ public class AdminProductController {
 	public ResponseEntity<CommonResponse<PageResponse<ProductResponse>>> findWaitingProducts(
 		@RequestParam(required = false, defaultValue = "1") final Integer page,
 		@RequestParam(required = false, defaultValue = "10") final Integer size
-	){
-		PageResponse<ProductResponse> waitingProducts = productService.findWaitingProducts(page,size);
+	) {
+		PageResponse<ProductResponse> waitingProducts = productService.findWaitingProducts(page, size);
 
-		return CommonResponse.success(OK,OK.value(),waitingProducts);
+		return CommonResponse.success(OK, OK.value(), waitingProducts);
 	}
-
 
 	@GetMapping("/{productId}")
 	public ResponseEntity<CommonResponse<ProductDetailResponse>> findProduct(@PathVariable final Long productId) {
@@ -112,9 +117,41 @@ public class AdminProductController {
 	}
 
 	@GetMapping("/history/{productId}")
-	public ResponseEntity<CommonResponse<ProductSaleDetailResponse>> findProductHistory(@PathVariable final Long productId){
+	public ResponseEntity<CommonResponse<ProductSaleDetailResponse>> findProductHistory(
+		@PathVariable final Long productId) {
 		ProductSaleDetailResponse productSaleDetailResponse = productService.findProductHistory(productId);
 
-		return CommonResponse.success(OK,OK.value(),productSaleDetailResponse);
+		return CommonResponse.success(OK, OK.value(), productSaleDetailResponse);
 	}
+
+	@PatchMapping("/{productId}/performance-check")
+	public ResponseEntity<CommonResponse<String>> addPerformanceCheck(
+		@PathVariable final Long productId,
+		@RequestPart final MultipartFile performanceCheck
+	) {
+		String performanceCheckUrl = productService.addPerformanceCheck(productId, performanceCheck);
+
+		return CommonResponse.success(OK, OK.value(), performanceCheckUrl);
+	}
+
+	@PatchMapping("/{productId}/images")
+	public ResponseEntity<CommonResponse<List<String>>> addAdminImages(
+		@PathVariable final Long productId,
+		@RequestPart final List<MultipartFile> images
+	) {
+		List<String> imageUrls = productService.addAdminImages(productId, images);
+
+		return CommonResponse.success(OK, OK.value(), imageUrls);
+	}
+
+	@PatchMapping("/{productId}")
+	public ResponseEntity<CommonResponse<AdminProductUpdateResponse>> updatePriceAndLabel(
+		@PathVariable Long productId, @RequestBody @Valid AdminProductUpdateRequest request) {
+
+		AdminProductUpdateResponse adminProductUpdateResponse = productService.updatePriceAndLabel(productId,
+			request.getPrice(), request.getLabelId());
+
+		return CommonResponse.success(OK, OK.value(), adminProductUpdateResponse);
+	}
+
 }

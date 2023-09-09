@@ -10,7 +10,7 @@ import xyz.iwasacar.api.common.config.FeignClientBasicConfig;
 @FeignClient(name = "members", url = "${api-server-url}", configuration = {FeignClientBasicConfig.class})
 public interface MemberClient {
 
-	@GetMapping("/api/v1/carInfo")
+	@GetMapping("/api/v1/members/identification")
 	public ResponseEntity<Void> retrieveIdentification(
 		@RequestParam String name, @RequestParam String rrnf, @RequestParam String rrnb
 	);

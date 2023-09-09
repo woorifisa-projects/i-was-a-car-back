@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.domain.members.entity.Gender;
+import xyz.iwasacar.api.domain.members.entity.Member;
 import xyz.iwasacar.api.domain.roles.entity.RoleName;
 
 @Builder
@@ -29,5 +30,18 @@ public class MemberResponse implements Serializable {
 
 	@JsonFormat(pattern = "yyMMdd")
 	private final LocalDate birth;
+
+	public static MemberResponse from(Member member, List<RoleName> roles) {
+		return MemberResponse.builder()
+			.id(member.getId())
+			.email(member.getEmail())
+			.name(member.getName())
+			.tel(member.getTel())
+			.gender(member.getGender())
+			.hasLicense(member.getHasLicense())
+			.roles(roles)
+			.birth(member.getBirth())
+			.build();
+	}
 
 }
