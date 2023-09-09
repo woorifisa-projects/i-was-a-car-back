@@ -55,7 +55,7 @@ public class DefaultConsentHistoryService implements ConsentHistoryService {
 		if (consentHistoryRequest.getProductId() != null) {
 			Product product = productRepository.findById(consentHistoryRequest.getProductId()).orElseThrow(
 				ProductNotFound::new);
-			return DocumentConsentHistory.ContractConsent(member, documentItem, product,
+			return DocumentConsentHistory.contractConsent(member, documentItem, product,
 				consentHistoryRequest.getConsent());
 		}
 
