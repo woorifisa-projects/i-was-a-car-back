@@ -156,4 +156,12 @@ public class Product {
 		this.status = DELETED;
 	}
 
+	public void updateLabel(final Label label) {
+		this.label = label;
+	}
+
+	public void updatePrice(final Integer price) {
+		this.price = price;
+	}
+
 }

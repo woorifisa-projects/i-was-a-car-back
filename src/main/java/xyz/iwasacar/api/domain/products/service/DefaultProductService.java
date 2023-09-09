@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.caroptions.entity.CarOption;
 import xyz.iwasacar.api.domain.caroptions.repository.CarOptionRepository;
+import xyz.iwasacar.api.domain.products.dto.response.AdminProductUpdateResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductDetailResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductSaleDetailResponse;
@@ -108,4 +109,8 @@ public class DefaultProductService implements ProductService {
 		throw new IllegalArgumentException();
 	}
 
+	@Override
+	public AdminProductUpdateResponse updatePriceAndLabel(Long productId, Integer price, Long labelId) {
+		throw new IllegalArgumentException();
+	}
 }

@@ -5,6 +5,8 @@ import static xyz.iwasacar.api.domain.products.service.ProductService.*;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -27,6 +30,8 @@ import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.histories.dto.request.ProductCreateRequest;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleResponse;
 import xyz.iwasacar.api.domain.histories.service.SaleService;
+import xyz.iwasacar.api.domain.products.dto.reqeust.AdminProductUpdateRequest;
+import xyz.iwasacar.api.domain.products.dto.response.AdminProductUpdateResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductDetailResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductSaleDetailResponse;
@@ -124,7 +129,7 @@ public class AdminProductController {
 		@PathVariable final Long productId,
 		@RequestPart final MultipartFile performanceCheck
 	) {
-		String performanceCheckUrl = productService.addPerformanceCheck(performanceCheck);
+		String performanceCheckUrl = productService.addPerformanceCheck(productId, performanceCheck);
 
 		return CommonResponse.success(OK, OK.value(), performanceCheckUrl);
 	}
@@ -134,9 +139,19 @@ public class AdminProductController {
 		@PathVariable final Long productId,
 		@RequestPart final List<MultipartFile> images
 	) {
-		List<String> imageUrls = productService.addAdminImages(images);
+		List<String> imageUrls = productService.addAdminImages(productId, images);
 
 		return CommonResponse.success(OK, OK.value(), imageUrls);
+	}
+
+	@PatchMapping("/{productId}")
+	public ResponseEntity<CommonResponse<AdminProductUpdateResponse>> updatePriceAndLabel(
+		@PathVariable Long productId, @RequestBody @Valid AdminProductUpdateRequest request) {
+
+		AdminProductUpdateResponse adminProductUpdateResponse = productService.updatePriceAndLabel(productId,
+			request.getPrice(), request.getLabelId());
+
+		return CommonResponse.success(OK, OK.value(), adminProductUpdateResponse);
 	}
 
 }

@@ -19,6 +19,9 @@ import xyz.iwasacar.api.domain.caroptions.entity.CarOption;
 import xyz.iwasacar.api.domain.caroptions.repository.CarOptionRepository;
 import xyz.iwasacar.api.domain.histories.entity.SaleHistory;
 import xyz.iwasacar.api.domain.histories.repository.SaleHistoryRepository;
+import xyz.iwasacar.api.domain.labels.entity.Label;
+import xyz.iwasacar.api.domain.labels.repository.LabelRepository;
+import xyz.iwasacar.api.domain.products.dto.response.AdminProductUpdateResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductDetailResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductResponse;
 import xyz.iwasacar.api.domain.products.dto.response.ProductSaleDetailResponse;
@@ -45,6 +48,7 @@ public class AdminProductService implements ProductService {
 	private final CarOptionRepository carOptionRepository;
 	private final RoleRepository roleRepository;
 	private final SaleHistoryRepository saleHistoryRepository;
+	private final LabelRepository labelRepository;
 	private final AwsS3Uploader uploader;
 
 	@Override
@@ -165,6 +169,20 @@ public class AdminProductService implements ProductService {
 		return savedResources.stream()
 			.map(Resource::getUrl)
 			.collect(toList());
+	}
+
+	@Transactional
+	@Override
+	public AdminProductUpdateResponse updatePriceAndLabel(
+		final Long productId, final Integer price, final Long labelId) {
+
+		Product product = productRepository.getBy(productId);
+		Label label = labelRepository.getBy(labelId);
+
+		product.updateLabel(label);
+		product.updatePrice(price);
+
+		return new AdminProductUpdateResponse(price, label.getId(), label.getName());
 	}
 
 }
