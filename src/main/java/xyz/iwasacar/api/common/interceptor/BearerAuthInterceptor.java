@@ -61,9 +61,12 @@ public class BearerAuthInterceptor implements HandlerInterceptor {
 			response.addCookie(cookie);
 			request.getSession().setAttribute(REFRESH_TOKEN, newJwtDto.getRefreshToken());
 			MemberClaimContext.setClaim(memberClaims);
+			return true;
 		}
 
-		return true;
+		response.setStatus(401);
+
+		return false;
 	}
 
 	@Override

@@ -27,6 +27,7 @@ public class MemberJwtResponse {
 			.gender(member.getGender())
 			.hasLicense(member.getHasLicense())
 			.roles(roles)
+			.birth(member.getBirth())
 			.build();
 	}
 

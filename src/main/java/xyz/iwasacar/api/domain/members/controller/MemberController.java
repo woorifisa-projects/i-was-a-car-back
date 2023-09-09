@@ -3,6 +3,8 @@ package xyz.iwasacar.api.domain.members.controller;
 import static org.springframework.http.HttpStatus.*;
 import static xyz.iwasacar.api.common.auth.jwt.JwtUtil.*;
 
+import java.util.Objects;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -35,7 +37,6 @@ import xyz.iwasacar.api.domain.members.dto.response.MemberDetailResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberJwtResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberUpdateResponse;
-import xyz.iwasacar.api.domain.members.exception.ForbiddenException;
 import xyz.iwasacar.api.domain.members.exception.UnauthorizedException;
 import xyz.iwasacar.api.domain.members.service.MemberService;
 
@@ -50,9 +51,14 @@ public class MemberController {
 
 	// 로그인 검증
 	@GetMapping("/auth")
-	public ResponseEntity<CommonResponse<MemberResponse>> auth(final HttpSession session) {
+	public ResponseEntity<CommonResponse<MemberResponse>> auth(
+		final HttpSession session, @Login final MemberClaim memberClaim) {
 
 		MemberResponse memberResponse = (MemberResponse)session.getAttribute(AUTH_INFO);
+
+		if (Objects.isNull(memberResponse)) {
+			memberResponse = memberService.retrieveMemberInfo(memberClaim.getMemberId());
+		}
 
 		return CommonResponse.success(OK, OK.value(), memberResponse);
 	}
@@ -119,7 +125,7 @@ public class MemberController {
 	@GetMapping
 	public ResponseEntity<CommonResponse<PageResponse<AllMemberResponse>>> findMembers(
 		@RequestParam(defaultValue = "1") Integer page,
-		@RequestParam(defaultValue = "10") Integer size
+		@RequestParam(defaultValue = "8") Integer size
 	) {
 
 		PageResponse<AllMemberResponse> allMemberResponse = memberService.findMembers(page, size);
@@ -165,6 +171,16 @@ public class MemberController {
 		session.invalidate();
 
 		return CommonResponse.success(NO_CONTENT, NO_CONTENT.value(), null);
+	}
+
+	@GetMapping("identification")
+	public ResponseEntity<Void> retrieveIdentification(
+		@RequestParam String name,
+		@RequestParam String rrnf,
+		@RequestParam String rrnb
+	) {
+		int statusCode = memberService.retrieveIdentification(name, rrnf, rrnb);
+		return ResponseEntity.status(statusCode).build();
 	}
 
 	private void settingAccessTokenCookie(

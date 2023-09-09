@@ -85,7 +85,7 @@ public class DocumentConsentHistory {
 			.build();
 	}
 
-	public static DocumentConsentHistory ContractConsent(Member member, DocumentItem documentItem, Product product,
+	public static DocumentConsentHistory contractConsent(Member member, DocumentItem documentItem, Product product,
 		Boolean consent) {
 		return DocumentConsentHistory.builder()
 			.member(member)

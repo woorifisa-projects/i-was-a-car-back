@@ -19,6 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class AwsS3Uploader {
 
+	public static final String IMAGES = "images";
+	public static final String PERFORMANCE_CHECK = "performance_check";
+
 	@Value("${spring.cloud.aws.s3.bucket}")
 	private String bucket;
 

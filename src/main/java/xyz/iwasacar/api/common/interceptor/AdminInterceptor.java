@@ -8,16 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import lombok.RequiredArgsConstructor;
-import xyz.iwasacar.api.common.auth.jwt.JwtTokenParser;
 import xyz.iwasacar.api.common.context.MemberClaimContext;
 import xyz.iwasacar.api.domain.members.exception.ForbiddenException;
 import xyz.iwasacar.api.domain.roles.entity.RoleName;
 
-@RequiredArgsConstructor
 public class AdminInterceptor implements HandlerInterceptor {
-
-	private final JwtTokenParser jwtTokenParser;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)

@@ -22,6 +22,8 @@ public enum ExceptionStatus {
 	BRAND_NOT_FOUND(404401, "제조사를 찾을 수 없습니다.", NOT_FOUND),
 	COLOR_NOT_FOUND(404501, "색을 찾을 수 없습니다.", NOT_FOUND),
 	LABEL_NOT_FOUND(404601, "라벨을 찾을 수 없습니다.", NOT_FOUND),
+	SALE_NOT_FOUND(404701,"판매 기록을 찾을 수 없습니다.",NOT_FOUND),
+
 
 	CAR_OPTION_OMIT(404801, "잘못 입력된 옵션이 있습니다.", NOT_FOUND),
 	LOAN_NOT_FOUND(404901, "대출을 찾을 수 없습니다.", NOT_FOUND),

@@ -2,6 +2,8 @@ package xyz.iwasacar.api.dummy;
 
 import java.time.LocalDate;
 
+import org.springframework.test.util.ReflectionTestUtils;
+
 import xyz.iwasacar.api.domain.banks.entity.Bank;
 import xyz.iwasacar.api.domain.brands.entity.Brand;
 import xyz.iwasacar.api.domain.cartypes.entity.CarType;
@@ -93,12 +95,11 @@ public class Dummy {
 
 	public static Product getProduct(CarType carType, Color color, Label label, Brand brand,
 		Resource performanceCheck) {
-		return Product.builder()
+		Product product = Product.builder()
 			.carType(carType)
 			.color(color)
 			.label(label)
 			.brand(brand)
-			.performanceCheck(performanceCheck)
 			.name("소나타")
 			.fakeProductStatus(false)
 			.transmission("자동")
@@ -113,10 +114,15 @@ public class Dummy {
 			.accidentHistory(1)
 			.inundationHistory(false)
 			.build();
+
+		ReflectionTestUtils.setField(product, "performanceCheck", performanceCheck);
+
+		return product;
 	}
 
 	public static Bank getBank() {
 		return Bank.builder().name("우리 은행").build();
+	}
 
 	public static Insurance getInsurance() {
 		return Insurance.builder()

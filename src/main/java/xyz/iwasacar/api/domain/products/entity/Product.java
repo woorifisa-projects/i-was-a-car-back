@@ -1,5 +1,7 @@
 package xyz.iwasacar.api.domain.products.entity;
 
+import static xyz.iwasacar.api.domain.common.constant.EntityStatus.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -54,7 +56,7 @@ public class Product {
 	private Label label;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "performance_check", nullable = false)
+	@JoinColumn(name = "performance_check")
 	private Resource performanceCheck;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -116,14 +118,13 @@ public class Product {
 	private LocalDateTime deletedAt;
 
 	@Builder
-	public Product(CarType carType, Brand brand, Label label, Resource performanceCheck, Color color, String name,
+	public Product(CarType carType, Brand brand, Label label, Color color, String name,
 		Boolean fakeProductStatus, String info, String transmission, String fuel, String drivingMethod, LocalDate year,
 		Integer distance, Integer price, Double fuelEfficiency, Double displacement, Integer accidentHistory,
 		Boolean inundationHistory) {
 		this.carType = carType;
 		this.brand = brand;
 		this.label = label;
-		this.performanceCheck = performanceCheck;
 		this.color = color;
 		this.name = name;
 		this.fakeProductStatus = fakeProductStatus;
@@ -138,11 +139,29 @@ public class Product {
 		this.displacement = displacement;
 		this.accidentHistory = accidentHistory;
 		this.inundationHistory = inundationHistory;
-		this.status = EntityStatus.CREATED;
+		this.status = CREATED;
 	}
 
-	public static Product changeLabel(Product product, Label newLabel) {
+	public void addPerformanceCheck(final Resource performanceCheck) {
+		this.performanceCheck = performanceCheck;
+	}
+
+	public static Product changeLabel(final Product product, final Label newLabel) {
 		product.label = newLabel;
 		return product;
 	}
+
+	public void delete() {
+		this.deletedAt = LocalDateTime.now();
+		this.status = DELETED;
+	}
+
+	public void updateLabel(final Label label) {
+		this.label = label;
+	}
+
+	public void updatePrice(final Integer price) {
+		this.price = price;
+	}
+
 }

@@ -16,14 +16,16 @@ import xyz.iwasacar.api.common.auth.jwt.MemberClaim;
 import xyz.iwasacar.api.common.component.PasswordEncoder;
 import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.common.constant.EntityStatus;
+import xyz.iwasacar.api.domain.members.client.MemberClient;
 import xyz.iwasacar.api.domain.members.dto.request.LoginRequest;
 import xyz.iwasacar.api.domain.members.dto.request.MemberUpdateRequest;
 import xyz.iwasacar.api.domain.members.dto.request.SignupRequest;
-import xyz.iwasacar.api.domain.members.dto.response.AdminMemberUpdateResponse;
 import xyz.iwasacar.api.domain.members.dto.request.UpdateRequest;
+import xyz.iwasacar.api.domain.members.dto.response.AdminMemberUpdateResponse;
 import xyz.iwasacar.api.domain.members.dto.response.AllMemberResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberDetailResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberJwtResponse;
+import xyz.iwasacar.api.domain.members.dto.response.MemberResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberUpdateResponse;
 import xyz.iwasacar.api.domain.members.entity.Member;
 import xyz.iwasacar.api.domain.members.exception.MemberNotFoundException;
@@ -46,6 +48,7 @@ public class MemberServiceImpl implements MemberService {
 	private final MemberRoleRepository memberRoleRepository;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final PasswordEncoder passwordEncoder;
+	private final MemberClient memberClient;
 
 	@Transactional
 	@Override
@@ -103,6 +106,17 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public MemberResponse retrieveMemberInfo(final Long id) {
+		Member by = memberRepository.getBy(id);
+		List<RoleName> roles = memberRoleRepository.findByMemberId(id)
+			.stream()
+			.map(mr -> mr.getRole().getName())
+			.collect(toList());
+
+		return MemberResponse.from(by, roles);
+	}
+
+	@Override
 	public PageResponse<AllMemberResponse> findMembers(final Integer page, final Integer size) {
 
 		Page<AllMemberResponse> allMemberResponses = memberRepository.findMembers(page, size);
@@ -122,10 +136,12 @@ public class MemberServiceImpl implements MemberService {
 		return AdminMemberUpdateResponse.from(member);
 	}
 
+	@Transactional
 	public void deleteMember(final Long memberId) {
 		memberRepository.getBy(memberId).delete();
 	}
 
+	@Transactional
 	public MemberUpdateResponse updateMember(final Long memberId,
 		final UpdateRequest updateRequest) {
 
@@ -139,14 +155,18 @@ public class MemberServiceImpl implements MemberService {
 		return MemberUpdateResponse.from(member);
 	}
 
-	@Transactional
 	@Override
 	public boolean isDeletedMember(final String email) {
 
 		Member member = memberRepository.findByEmail(email)
-			.orElse(null);
+			.orElseThrow(MemberNotFoundException::new);
 
 		return member.getStatus().equals(EntityStatus.DELETED);
+	}
+
+	public int retrieveIdentification(final String name, final String rrnf, final String rrnb) {
+
+		return memberClient.retrieveIdentification(name, rrnf, rrnb).getStatusCodeValue();
 	}
 
 }

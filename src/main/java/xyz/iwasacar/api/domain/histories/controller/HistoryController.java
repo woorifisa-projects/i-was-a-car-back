@@ -24,8 +24,8 @@ public class HistoryController {
 	@PostMapping("/purchase")
 	public ResponseEntity<CommonResponse<PurchaseHistoryResponse>> savePurchaseHistory(
 		@RequestBody PurchaseHistoryRequest purchaseHistoryRequest) {
-		PurchaseHistoryResponse savedpurchaseHistory = purchaseService.savePurchaseHistory(purchaseHistoryRequest);
-		return CommonResponse.success(CREATED, CREATED.value(), savedpurchaseHistory);
+		PurchaseHistoryResponse savedPurchaseHistory = purchaseService.savePurchaseHistory(purchaseHistoryRequest);
+		return CommonResponse.success(CREATED, CREATED.value(), savedPurchaseHistory);
 	}
 
 }
