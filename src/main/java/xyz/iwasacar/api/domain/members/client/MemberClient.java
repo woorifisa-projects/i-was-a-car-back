@@ -11,7 +11,7 @@ import xyz.iwasacar.api.common.config.FeignClientBasicConfig;
 public interface MemberClient {
 
 	@GetMapping("/api/v1/members/identification")
-	public ResponseEntity<Void> retrieveIdentification(
+	ResponseEntity<Void> retrieveIdentification(
 		@RequestParam String name, @RequestParam String rrnf, @RequestParam String rrnb
 	);
 
