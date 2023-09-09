@@ -8,12 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.common.context.MemberClaimContext;
 import xyz.iwasacar.api.domain.members.exception.ForbiddenException;
 import xyz.iwasacar.api.domain.roles.entity.RoleName;
 
-@RequiredArgsConstructor
 public class AdminInterceptor implements HandlerInterceptor {
 
 	@Override

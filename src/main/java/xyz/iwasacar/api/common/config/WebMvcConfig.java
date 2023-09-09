@@ -32,11 +32,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 
 		registry.addInterceptor(new BearerAuthInterceptor(parser, provider))
-			.addPathPatterns("/api/v1/**")
-			.excludePathPatterns("/api/v1/members/login", "/api/v1/members/signup", "/api/v1/products",
-				"/api/v1/products/[0-9]+", "/api/v1/auth/email",
-				"/api/v1/auth/email-confirm", "/api/v1/sales/**",
-				"/api/v1/documents/**")
+			.addPathPatterns("/api/v1/**", "/api/v1/admin/**")
+			.excludePathPatterns(
+				"/api/v1/members/**", "/api/v1/members/login", "/api/v1/members/signup", "/api/v1/members/logout",
+				"/api/v1/auth/email-confirm", "/api/v1/auth/email",
+				"/api/v1/products", "/api/v1/products/[0-9]+",
+      	"/api/v1/documents/**"
+			)
 			.order(1);
 
 		registry.addInterceptor(new AdminInterceptor())
@@ -55,7 +57,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		registry.addMapping("/**")
 			.allowedOrigins(clientUrl)
 			.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-			.allowedHeaders("Content-Type")
 			.allowCredentials(true)
 			.maxAge(3000);
 	}
