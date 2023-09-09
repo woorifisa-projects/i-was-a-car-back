@@ -5,6 +5,7 @@ import static xyz.iwasacar.api.common.component.AwsS3Uploader.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -33,10 +34,12 @@ import xyz.iwasacar.api.domain.colors.repository.ColorRepository;
 import xyz.iwasacar.api.domain.histories.client.SaleClient;
 import xyz.iwasacar.api.domain.histories.dto.request.ProductCreateRequest;
 import xyz.iwasacar.api.domain.histories.dto.response.CarInfoResponse;
+import xyz.iwasacar.api.domain.histories.dto.response.HistoryAdminResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryDetailResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleResponse;
 import xyz.iwasacar.api.domain.histories.entity.SaleHistory;
+import xyz.iwasacar.api.domain.histories.exception.SaleHistoryNotFoundException;
 import xyz.iwasacar.api.domain.histories.repository.SaleHistoryRepository;
 import xyz.iwasacar.api.domain.labels.entity.Label;
 import xyz.iwasacar.api.domain.labels.entity.LabelName;
@@ -61,7 +64,6 @@ import xyz.iwasacar.api.domain.roles.repository.RoleRepository;
 public class DefaultSaleService implements SaleService {
 
 	private final SaleClient saleClient;
-
 	private final MemberRepository memberRepository;
 	private final CarTypeRepository carTypeRepository;
 	private final BrandRepository brandRepository;
@@ -185,4 +187,14 @@ public class DefaultSaleService implements SaleService {
 		return saleHistoryDetailResponse;
 	}
 
+	@Override
+	public HistoryAdminResponse findMemberInfo(Long productId) {
+		SaleHistory saleHistory = saleHistoryRepository.findByProductId(productId).orElseThrow(
+			SaleHistoryNotFoundException::new);
+
+		Member member = memberRepository.findById(saleHistory.getMember().getId()).orElseThrow(MemberNotFoundException::new);
+
+
+		return HistoryAdminResponse.of(saleHistory,member);
+	}
 }

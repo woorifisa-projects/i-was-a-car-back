@@ -16,11 +16,12 @@ import xyz.iwasacar.api.common.auth.jwt.MemberClaim;
 import xyz.iwasacar.api.common.component.PasswordEncoder;
 import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.common.constant.EntityStatus;
+import xyz.iwasacar.api.domain.members.client.MemberClient;
 import xyz.iwasacar.api.domain.members.dto.request.LoginRequest;
 import xyz.iwasacar.api.domain.members.dto.request.MemberUpdateRequest;
 import xyz.iwasacar.api.domain.members.dto.request.SignupRequest;
-import xyz.iwasacar.api.domain.members.dto.response.AdminMemberUpdateResponse;
 import xyz.iwasacar.api.domain.members.dto.request.UpdateRequest;
+import xyz.iwasacar.api.domain.members.dto.response.AdminMemberUpdateResponse;
 import xyz.iwasacar.api.domain.members.dto.response.AllMemberResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberDetailResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberJwtResponse;
@@ -46,6 +47,7 @@ public class MemberServiceImpl implements MemberService {
 	private final MemberRoleRepository memberRoleRepository;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final PasswordEncoder passwordEncoder;
+	private final MemberClient memberClient;
 
 	@Transactional
 	@Override
@@ -144,9 +146,14 @@ public class MemberServiceImpl implements MemberService {
 	public boolean isDeletedMember(final String email) {
 
 		Member member = memberRepository.findByEmail(email)
-			.orElse(null);
+			.orElseThrow(MemberNotFoundException::new);
 
 		return member.getStatus().equals(EntityStatus.DELETED);
+	}
+
+	public int retrieveIdentification(final String name, final String rrnf, final String rrnb) {
+
+		return memberClient.retrieveIdentification(name, rrnf, rrnb).getStatusCodeValue();
 	}
 
 }

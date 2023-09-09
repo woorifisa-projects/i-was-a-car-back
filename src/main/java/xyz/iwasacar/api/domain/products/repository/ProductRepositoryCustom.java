@@ -15,4 +15,5 @@ public interface ProductRepositoryCustom {
 
 	Optional<Product> findProductDetailForAdmin(final Long id);
 
+	Page<ProductResponse> findWaitingProducts(Integer page, Integer size);
 }
