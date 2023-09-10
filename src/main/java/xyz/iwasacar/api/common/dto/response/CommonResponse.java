@@ -23,6 +23,7 @@ public class CommonResponse<T> {
 			.body(new CommonResponse<>(code, data));
 	}
 
+
 	public static <T> ResponseEntity<CommonResponse<T>> success(HttpHeaders headers, HttpStatus status,
 		int code, T data) {
 

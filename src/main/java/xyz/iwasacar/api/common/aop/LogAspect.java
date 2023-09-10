@@ -41,6 +41,7 @@ public class LogAspect {
 		String destination = getRequest().getRequestURI();
 		String id = UuidContext.getUuid();
 		log.error("EXCEPTION [{}] {} {}", id, destination, ex.getMessage());
+		log.error("", ex);
 	}
 
 	private HttpServletRequest getRequest() {
