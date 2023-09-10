@@ -5,7 +5,6 @@ import static xyz.iwasacar.api.common.component.AwsS3Uploader.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -97,7 +96,7 @@ public class DefaultSaleService implements SaleService {
 			.orElseThrow(CarTypeNotFoundException::new);
 		Brand brand = brandRepository.findById(productCreateRequest.getBrandId())
 			.orElseThrow(BrandNotFoundException::new);
-		Label label = labelRepository.findByName(LabelName.심사대기중)
+		Label label = labelRepository.findByName(LabelName.심사중)
 			.orElseThrow(LabelNotFoundException::new);
 		Color color = colorRepository.findById(productCreateRequest.getColorId())
 			.orElseThrow(ColorNotFoundException::new);
@@ -192,9 +191,9 @@ public class DefaultSaleService implements SaleService {
 		SaleHistory saleHistory = saleHistoryRepository.findByProductId(productId).orElseThrow(
 			SaleHistoryNotFoundException::new);
 
-		Member member = memberRepository.findById(saleHistory.getMember().getId()).orElseThrow(MemberNotFoundException::new);
+		Member member = memberRepository.findById(saleHistory.getMember().getId())
+			.orElseThrow(MemberNotFoundException::new);
 
-
-		return HistoryAdminResponse.of(saleHistory,member);
+		return HistoryAdminResponse.of(saleHistory, member);
 	}
 }

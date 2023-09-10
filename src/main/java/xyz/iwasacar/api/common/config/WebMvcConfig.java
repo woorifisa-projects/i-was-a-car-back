@@ -37,7 +37,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 				"/api/v1/members/**", "/api/v1/members/login", "/api/v1/members/signup", "/api/v1/members/logout",
 				"/api/v1/auth/email-confirm", "/api/v1/auth/email",
 				"/api/v1/products", "/api/v1/products/[0-9]+",
-      	"/api/v1/documents/**"
+				"/api/v1/documents/**"
 			)
 			.order(1);
 
@@ -56,7 +56,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 		registry.addMapping("/**")
 			.allowedOrigins(clientUrl)
-			.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+			.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
 			.allowCredentials(true)
 			.maxAge(3000);
 	}
