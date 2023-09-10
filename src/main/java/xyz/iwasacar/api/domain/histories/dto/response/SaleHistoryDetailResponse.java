@@ -1,13 +1,11 @@
 package xyz.iwasacar.api.domain.histories.dto.response;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import xyz.iwasacar.api.domain.labels.entity.Label;
 import xyz.iwasacar.api.domain.labels.entity.LabelName;
 
 @RequiredArgsConstructor
@@ -26,7 +24,6 @@ public class SaleHistoryDetailResponse {
 	private final LocalDateTime meetingSchedule;
 
 	private final String productName;
-
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private final LocalDateTime createdAt;
