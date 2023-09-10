@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.domain.histories.entity.SaleHistory;
@@ -14,10 +15,12 @@ import xyz.iwasacar.api.domain.labels.entity.LabelName;
 import xyz.iwasacar.api.domain.members.entity.Member;
 import xyz.iwasacar.api.domain.products.entity.Product;
 
+@Builder
 @RequiredArgsConstructor
 @Getter
 public class SaleResponse {
 
+	private final Long saleId;
 	private final String memberName;
 
 	private final Long productId;
@@ -25,7 +28,6 @@ public class SaleResponse {
 	private final String carType;
 	private final String brand;
 	private final LabelName label;
-	private final String performanceCheck;
 	private final String color;
 	private final Boolean fakeProductStatus;
 	private final String info;
@@ -58,26 +60,41 @@ public class SaleResponse {
 	private final List<String> images;
 	private final Map<String, List<String>> options;
 
-	public SaleResponse(Member member, Product product, SaleHistory saleHistory,
+	public static SaleResponse from(Member member, Product product, SaleHistory saleHistory,
 		List<String> images, Map<String, List<String>> options) {
-
-		this(
-			member.getName(),
-
-			product.getId(), product.getName(), product.getCarType().getName(), product.getBrand().getName(),
-			product.getLabel().getName(), product.getPerformanceCheck().getUrl(), product.getColor().getName(),
-			product.getFakeProductStatus(), product.getInfo(), product.getTransmission(), product.getFuel(),
-			product.getDrivingMethod(), product.getYear(), product.getDistance(), product.getPrice(),
-			product.getFuelEfficiency(), product.getDisplacement(), product.getAccidentHistory(),
-			product.getInundationHistory(),
-
-			saleHistory.getBank().getName(), saleHistory.getAccountNumber(), saleHistory.getAccountHolder(),
-			saleHistory.getMeetingSchedule(),
-			saleHistory.getZipCode(), saleHistory.getAddress(), saleHistory.getAddressDetail(),
-			saleHistory.getCreateAt(),
-
-			images, options
-		);
+		return SaleResponse
+			.builder()
+			.saleId(saleHistory.getId())
+			.memberName(member.getName())
+			.productId(product.getId())
+			.productName(product.getName())
+			.carType(product.getCarType().getName())
+			.bankName(product.getBrand().getName())
+			.label(product.getLabel().getName())
+			.color(product.getColor().getName())
+			.fakeProductStatus(product.getFakeProductStatus())
+			.info(product.getInfo())
+			.transmission(product.getTransmission())
+			.fuel(product.getFuel())
+			.drivingMethod(product.getDrivingMethod())
+			.year(product.getYear())
+			.distance(product.getDistance())
+			.price(product.getPrice())
+			.fuelEfficiency(product.getFuelEfficiency())
+			.displacement(product.getDisplacement())
+			.accidentHistory(product.getAccidentHistory())
+			.inundationHistory(product.getInundationHistory())
+			.bankName(saleHistory.getBank().getName())
+			.accountNumber(saleHistory.getAccountNumber())
+			.accountHolder(saleHistory.getAccountHolder())
+			.meetingSchedule(saleHistory.getMeetingSchedule())
+			.zipCode(saleHistory.getZipCode())
+			.address(saleHistory.getAddress())
+			.addressDetail(saleHistory.getAddressDetail())
+			.createdAt(saleHistory.getCreateAt())
+			.images(images)
+			.options(options)
+			.build();
 	}
 
 }

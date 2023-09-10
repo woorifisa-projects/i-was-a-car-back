@@ -23,16 +23,11 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 		QMember m = QMember.member;
 
 		int offset = (page - 1) * size;
-		//
-		// private final String email;
-		// private final String name;
-		// private final String tel;
-		// private final LocalDate birth;
-		// private final Gender gender;
-		// private final Boolean hasLicense;
+
 
 		List<AllMemberResponse> list = jpaQueryFactory.select(Projections.constructor(
-				AllMemberResponse.class, m.email, m.name, m.tel, m.birth, m.gender, m.hasLicense))
+      AllMemberResponse.class, 
+      m.email, m.name, m.tel, m.birth, m.gender, m.hasLicense, m.createdAt))
 			.from(m)
 			.orderBy(m.id.desc())
 			.offset(offset)

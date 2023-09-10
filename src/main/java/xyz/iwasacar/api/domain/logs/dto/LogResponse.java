@@ -12,9 +12,10 @@ import lombok.RequiredArgsConstructor;
 public class LogResponse {
 
 	private final Long id;
+
+	private final String name;
 	private final String email;
 	private final String log;
-
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private final LocalDateTime createdAt;
 

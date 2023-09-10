@@ -20,6 +20,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import xyz.iwasacar.api.domain.common.constant.EntityStatus;
+import xyz.iwasacar.api.domain.members.dto.request.UpdateRequest;
 
 @Table(name = "members")
 @Entity
@@ -87,6 +88,25 @@ public class Member {
 
 	public void updateLastLogin() {
 		this.lastLoginAt = LocalDateTime.now();
+	}
+
+	public void update(final Gender gender, final String tel, final Boolean hasLicense) {
+		this.gender = gender;
+		this.tel = tel;
+		this.hasLicense = hasLicense;
+	}
+
+	public void update(UpdateRequest request, String encodedPassword) {
+		this.name = request.getName();
+		this.password = encodedPassword;
+		this.tel = request.getTel();
+		this.gender = request.getGender();
+		this.hasLicense = request.getHasLicense();
+	}
+
+	public void delete() {
+		this.deletedAt = LocalDateTime.now();
+		this.status = EntityStatus.DELETED;
 	}
 
 }

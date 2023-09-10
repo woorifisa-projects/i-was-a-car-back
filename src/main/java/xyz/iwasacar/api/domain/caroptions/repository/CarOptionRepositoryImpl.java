@@ -2,7 +2,9 @@ package xyz.iwasacar.api.domain.caroptions.repository;
 
 import static xyz.iwasacar.api.domain.caroptions.entity.QCarOption.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -37,10 +39,14 @@ public class CarOptionRepositoryImpl implements CarOptionRepositoryCustom {
 	}
 
 	@Override
-	public List<CarOption> findListById(final List<Long> id) {
+	public List<CarOption> findByNames(Map<String, List<String>> options) {
+		List<String> carOptions = new ArrayList<>();
+		options.values()
+			.forEach(carOptions::addAll);
+		
 		return jpaQueryFactory
 			.selectFrom(carOption)
-			.where(carOption.id.in(id))
+			.where(carOption.name.in(carOptions))
 			.fetch();
 	}
 

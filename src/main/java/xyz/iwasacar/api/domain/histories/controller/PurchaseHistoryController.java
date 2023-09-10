@@ -10,12 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import xyz.iwasacar.api.common.annotation.Login;
-import xyz.iwasacar.api.common.auth.jwt.MemberClaim;
 import xyz.iwasacar.api.common.dto.response.CommonResponse;
 import xyz.iwasacar.api.common.dto.response.PageResponse;
-import xyz.iwasacar.api.domain.histories.dto.PurchaseHistoryDetailResponse;
-import xyz.iwasacar.api.domain.histories.dto.PurchaseResponse;
+import xyz.iwasacar.api.domain.histories.dto.response.PurchaseHistoryDetailResponse;
+import xyz.iwasacar.api.domain.histories.dto.response.PurchaseResponse;
 import xyz.iwasacar.api.domain.histories.service.PurchaseHistoryService;
 
 @RestController
@@ -28,23 +26,20 @@ public class PurchaseHistoryController {
 	@GetMapping("/{memberId}/purchase-histories")
 	public ResponseEntity<CommonResponse<PageResponse<PurchaseResponse>>> findAllPurchase(
 		@PathVariable final Long memberId, @RequestParam(defaultValue = "1") Integer page,
-		@RequestParam(defaultValue = "10") Integer size, @Login MemberClaim memberClaim) {
+		@RequestParam(defaultValue = "8") Integer size
+		// , @Login MemberClaim memberClaim
+	) {
 
 		PageResponse<PurchaseResponse> allPurchase = purchaseHistoryService.findAllPurchase(memberId, page, size);
 		return CommonResponse.success(OK, OK.value(), allPurchase);
 
 	}
 
-	@GetMapping("/{memberId}/purchase-history/{purchase_history_no}")
+	@GetMapping("/{memberId}/purchase-history/{purchaseHistoryNo}")
 	public ResponseEntity<CommonResponse<PurchaseHistoryDetailResponse>> findPurchaseDetail(
 		@PathVariable final Long memberId, @PathVariable final Long purchaseHistoryNo
+		//@Login MemberClaim memberclaim
 	) {
-		// 1. cookie에서 memberId를 꺼내온다.
-		// 2. PathVariable에 있는 memberId와 비교한다. --> yes/no
-		// 3. find 구매내역에 있는 memberId By purchasehistory_no(purchasehistory_no)
-		// 4. 3값이랑 1번값이랑 비교한다. Yes/no
-		// 5. 구매내역을 가져오는 service를 부른 후 반환한다.
-
 		PurchaseHistoryDetailResponse detail = purchaseHistoryService.findPurchaseDetail(purchaseHistoryNo);
 		return CommonResponse.success(OK, OK.value(), detail);
 	}
