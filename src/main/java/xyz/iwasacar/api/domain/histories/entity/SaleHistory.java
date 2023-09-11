@@ -67,8 +67,8 @@ public class SaleHistory {
 	@Column(name = "address_detail", nullable = false)
 	private String addressDetail;
 
-	@Enumerated(EnumType.STRING)
 	@Column(name = "status", nullable = false, length = 20)
+	@Enumerated(EnumType.STRING)
 	private EntityStatus status;
 
 	@Column(name = "created_at", nullable = false)

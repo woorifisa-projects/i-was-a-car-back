@@ -84,7 +84,6 @@ public class SaleHistoryRepositoryImpl implements SaleHistoryRepositoryCustom {
 				.join(saleHistory.member).fetchJoin()
 				.where(saleHistory.product.id.eq(productId))
 				.fetchOne()
-
 		).orElseThrow(SaleHistoryNotFoundException::new);
 	}
 
@@ -97,7 +96,6 @@ public class SaleHistoryRepositoryImpl implements SaleHistoryRepositoryCustom {
 				.join(saleHistory.member).fetchJoin()
 				.where(saleHistory.product.id.eq(productId))
 				.fetchOne()
-
 		).orElseThrow(SaleHistoryNotFoundException::new);
 	}
 }

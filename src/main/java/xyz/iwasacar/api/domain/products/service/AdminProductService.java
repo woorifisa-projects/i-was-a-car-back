@@ -163,8 +163,8 @@ public class AdminProductService implements ProductService {
 				return resource;
 			}).collect(toList());
 
-		productImageRepository.saveAll(productImages);
 		List<Resource> savedResources = resourceRepository.saveAll(resources);
+		productImageRepository.saveAll(productImages);
 
 		return savedResources.stream()
 			.map(Resource::getUrl)
