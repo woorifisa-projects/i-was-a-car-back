@@ -36,7 +36,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 			.excludePathPatterns(
 				"/api/v1/members/login", "/api/v1/members/signup",
 				"/api/v1/auth/email-confirm", "/api/v1/auth/email",
-				"/api/v1/products", "/api/v1/products/[0-9]+",
+				"/api/v1/products", "/api/v1/products/{productId:[0-9]+}",
 				"/api/v1/documents/**"
 			)
 			.order(1);
