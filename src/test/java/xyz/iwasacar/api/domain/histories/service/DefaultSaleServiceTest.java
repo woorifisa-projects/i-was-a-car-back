@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 import static xyz.iwasacar.api.common.component.AwsS3Uploader.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -130,8 +129,7 @@ class DefaultSaleServiceTest {
 
 		lenient().doReturn(id).when(mockProduct).getId();
 		lenient().doReturn(url).when(uploader).upload(any(MultipartFile.class), eq(IMAGES));
-		given(mockMember.getBirth()).willReturn(LocalDate.of(1997, 4, 6));
-		given(mockMember.getHasLicense()).willReturn(true);
+
 		given(mockBank.getName()).willReturn("은행");
 		given(mockSaleHistory.getBank()).willReturn(mockBank);
 		given(memberRepository.getBy(id)).willReturn(mockMember);
