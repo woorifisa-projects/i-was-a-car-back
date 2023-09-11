@@ -14,6 +14,10 @@ import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryDetailResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleResponse;
 import xyz.iwasacar.api.domain.labels.entity.LabelName;
+import xyz.iwasacar.api.domain.members.dto.request.SignupRequest;
+import xyz.iwasacar.api.domain.members.dto.response.MemberResponse;
+import xyz.iwasacar.api.domain.members.entity.Gender;
+import xyz.iwasacar.api.domain.roles.entity.RoleName;
 
 public class DtoDummy {
 
@@ -156,6 +160,38 @@ public class DtoDummy {
 
 	public static SaleHistoryResponse saleHistoryResponse(final Long id) {
 		return new SaleHistoryResponse(id, "SONATA", LabelName.심사완료, LocalDateTime.now());
+	}
+
+	public static MemberResponse memberResponse() {
+		return MemberResponse.builder()
+			.id(1L)
+			.email("admin@iwasacar.xyz")
+			.name("admin")
+			.tel("010-1234-1234")
+			.gender(Gender.남자)
+			.hasLicense(true)
+			.roles(List.of(RoleName.ADMIN))
+			.birth(LocalDate.now())
+			.build();
+	}
+
+	public static MemberResponse memberResponse(final Long id) {
+		return MemberResponse.builder()
+			.id(id)
+			.email("admin@iwasacar.xyz")
+			.name("admin")
+			.tel("010-1234-1234")
+			.gender(Gender.남자)
+			.hasLicense(true)
+			.roles(List.of(RoleName.ADMIN))
+			.birth(LocalDate.now())
+			.build();
+	}
+
+	public static SignupRequest signupRequest() {
+		SignupRequest signupRequest = new SignupRequest();
+
+		return signupRequest;
 	}
 
 }

@@ -66,7 +66,7 @@ public class MemberController {
 	// 회원가입
 	@PostMapping("/signup")
 	public ResponseEntity<CommonResponse<MemberResponse>> signup(
-		@Valid @RequestBody final SignupRequest signupRequest,
+		@RequestBody @Valid final SignupRequest signupRequest,
 		final HttpServletResponse response, final HttpSession session) {
 
 		if (!emailSession.verifyEmailCode(signupRequest.getEmail(), signupRequest.getCode())) {
@@ -79,7 +79,6 @@ public class MemberController {
 		emailSession.deleteEmailCode(signupRequest.getEmail());
 
 		return CommonResponse.success(OK, OK.value(), memberJwtResponse.getMemberResponse());
-
 	}
 
 	// 로그인
