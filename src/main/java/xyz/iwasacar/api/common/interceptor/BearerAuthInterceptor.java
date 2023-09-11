@@ -6,6 +6,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,6 +30,10 @@ public class BearerAuthInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 		Cookie[] cookies = request.getCookies(); // [accessToken, jsessionID]
 
+		if (HttpMethod.OPTIONS.matches(request.getMethod())) {
+			return true;
+		}
+		
 		if (cookies == null) {
 			throw new UnauthorizedException();
 		}
