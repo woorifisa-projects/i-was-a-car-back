@@ -25,8 +25,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Value("${client-url}")
 	private String[] clientUrl;
 
-	private final JwtTokenParser parser;
 	private final JwtTokenProvider provider;
+	private final JwtTokenParser parser;
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {

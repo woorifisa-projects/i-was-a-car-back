@@ -13,28 +13,18 @@ import xyz.iwasacar.api.domain.histories.entity.PurchaseHistory;
 @Getter
 @RequiredArgsConstructor
 public class PurchaseHistoryResponse {
+
 	private final Long id;
-
 	private final String memberName;
-
 	private final Long productId;
-
 	private final String productName;
-
 	private final String bankName;
-
 	private final String loanName;
-
 	private final String insuranceName;
-
 	private final String zipCode;
-
 	private final String address;
-
 	private final String addressDetail;
-
 	private final String accountNumber;
-
 	private final String accountHolder;
 
 	@JsonFormat(pattern = "yyyy-MM-dd")

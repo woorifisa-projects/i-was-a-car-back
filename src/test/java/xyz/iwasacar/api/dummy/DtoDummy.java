@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import xyz.iwasacar.api.domain.histories.dto.request.ProductCreateRequest;
+import xyz.iwasacar.api.domain.histories.dto.response.PurchaseHistoryResponse;
 
 public class DtoDummy {
 
@@ -27,6 +28,25 @@ public class DtoDummy {
 		// ReflectionTestUtils.setField(productCreateRequest, , );
 
 		return productCreateRequest;
+	}
+
+	public static PurchaseHistoryResponse purchaseHistoryResponse() {
+		return PurchaseHistoryResponse.builder()
+			.id(1L)
+			.memberName("황동민")
+			.productId(1L)
+			.productName("SONATA")
+			.bankName("은행")
+			.loanName("대출1")
+			.insuranceName("보험1")
+			.zipCode("12345")
+			.address("서울시")
+			.addressDetail("123")
+			.accountNumber("12341234")
+			.accountHolder("황동민")
+			.deliverySchedule(LocalDateTime.now())
+			.createAt(LocalDateTime.now())
+			.build();
 	}
 
 }
