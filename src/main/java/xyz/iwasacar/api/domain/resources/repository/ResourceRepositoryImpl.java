@@ -88,12 +88,14 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 			.selectFrom(productImage)
 			.join(productImage.product).fetchJoin()
 			.join(productImage.resource).fetchJoin()
-			.where(productImage.product.id.eq(
+			.where(productImage.id.productId.eq(
 					JPAExpressions
-						.select(product.id)
-						.from(product)
-						.where(productImage.id.productId.eq(product.id)
-							.and(product.status.ne(EntityStatus.DELETED)))
+						.select(productImage.id.productId)
+						.from(productImage)
+						.where(productImage.product.status.ne(EntityStatus.DELETED)
+							.and(productImage.product.id.eq(productImage.id.productId)))
+						.groupBy(productImage.id.productId, productImage.id.resourceId)
+						.orderBy(productImage.id.resourceId.asc())
 						.limit(1))
 				.and(littleThanLastProductId(lastProductId))
 				.and(setCategory(category, keyword))
@@ -109,6 +111,7 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 			).orderBy(productImage.id.productId.desc(), productImage.id.resourceId.asc())
 			.limit(10)
 			.fetch();
+
 	}
 
 	@Override
@@ -117,7 +120,7 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 			.selectFrom(productImage)
 			.join(productImage.product).fetchJoin()
 			.join(productImage.resource).fetchJoin()
-			.where(productImage.product.id.eq(
+			.where(productImage.id.productId.eq(
 					JPAExpressions
 						.select(product.id)
 						.from(product)
@@ -182,9 +185,9 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 					JPAExpressions
 						.select(product.id)
 						.from(product)
-						.where(productImage.id.productId.eq(product.id)
-							.and(product.status.ne(EntityStatus.DELETED)))
-						.limit(1))
+						.where(productImage.id.productId.eq(product.id))
+						.limit(1)
+						.orderBy(productImage.id.resourceId.asc()))
 				.and(littleThanLastProductId(lastProductId))
 				.and(productImage.product.carType.id.eq(carType))
 				.and(productImage.product.price.loe(capital + loan))
@@ -197,7 +200,7 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 							.limit(1)
 					)
 				)
-			).orderBy(productImage.id.productId.desc(), productImage.id.resourceId.asc())
+			).orderBy(productImage.product.id.desc(), productImage.resource.id.asc())
 			.limit(3)
 			.fetch();
 
