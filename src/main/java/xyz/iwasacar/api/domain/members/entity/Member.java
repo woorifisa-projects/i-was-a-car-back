@@ -109,4 +109,8 @@ public class Member {
 		this.status = EntityStatus.DELETED;
 	}
 
+	public boolean isDeleted() {
+		return this.status == EntityStatus.DELETED;
+	}
+
 }

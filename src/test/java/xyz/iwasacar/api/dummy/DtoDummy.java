@@ -14,8 +14,11 @@ import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryDetailResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleResponse;
 import xyz.iwasacar.api.domain.labels.entity.LabelName;
+import xyz.iwasacar.api.domain.members.dto.request.LoginRequest;
 import xyz.iwasacar.api.domain.members.dto.request.SignupRequest;
+import xyz.iwasacar.api.domain.members.dto.request.UpdateRequest;
 import xyz.iwasacar.api.domain.members.dto.response.MemberResponse;
+import xyz.iwasacar.api.domain.members.dto.response.MemberUpdateResponse;
 import xyz.iwasacar.api.domain.members.entity.Gender;
 import xyz.iwasacar.api.domain.roles.entity.RoleName;
 
@@ -189,9 +192,51 @@ public class DtoDummy {
 	}
 
 	public static SignupRequest signupRequest() {
-		SignupRequest signupRequest = new SignupRequest();
+		SignupRequest request = new SignupRequest();
 
-		return signupRequest;
+		setField(request, "email", "admin@iwasacar.xyz");
+		setField(request, "code", "abcdefg");
+		setField(request, "password", "pa$$w0rd");
+		setField(request, "name", "황동민");
+		setField(request, "tel", "010-1234-1234");
+		setField(request, "gender", Gender.남자);
+		setField(request, "hasLicense", true);
+		setField(request, "birth", LocalDate.of(1997, 9, 4));
+
+		return request;
+	}
+
+	public static LoginRequest loginRequest() {
+		LoginRequest request = new LoginRequest();
+
+		setField(request, "email", "admin@iwasacar.xyz");
+		setField(request, "password", "pa$$w0rd");
+
+		return request;
+	}
+
+	public static MemberUpdateResponse memberUpdateResponse() {
+		return MemberUpdateResponse.builder()
+			.name("황동민")
+			.password("pa$$w0rd")
+			.tel("010-1234-1234")
+			.gender(Gender.남자)
+			.hasLicense(true)
+			.lastLoginAt(LocalDateTime.now())
+			.build();
+	}
+
+	public static UpdateRequest updateRequest() {
+		UpdateRequest request = new UpdateRequest();
+
+		setField(request, "name", "황동민");
+		setField(request, "password", "pa$$w0rd");
+		setField(request, "name", "황동민");
+		setField(request, "tel", "010-1234-1234");
+		setField(request, "gender", Gender.남자);
+		setField(request, "hasLicense", true);
+
+		return request;
 	}
 
 }
