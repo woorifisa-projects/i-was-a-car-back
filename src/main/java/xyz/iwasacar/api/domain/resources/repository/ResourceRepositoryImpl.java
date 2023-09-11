@@ -84,31 +84,62 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 		 limit 10
 		 ;
 		 */
-		return jpaQueryFactory
-			.selectFrom(productImage)
-			.join(productImage.product).fetchJoin()
+		// return jpaQueryFactory
+		// 	.selectFrom(productImage)
+		// 	.join(productImage.product).fetchJoin()
+		// 	.join(productImage.resource).fetchJoin()
+		// 	.where(productImage.id.productId.eq(
+		// 			JPAExpressions
+		// 				.select(productImage.id.productId)
+		// 				.from(productImage)
+		// 				.where(productImage.product.status.ne(EntityStatus.DELETED)
+		// 					.and(productImage.product.id.eq(productImage.id.productId)))
+		// 				.groupBy(productImage.id.productId, productImage.id.resourceId)
+		// 				.orderBy(productImage.id.resourceId.asc())
+		// 				.limit(1))
+		// 		.and(littleThanLastProductId(lastProductId))
+		// 		.and(setCategory(category, keyword))
+		// 		.and(
+		// 			productImage.role.id.eq(
+		// 				JPAExpressions
+		// 					.select(role.id)
+		// 					.from(role)
+		// 					.where(role.name.eq(ADMIN))
+		// 					.limit(1)
+		// 			)
+		// 		)
+		// 	).orderBy(productImage.id.productId.desc(), productImage.id.resourceId.asc())
+		// 	.limit(10)
+		// 	.fetch();
+
+		/** select *
+		 from products_images pi
+		 join resources r on r.resource_no = pi.resource_no
+		 join products p on p.product_no = pi.product_no
+		 group by pi.product_no
+		 having max(pi.resource_no)
+		 order by pi.product_no desc
+		 limit 10;
+		 */
+
+		return jpaQueryFactory.selectFrom(productImage).join(productImage.product).fetchJoin()
 			.join(productImage.resource).fetchJoin()
-			.where(productImage.product.id.eq(
-					JPAExpressions
-						.select(product.id)
-						.from(product)
-						.where(productImage.id.productId.eq(product.id)
-							.and(product.status.ne(EntityStatus.DELETED)))
-						.limit(1))
-				.and(littleThanLastProductId(lastProductId))
-				.and(setCategory(category, keyword))
-				.and(
+			.where(littleThanLastProductId(lastProductId)
+				.and(setCategory(category, keyword)).and(
 					productImage.role.id.eq(
 						JPAExpressions
 							.select(role.id)
 							.from(role)
 							.where(role.name.eq(ADMIN))
 							.limit(1)
-					)
-				)
-			).orderBy(productImage.id.productId.desc(), productImage.id.resourceId.asc())
-			.limit(10)
-			.fetch();
+					)))
+			.groupBy(productImage.id.productId)
+			.having(productImage.id.resourceId.eq(
+				JPAExpressions.select(productImage.id.resourceId.min())
+					.from(productImage)
+					.groupBy(productImage.id.productId)))
+			.orderBy(productImage.id.productId.desc())
+			.limit(10).fetch();
 	}
 
 	@Override
@@ -182,9 +213,10 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 					JPAExpressions
 						.select(product.id)
 						.from(product)
-						.where(productImage.id.productId.eq(product.id)
+						.where(productImage.product.id.eq(product.id)
 							.and(product.status.ne(EntityStatus.DELETED)))
-						.limit(1))
+						.limit(1)
+						.orderBy(productImage.id.resourceId.asc()))
 				.and(littleThanLastProductId(lastProductId))
 				.and(productImage.product.carType.id.eq(carType))
 				.and(productImage.product.price.loe(capital + loan))
@@ -197,7 +229,7 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 							.limit(1)
 					)
 				)
-			).orderBy(productImage.id.productId.desc(), productImage.id.resourceId.asc())
+			).orderBy(productImage.product.id.desc(), productImage.resource.id.asc())
 			.limit(3)
 			.fetch();
 
