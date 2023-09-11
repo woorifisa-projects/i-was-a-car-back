@@ -34,6 +34,10 @@ public class BearerAuthInterceptor implements HandlerInterceptor {
 
 		Cookie[] cookies = request.getCookies(); // [accessToken, jsessionID]
 
+		if (HttpMethod.OPTIONS.matches(request.getMethod())) {
+			return true;
+		}
+		
 		if (cookies == null) {
 			throw new UnauthorizedException();
 		}
