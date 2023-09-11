@@ -51,7 +51,7 @@ public class MemberController {
 
 	// 로그인 검증
 	@GetMapping("/auth")
-	public ResponseEntity<CommonResponse<MemberResponse>> auth(
+	public ResponseEntity<CommonResponse<MemberResponse>> authenticate(
 		final HttpSession session, @Login final MemberClaim memberClaim) {
 
 		MemberResponse memberResponse = (MemberResponse)session.getAttribute(AUTH_INFO);
@@ -110,7 +110,7 @@ public class MemberController {
 			accessToken.setHttpOnly(true);
 			accessToken.setSecure(false);
 			accessToken.setPath("/");
-			accessToken.setMaxAge((int)(jwtTokenProvider.getRefreshTokenExpireTimeMils() / 500));
+			accessToken.setMaxAge(0);
 
 			response.addCookie(accessToken);
 			session.removeAttribute(AUTH_INFO);
