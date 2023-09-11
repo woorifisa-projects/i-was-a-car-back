@@ -1,7 +1,6 @@
 package xyz.iwasacar.api.domain.histories.dto.response;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -16,10 +15,9 @@ public class SaleHistoryResponse {
 
 	private final String productName;
 
-	private final  LabelName Label;
+	private final LabelName Label;
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private final LocalDateTime createdAt;
-
 
 }

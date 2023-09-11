@@ -4,10 +4,12 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.domain.labels.entity.LabelName;
 
+@Builder
 @RequiredArgsConstructor
 @Getter
 public class SaleHistoryDetailResponse {
