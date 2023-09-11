@@ -15,20 +15,16 @@ import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.common.component.AwsS3Uploader;
 import xyz.iwasacar.api.common.dto.response.PageResponse;
 import xyz.iwasacar.api.domain.banks.entity.Bank;
-import xyz.iwasacar.api.domain.banks.exception.BankNotFoundException;
 import xyz.iwasacar.api.domain.banks.repository.BankRepository;
 import xyz.iwasacar.api.domain.brands.entity.Brand;
-import xyz.iwasacar.api.domain.brands.exception.BrandNotFoundException;
 import xyz.iwasacar.api.domain.brands.repository.BrandRepository;
 import xyz.iwasacar.api.domain.caroptions.entity.CarOption;
 import xyz.iwasacar.api.domain.caroptions.entity.ProductOption;
 import xyz.iwasacar.api.domain.caroptions.repository.CarOptionRepository;
 import xyz.iwasacar.api.domain.caroptions.repository.ProductOptionRepository;
 import xyz.iwasacar.api.domain.cartypes.entity.CarType;
-import xyz.iwasacar.api.domain.cartypes.exception.CarTypeNotFoundException;
 import xyz.iwasacar.api.domain.cartypes.repository.CarTypeRepository;
 import xyz.iwasacar.api.domain.colors.entity.Color;
-import xyz.iwasacar.api.domain.colors.exception.ColorNotFoundException;
 import xyz.iwasacar.api.domain.colors.repository.ColorRepository;
 import xyz.iwasacar.api.domain.histories.client.SaleClient;
 import xyz.iwasacar.api.domain.histories.dto.request.ProductCreateRequest;
@@ -38,14 +34,12 @@ import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryDetailResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleHistoryResponse;
 import xyz.iwasacar.api.domain.histories.dto.response.SaleResponse;
 import xyz.iwasacar.api.domain.histories.entity.SaleHistory;
-import xyz.iwasacar.api.domain.histories.exception.SaleHistoryNotFoundException;
 import xyz.iwasacar.api.domain.histories.repository.SaleHistoryRepository;
 import xyz.iwasacar.api.domain.labels.entity.Label;
 import xyz.iwasacar.api.domain.labels.entity.LabelName;
 import xyz.iwasacar.api.domain.labels.exception.LabelNotFoundException;
 import xyz.iwasacar.api.domain.labels.repository.LabelRepository;
 import xyz.iwasacar.api.domain.members.entity.Member;
-import xyz.iwasacar.api.domain.members.exception.MemberNotFoundException;
 import xyz.iwasacar.api.domain.members.repository.MemberRepository;
 import xyz.iwasacar.api.domain.products.entity.Product;
 import xyz.iwasacar.api.domain.products.repository.ProductImageRepository;
@@ -90,16 +84,11 @@ public class DefaultSaleService implements SaleService {
 		final ProductCreateRequest productCreateRequest, final List<MultipartFile> carImages, final Long memberId
 	) {
 
-		Member member = memberRepository.findById(memberId)
-			.orElseThrow(MemberNotFoundException::new);
-		CarType carType = carTypeRepository.findById(productCreateRequest.getCarTypeId())
-			.orElseThrow(CarTypeNotFoundException::new);
-		Brand brand = brandRepository.findById(productCreateRequest.getBrandId())
-			.orElseThrow(BrandNotFoundException::new);
-		Label label = labelRepository.findByName(LabelName.심사중)
-			.orElseThrow(LabelNotFoundException::new);
-		Color color = colorRepository.findById(productCreateRequest.getColorId())
-			.orElseThrow(ColorNotFoundException::new);
+		Member member = memberRepository.getBy(memberId);
+		CarType carType = carTypeRepository.getBy(productCreateRequest.getCarTypeId());
+		Brand brand = brandRepository.getBy(productCreateRequest.getBrandId());
+		Label label = labelRepository.findByName(LabelName.심사중).orElseThrow(LabelNotFoundException::new);
+		Color color = colorRepository.getBy(productCreateRequest.getColorId());
 		List<CarOption> options = carOptionRepository.findByNames(productCreateRequest.getOptions());
 
 		Product product =
@@ -147,8 +136,7 @@ public class DefaultSaleService implements SaleService {
 
 		productImageRepository.saveAll(productImages);
 
-		Bank bank = bankRepository.findById(productCreateRequest.getBankId())
-			.orElseThrow(BankNotFoundException::new);
+		Bank bank = bankRepository.getBy(productCreateRequest.getBankId());
 
 		SaleHistory saleHistory = SaleHistory.builder()
 			.product(product)
@@ -174,26 +162,26 @@ public class DefaultSaleService implements SaleService {
 	}
 
 	@Override
-	public PageResponse<SaleHistoryResponse> findSaleHistoriesByMember(Long memberId, Integer page, Integer size) {
+	public PageResponse<SaleHistoryResponse> findSaleHistoriesByMember(final Long memberId, final Integer page,
+		final Integer size) {
 		Page<SaleHistoryResponse> sales = saleHistoryRepository.findSales(memberId, page, size);
 		return new PageResponse<>(sales.getContent(), page, sales.getTotalPages());
 	}
 
 	@Override
-	public SaleHistoryDetailResponse findSaleHistoryDetail(Long saleHistoryId) {
+	public SaleHistoryDetailResponse findSaleHistoryDetail(final Long saleHistoryId) {
 
-		SaleHistoryDetailResponse saleHistoryDetailResponse = saleHistoryRepository.findSaleDetail(saleHistoryId);
-		return saleHistoryDetailResponse;
+		return saleHistoryRepository.findSaleDetail(saleHistoryId);
 	}
 
 	@Override
-	public HistoryAdminResponse findMemberInfo(Long productId) {
-		SaleHistory saleHistory = saleHistoryRepository.findByProductId(productId).orElseThrow(
-			SaleHistoryNotFoundException::new);
+	public HistoryAdminResponse findMemberInfo(final Long productId) {
 
-		Member member = memberRepository.findById(saleHistory.getMember().getId())
-			.orElseThrow(MemberNotFoundException::new);
+		SaleHistory saleHistory = saleHistoryRepository.findByProductId(productId);
+
+		Member member = saleHistory.getMember();
 
 		return HistoryAdminResponse.of(saleHistory, member);
 	}
+
 }

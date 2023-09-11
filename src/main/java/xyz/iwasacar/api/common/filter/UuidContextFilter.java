@@ -18,7 +18,6 @@ public class UuidContextFilter implements Filter {
 		IOException, ServletException {
 
 		String uuid = UUID.randomUUID().toString().split("-")[0];
-		System.out.println(request.getInputStream().toString());
 		UuidContext.setUUid(uuid);
 		chain.doFilter(request, response);
 		UuidContext.remove();

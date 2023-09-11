@@ -11,12 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
-import xyz.iwasacar.api.config.TestConfig;
+import xyz.iwasacar.api.config.QueryDslTestConfig;
 import xyz.iwasacar.api.domain.insurances.entity.Insurance;
 import xyz.iwasacar.api.dummy.Dummy;
 
 @DataJpaTest
-@Import(TestConfig.class)
+@Import(QueryDslTestConfig.class)
 class InsuranceRepositoryTest {
 	@Autowired
 	InsuranceRepository insuranceRepository;

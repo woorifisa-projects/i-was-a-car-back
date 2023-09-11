@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
-import xyz.iwasacar.api.config.TestConfig;
+import xyz.iwasacar.api.config.QueryDslTestConfig;
 import xyz.iwasacar.api.domain.brands.entity.Brand;
 import xyz.iwasacar.api.domain.brands.repository.BrandRepository;
 import xyz.iwasacar.api.domain.cartypes.entity.CarType;
@@ -30,7 +30,7 @@ import xyz.iwasacar.api.domain.roles.repository.RoleRepository;
 import xyz.iwasacar.api.dummy.Dummy;
 
 @DataJpaTest
-@Import(TestConfig.class)
+@Import(QueryDslTestConfig.class)
 class ResourceRepositoryTest {
 
 	@Autowired

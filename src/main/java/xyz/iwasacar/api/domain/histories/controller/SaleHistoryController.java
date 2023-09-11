@@ -5,6 +5,8 @@ import static org.springframework.http.MediaType.*;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,7 +49,7 @@ public class SaleHistoryController {
 		produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<CommonResponse<SaleResponse>> saveSalesHistory(
 		@RequestPart List<MultipartFile> carImages,
-		@RequestPart ProductCreateRequest productCreateRequest,
+		@RequestPart @Valid ProductCreateRequest productCreateRequest,
 		@Login MemberClaim memberClaim
 	) {
 
@@ -72,9 +74,9 @@ public class SaleHistoryController {
 	}
 
 	@GetMapping("/{memberId}/sale-histories/{saleHistoryId}")
-	public ResponseEntity<CommonResponse<SaleHistoryDetailResponse>> findSaleHistoryDetail(@PathVariable Long memberId,
-		@PathVariable Long saleHistoryId
-		//, @Login MemberClaim memberClaim
+	public ResponseEntity<CommonResponse<SaleHistoryDetailResponse>> findSaleHistoryDetail(
+		@PathVariable final Long memberId,
+		@PathVariable final Long saleHistoryId
 	) {
 
 		SaleHistoryDetailResponse specificSaleHistory = saleService.findSaleHistoryDetail(saleHistoryId);
@@ -82,7 +84,7 @@ public class SaleHistoryController {
 		return CommonResponse.success(OK, OK.value(), specificSaleHistory);
 	}
 
-	@PostMapping("/api-docs")
+	@GetMapping("/api-docs")
 	public void forSwagger(@RequestBody ProductCreateRequest productCreateRequest) {
 		throw new RuntimeException();
 	}

@@ -3,6 +3,7 @@ package xyz.iwasacar.api.common.component;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -28,12 +29,14 @@ public class AwsS3Uploader {
 	private final AmazonS3 s3Client;
 
 	public String upload(final MultipartFile file, final String dir) {
+		String name = Objects.requireNonNull(file.getOriginalFilename()).length() > 170
+			? file.getOriginalFilename().substring(0, 170)
+			: file.getOriginalFilename();
 
 		// 저장할 파일 이름 설정
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss-SSS");
 		// "/"를 이용해 파일 하위 폴더 설정
-		String s3FileName = String.format("%s/%s-%s", dir, LocalDateTime.now().format(format),
-			file.getOriginalFilename());
+		String s3FileName = String.format("%s/%s-%s", dir, LocalDateTime.now().format(format), name);
 
 		ObjectMetadata objMeta = new ObjectMetadata();
 		objMeta.setContentLength(file.getSize());
