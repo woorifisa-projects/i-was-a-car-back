@@ -31,9 +31,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		List<ProductResponse> content = jpaQueryFactory
 			.select(Projections.constructor(
 				ProductResponse.class,
-				product.id, product.name, product.brand.name, product.label.name,
-				product.fuel, product.drivingMethod, product.displacement, product.year,
-				product.distance, product.price, product.color.name, product.createdAt
+				product.id, product.carType.name,product.name, product.brand.name, product.info, product.label.name, product.fuel,
+				product.drivingMethod, product.displacement, product.year, product.distance, product.price,
+				product.fuel, product.createdAt
 			))
 			.from(product)
 			.join(product.brand)
@@ -58,7 +58,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		// 		.fetchOne()
 		// ).orElse(1L);
 
-		PageRequest pageable = PageRequest.of(page-1, size);
+		PageRequest pageable = PageRequest.of(page - 1, size);
 
 		return new PageImpl<>(content, pageable, totalCount);
 	}
@@ -71,9 +71,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		List<ProductResponse> content = jpaQueryFactory
 			.select(Projections.constructor(
 				ProductResponse.class,
-				product.id, product.name, product.brand.name, product.label.name,
-				product.fuel, product.drivingMethod, product.displacement, product.year,
-				product.distance, product.price, product.color.name, product.createdAt
+				product.id, product.carType.name,product.name, product.brand.name, product.info, product.label.name, product.fuel,
+				product.drivingMethod, product.displacement, product.year, product.distance, product.price,
+				product.fuel, product.createdAt
 			))
 			.from(product)
 			.join(product.brand)
@@ -91,7 +91,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 					.fetchOne()
 			).orElse(1L);
 		System.out.println(page);
-		PageRequest pageable = PageRequest.of(page-1 , size);
+		PageRequest pageable = PageRequest.of(page - 1, size);
 
 		return new PageImpl<>(content, pageable, totalCount);
 	}
