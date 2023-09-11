@@ -14,4 +14,6 @@ public interface SaleHistoryRepositoryCustom {
 
 	SaleHistory findWithMemberAndProductByProductId(Long productId);
 
+	SaleHistory findByProductId(Long productId);
+
 }

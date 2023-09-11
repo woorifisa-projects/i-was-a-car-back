@@ -77,9 +77,22 @@ public class SaleHistoryRepositoryImpl implements SaleHistoryRepositoryCustom {
 	public SaleHistory findWithMemberAndProductByProductId(final Long productId) {
 
 		return Optional.ofNullable(
+
 			jpaQueryFactory
 				.selectFrom(saleHistory)
 				.join(saleHistory.product).fetchJoin()
+				.join(saleHistory.member).fetchJoin()
+				.where(saleHistory.product.id.eq(productId))
+				.fetchOne()
+		).orElseThrow(SaleHistoryNotFoundException::new);
+	}
+
+	@Override
+	public SaleHistory findByProductId(final Long productId) {
+		return Optional.ofNullable(
+
+			jpaQueryFactory
+				.selectFrom(saleHistory)
 				.join(saleHistory.member).fetchJoin()
 				.where(saleHistory.product.id.eq(productId))
 				.fetchOne()

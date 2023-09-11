@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
@@ -17,36 +19,60 @@ import lombok.ToString;
 @ToString
 public class ProductCreateRequest {
 
+	@NotNull
 	private Long carTypeId;
+	@NotNull
 	private Long brandId;
+	@NotNull
 	private Long colorId;
+	@NotNull
 	private Long bankId;
 
+	@NotNull
 	private String memberName;
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
+	@NotNull
 	private LocalDate year;
+	@NotNull
 	private String carName;
+	@NotNull
 	private Integer price;
+	@NotNull
 	private String info;
+	@NotNull
 	private String transmission;
+	@NotNull
 	private String fuel;
+	@NotNull
 	private String drivingMethod;
+	@NotNull
 	private Integer distance;
+	@NotNull
 	private Double fuelEfficiency;
+	@NotNull
 	private Double displacement;
+	@NotNull
 	private Integer accidentHistory;
+	@NotNull
 	private Boolean inundationHistory;
 
+	@NotNull
 	private String zipCode;
+	@NotNull
 	private String address;
+	@NotNull
 	private String addressDetail;
+	@NotNull
 	private String accountNumber;
+	@NotNull
 	private String accountHolder;
 
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+	@NotNull
 	private LocalDateTime meetingSchedule;
 
+	@NotNull
 	private Map<String, List<String>> options;
 
 	public boolean isOldCar(final LocalDate today) {
