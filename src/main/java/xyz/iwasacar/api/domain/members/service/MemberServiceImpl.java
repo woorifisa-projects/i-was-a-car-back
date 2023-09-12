@@ -89,16 +89,17 @@ public class MemberServiceImpl implements MemberService {
 
 		Member member = memberRepository.findByEmail(loginRequest.getEmail())
 			.orElseThrow(MemberNotFoundException::new);
+
+		if (member.isDeleted() || !passwordEncoder.matches(loginRequest.getPassword(), member.getPassword())) {
+			throw new UnauthorizedException();
+		}
+
 		member.updateLastLogin();
 
 		List<RoleName> roles = roleRepository.findRolesByMemberId(member.getId())
 			.stream()
 			.map(Role::getName)
 			.collect(toList());
-
-		if (!passwordEncoder.matches(loginRequest.getPassword(), member.getPassword())) {
-			throw new UnauthorizedException();
-		}
 
 		JwtDto jwtDto = jwtTokenProvider.createJwt(new MemberClaim(member.getId(), roles));
 

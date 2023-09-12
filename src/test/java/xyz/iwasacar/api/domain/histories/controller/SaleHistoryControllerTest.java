@@ -8,14 +8,12 @@ import static org.springframework.http.MediaType.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static xyz.iwasacar.api.common.auth.jwt.JwtUtil.*;
+import static xyz.iwasacar.api.dummy.RequestUtil.*;
 
 import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.LongStream;
-
-import javax.servlet.http.Cookie;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -91,7 +89,7 @@ class SaleHistoryControllerTest {
 		mockMvc.perform(get("/api/v1/sales/car-info")
 				.param("name", name)
 				.param("carNumber", carNumber)
-				.cookie(getCookie())
+				.cookie(getCookie(testJwt, jwtTokenProvider.getRefreshTokenExpireTimeMils()))
 			)
 			.andExpect(status().isOk());
 
@@ -130,7 +128,7 @@ class SaleHistoryControllerTest {
 					.file(image2)
 					.file(image3)
 					.file(dto)
-					.cookie(getCookie())
+					.cookie(getCookie(testJwt, jwtTokenProvider.getRefreshTokenExpireTimeMils()))
 					// .part(new MockPart("productCreateRequest", requestBody.getBytes(StandardCharsets.UTF_8)))
 					.contentType(APPLICATION_JSON_VALUE)
 					.accept(APPLICATION_JSON))
@@ -156,7 +154,7 @@ class SaleHistoryControllerTest {
 
 		mockMvc.perform(
 				get("/api/v1/sales/{memberId}/sale-histories", memberId)
-					.cookie(getCookie())
+					.cookie(getCookie(testJwt, jwtTokenProvider.getRefreshTokenExpireTimeMils()))
 			)
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.data.items.size()", is(size)))
@@ -179,7 +177,7 @@ class SaleHistoryControllerTest {
 
 		mockMvc.perform(
 				get("/api/v1/sales/{memberId}/sale-histories/{saleHistoryId}", memberId, saleHistoryId)
-					.cookie(getCookie())
+					.cookie(getCookie(testJwt, jwtTokenProvider.getRefreshTokenExpireTimeMils()))
 			)
 			.andExpect(status().isOk());
 
@@ -190,17 +188,8 @@ class SaleHistoryControllerTest {
 	void forSwagger() throws Exception {
 		mockMvc.perform(
 				get("/api/v1/sales/api-docs")
-					.cookie(getCookie()))
+					.cookie(getCookie(testJwt, jwtTokenProvider.getRefreshTokenExpireTimeMils())))
 			.andExpect(status().is4xxClientError());
 	}
 
-	private Cookie getCookie() {
-		Cookie cookie = new Cookie(ACCESS_TOKEN, testJwt);
-		cookie.setPath("/");
-		cookie.setHttpOnly(true);
-		cookie.setSecure(false);
-		cookie.setMaxAge((int)(jwtTokenProvider.getRefreshTokenExpireTimeMils() / 1000));
-
-		return cookie;
-	}
 }

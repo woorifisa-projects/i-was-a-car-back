@@ -11,32 +11,28 @@ import xyz.iwasacar.api.domain.members.entity.Gender;
 import xyz.iwasacar.api.domain.members.entity.Member;
 
 @Builder
-@Getter
 @RequiredArgsConstructor
+@Getter
 public class MemberUpdateResponse {
 
 	private final String name;
-
 	private final String password;
-
 	private final String tel;
-
 	private final Gender gender;
-
 	private final Boolean hasLicense;
 
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private final LocalDateTime lastLoginAt;
 
-	public static MemberUpdateResponse from(Member m) {
+	public static MemberUpdateResponse from(Member member) {
 		return MemberUpdateResponse
 			.builder()
-			.name(m.getName())
-			.password(m.getPassword())
-			.tel(m.getTel())
-			.gender(m.getGender())
-			.hasLicense(m.getHasLicense())
-			.lastLoginAt(m.getLastLoginAt())
+			.name(member.getName())
+			.password(member.getPassword())
+			.tel(member.getTel())
+			.gender(member.getGender())
+			.hasLicense(member.getHasLicense())
+			.lastLoginAt(member.getLastLoginAt())
 			.build();
 	}
 }

@@ -3,10 +3,12 @@ package xyz.iwasacar.api.domain.members.dto.response;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.common.auth.jwt.JwtDto;
 import xyz.iwasacar.api.domain.members.entity.Member;
 import xyz.iwasacar.api.domain.roles.entity.RoleName;
 
+@RequiredArgsConstructor
 @Getter
 public class MemberJwtResponse {
 
@@ -29,10 +31,6 @@ public class MemberJwtResponse {
 			.roles(roles)
 			.birth(member.getBirth())
 			.build();
-	}
-
-	public MemberResponse getMemberResponse() {
-		return this.memberResponse;
 	}
 
 }

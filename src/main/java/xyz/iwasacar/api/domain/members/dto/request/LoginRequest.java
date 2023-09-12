@@ -3,6 +3,7 @@ package xyz.iwasacar.api.domain.members.dto.request;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

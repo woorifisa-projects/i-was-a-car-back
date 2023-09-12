@@ -16,13 +16,9 @@ import xyz.iwasacar.api.domain.members.entity.Member;
 public class MemberDetailResponse {
 
 	private final String email;
-
 	private final String name;
-
 	private final String tel;
-
 	private final Gender gender;
-
 	private final Boolean hasLicense;
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
@@ -31,18 +27,16 @@ public class MemberDetailResponse {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private final LocalDateTime createdAt;
 
-
-
-	public static MemberDetailResponse from(Member m) {
+	public static MemberDetailResponse from(Member member) {
 
 		return MemberDetailResponse.builder()
-			.email(m.getEmail())
-			.name(m.getName())
-			.tel(m.getTel())
-			.gender(m.getGender())
-			.hasLicense(m.getHasLicense())
-			.lastLoginAt(m.getLastLoginAt())
-			.createdAt(m.getCreatedAt())
+			.email(member.getEmail())
+			.name(member.getName())
+			.tel(member.getTel())
+			.gender(member.getGender())
+			.hasLicense(member.getHasLicense())
+			.lastLoginAt(member.getLastLoginAt())
+			.createdAt(member.getCreatedAt())
 			.build();
 	}
 
