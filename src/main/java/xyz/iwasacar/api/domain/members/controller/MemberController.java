@@ -37,7 +37,6 @@ import xyz.iwasacar.api.domain.members.dto.response.MemberDetailResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberJwtResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberResponse;
 import xyz.iwasacar.api.domain.members.dto.response.MemberUpdateResponse;
-import xyz.iwasacar.api.domain.members.exception.UnauthorizedException;
 import xyz.iwasacar.api.domain.members.service.MemberService;
 
 @RequestMapping("/api/v1/members")
@@ -51,7 +50,7 @@ public class MemberController {
 
 	// 로그인 검증
 	@GetMapping("/auth")
-	public ResponseEntity<CommonResponse<MemberResponse>> auth(
+	public ResponseEntity<CommonResponse<MemberResponse>> authenticate(
 		final HttpSession session, @Login final MemberClaim memberClaim) {
 
 		MemberResponse memberResponse = (MemberResponse)session.getAttribute(AUTH_INFO);
@@ -66,7 +65,7 @@ public class MemberController {
 	// 회원가입
 	@PostMapping("/signup")
 	public ResponseEntity<CommonResponse<MemberResponse>> signup(
-		@Valid @RequestBody final SignupRequest signupRequest,
+		@RequestBody @Valid final SignupRequest signupRequest,
 		final HttpServletResponse response, final HttpSession session) {
 
 		if (!emailSession.verifyEmailCode(signupRequest.getEmail(), signupRequest.getCode())) {
@@ -79,7 +78,6 @@ public class MemberController {
 		emailSession.deleteEmailCode(signupRequest.getEmail());
 
 		return CommonResponse.success(OK, OK.value(), memberJwtResponse.getMemberResponse());
-
 	}
 
 	// 로그인
@@ -87,12 +85,7 @@ public class MemberController {
 	public ResponseEntity<CommonResponse<MemberResponse>> login(
 		@Valid @RequestBody final LoginRequest loginRequest,
 		final HttpServletResponse response, final HttpSession session) {
-
-		// 회원탈퇴한 사용자가 로그인 시도 시 예외 처리
-		if (memberService.isDeletedMember(loginRequest.getEmail())) {
-			throw new UnauthorizedException();
-		}
-
+	
 		MemberJwtResponse memberJwtResponse = memberService.login(loginRequest);
 		settingAccessTokenCookie(memberJwtResponse, response, session);
 
@@ -101,7 +94,8 @@ public class MemberController {
 
 	// 로그아웃
 	@GetMapping("/logout")
-	public ResponseEntity<Void> logout(final HttpSession session,
+	public ResponseEntity<Void> logout(
+		final HttpSession session,
 		final HttpServletResponse response,
 		@CookieValue(name = ACCESS_TOKEN) final Cookie accessToken) {
 
@@ -110,7 +104,7 @@ public class MemberController {
 			accessToken.setHttpOnly(true);
 			accessToken.setSecure(false);
 			accessToken.setPath("/");
-			accessToken.setMaxAge((int)(jwtTokenProvider.getRefreshTokenExpireTimeMils() / 500));
+			accessToken.setMaxAge(0);
 
 			response.addCookie(accessToken);
 			session.removeAttribute(AUTH_INFO);
@@ -135,16 +129,11 @@ public class MemberController {
 
 	// 회원 상세조회
 	@GetMapping("/detail")
-	public ResponseEntity<CommonResponse<MemberDetailResponse>> findMember(
-		// @Login MemberClaim memberClaim,
-		@RequestParam Long memberId
-	) {
+	public ResponseEntity<CommonResponse<MemberDetailResponse>> findMember(@RequestParam Long memberId) {
 
-		// if (!memberClaim.getMemberId().equals(memberId)) {
-		// 	throw new ForbiddenException();
-		// }
-		return CommonResponse.success(OK, OK.value(), memberService.findMember(memberId));
+		MemberDetailResponse member = memberService.findMember(memberId);
 
+		return CommonResponse.success(OK, OK.value(), member);
 	}
 
 	// 회원정보 수정
@@ -153,16 +142,18 @@ public class MemberController {
 		@Valid @RequestBody final UpdateRequest updateRequest,
 		@Login final MemberClaim memberClaim) {
 
-		MemberUpdateResponse memberUpdateResponse = memberService.updateMember(memberClaim.getMemberId(),
-			updateRequest);
+		MemberUpdateResponse memberUpdateResponse =
+			memberService.updateMember(memberClaim.getMemberId(), updateRequest);
 
 		return CommonResponse.success(OK, OK.value(), memberUpdateResponse);
 	}
 
 	// 회원 탈퇴
 	@DeleteMapping
-	public ResponseEntity<CommonResponse<Void>> deleteMember(@Login final MemberClaim memberClaim,
-		final HttpSession session) {
+	public ResponseEntity<CommonResponse<Void>> deleteMember(
+		@Login final MemberClaim memberClaim,
+		final HttpSession session
+	) {
 
 		memberService.deleteMember(memberClaim.getMemberId());
 
@@ -173,7 +164,7 @@ public class MemberController {
 		return CommonResponse.success(NO_CONTENT, NO_CONTENT.value(), null);
 	}
 
-	@GetMapping("identification")
+	@GetMapping("/identification")
 	public ResponseEntity<Void> retrieveIdentification(
 		@RequestParam String name,
 		@RequestParam String rrnf,

@@ -38,6 +38,7 @@ public class Member {
 
 	@Column(name = "password", nullable = false)
 	private String password;
+
 	@Column(name = "name", nullable = false, length = 20)
 	private String name;
 
@@ -107,6 +108,10 @@ public class Member {
 	public void delete() {
 		this.deletedAt = LocalDateTime.now();
 		this.status = EntityStatus.DELETED;
+	}
+
+	public boolean isDeleted() {
+		return this.status == EntityStatus.DELETED;
 	}
 
 }

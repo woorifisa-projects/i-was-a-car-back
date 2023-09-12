@@ -47,7 +47,7 @@ public class ProductDetailResponse {
 			product.getCarType().getName(),
 			product.getBrand().getName(),
 			product.getLabel().getName(),
-			product.getPerformanceCheck().getUrl(),
+			product.getPerformanceCheck() == null ? null : product.getPerformanceCheck().getUrl(),
 			product.getColor().getName(),
 			product.getFakeProductStatus(),
 			product.getInfo(),
