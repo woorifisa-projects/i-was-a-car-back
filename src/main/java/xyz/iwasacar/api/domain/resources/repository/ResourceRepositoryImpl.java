@@ -81,32 +81,6 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 	}
 
 	@Override
-	public List<ProductImage> findByProducts(final int page, final int size) {
-		int offset = (page - 1) * size;
-
-		return jpaQueryFactory
-			.selectFrom(productImage)
-			.join(productImage.product).fetchJoin()
-			.join(productImage.resource).fetchJoin()
-			.where(
-				productImage.role.id.eq(
-						JPAExpressions
-							.select(role.id)
-							.from(role)
-							.where(role.name.eq(ADMIN))
-							.limit(1))
-					.and(productImage.product.status.ne(EntityStatus.DELETED))
-					.and(productImage.product.label.name.eq(LabelName.심사완료))
-			)
-			.groupBy(productImage.product.id)
-			.having(productImage.resource.id.eq(productImage.resource.id.min()))
-			.orderBy(productImage.product.id.desc())
-			.limit(size)
-			.offset(offset)
-			.fetch();
-	}
-
-	@Override
 	public List<ProductImage> findBySpecificProducts(
 		final Long carType, final Integer capital, final Integer loan, final Long lastProductId
 	) {
