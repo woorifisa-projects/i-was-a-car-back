@@ -13,6 +13,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 import xyz.iwasacar.api.domain.common.constant.EntityStatus;
+import xyz.iwasacar.api.domain.labels.entity.LabelName;
 import xyz.iwasacar.api.domain.resources.entity.ProductImage;
 import xyz.iwasacar.api.domain.resources.entity.Resource;
 
@@ -42,14 +43,15 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 					.from(productImage)
 					.where(
 						productImage.id.productId.eq(productId)
-							.and(
-								productImage.role.id.eq(
-									JPAExpressions
-										.select(role.id)
-										.from(role)
-										.where(role.name.eq(ADMIN))
-								)
-							)
+							.and(productImage.role.id.eq(
+								JPAExpressions
+									.select(role.id)
+									.from(role)
+									.where(role.name.eq(ADMIN))
+									.limit(1)
+							))
+							.and(productImage.product.label.name.eq(LabelName.심사완료))
+
 					)
 			))
 			.fetch();
@@ -94,6 +96,7 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 							.where(role.name.eq(ADMIN))
 							.limit(1))
 					.and(productImage.product.status.ne(EntityStatus.DELETED))
+					.and(productImage.product.label.name.eq(LabelName.심사완료))
 			)
 			.groupBy(productImage.product.id)
 			.having(productImage.resource.id.eq(productImage.resource.id.min()))
@@ -123,6 +126,7 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 					.and(littleThanLastProductId(lastProductId))
 					.and(productImage.product.carType.id.eq(carType))
 					.and(productImage.product.price.loe(capital + loan))
+					.and(productImage.product.label.name.eq(LabelName.심사완료))
 			)
 			.groupBy(productImage.product.id)
 			.having(productImage.resource.id.eq(productImage.resource.id.min()))
