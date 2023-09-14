@@ -24,35 +24,20 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 
 	@Override
 	public List<Resource> findByProductId(final Long productId) {
-
-		/**
-		 * select *
-		 * from resource
-		 * where resource_no in (
-		 * 		select products_images.product_no
-		 * 		from products_images pi
-		 * 		where pi.product_no = ${productId}
-		 * 			and pi.role = MEMBER
-		 * 	);
-		 */
 		return jpaQueryFactory
 			.selectFrom(resource)
 			.where(resource.id.in(
 				JPAExpressions
 					.select(productImage.id.resourceId)
 					.from(productImage)
-					.where(
-						productImage.id.productId.eq(productId)
-							.and(productImage.role.id.eq(
-								JPAExpressions
-									.select(role.id)
-									.from(role)
-									.where(role.name.eq(ADMIN))
-									.limit(1)
-							))
-							.and(productImage.product.label.name.eq(LabelName.심사완료))
-
-					)
+					.where(productImage.id.productId.eq(productId)
+						.and(productImage.role.id.eq(
+							JPAExpressions
+								.select(role.id)
+								.from(role)
+								.where(role.name.eq(ADMIN))
+								.limit(1)))
+						.and(productImage.product.label.name.eq(LabelName.심사완료)))
 			))
 			.fetch();
 	}
@@ -107,8 +92,6 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 			.orderBy(productImage.product.id.desc())
 			.limit(3)
 			.fetch();
-
-		//최신 순으로 3개씩 해서 무한 스크롤
 	}
 
 	private BooleanExpression littleThanLastProductId(final Long lastProductId) {
