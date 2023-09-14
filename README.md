@@ -14,7 +14,7 @@
 
 ![architecture](https://user-images.githubusercontent.com/38150034/267847290-6714accf-0203-4053-85fa-96d474e5c132.png)
 
-## CI/CD
+## CI/CD Pipeline
 
 ![CICD](https://user-images.githubusercontent.com/38150034/267837841-e16ffad5-e2a7-4bc6-b1d6-1dcf6c23b205.png)
 
