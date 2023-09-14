@@ -3,11 +3,12 @@
 ## Tech Stack
 
 * Java 11
+* Gradle 8.2.1
 * Spring Boot 2.7.14
 * MySQL 8.0.32
 * Query DSL 5.0.0
 
-![tech_stack](https://user-images.githubusercontent.com/38150034/267843538-6140acbc-7013-42f7-961f-f56565449095.png)
+![tech_stack](https://user-images.githubusercontent.com/38150034/267848976-af626a5a-269a-4596-adf8-df8401cd3c5a.png)
 
 ## Architecture
 
