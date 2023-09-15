@@ -60,7 +60,7 @@ public class AdminProductService implements ProductService {
 		Map<String, List<String>> carOptionGroup =
 			CarOption.convertCarOption(carOptionRepository.findOptionsByProductId(id));
 
-		List<String> resources = resourceRepository.findByProductId(id)
+		List<String> resources = resourceRepository.findByProductIdAdmin(id)
 			.stream()
 			.map(Resource::getUrl)
 			.collect(toList());

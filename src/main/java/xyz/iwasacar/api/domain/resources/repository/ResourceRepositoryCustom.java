@@ -9,6 +9,8 @@ public interface ResourceRepositoryCustom {
 
 	List<Resource> findByProductId(Long productId);
 
+	List<Resource> findByProductIdAdmin(Long productId);
+
 	List<ProductImage> findByProducts(Long category, String keyword, Long lastProductId);
 
 	List<ProductImage> findBySpecificProducts(Long carType, Integer capital, Integer loan, Long lastProductId);
