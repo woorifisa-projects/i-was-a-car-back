@@ -58,6 +58,21 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 	}
 
 	@Override
+	public List<Resource> findByProductIdAdmin(Long productId) {
+		return jpaQueryFactory
+			.selectFrom(resource)
+			.where(resource.id.in(
+				JPAExpressions
+					.select(productImage.id.resourceId)
+					.from(productImage)
+					.where(
+						productImage.id.productId.eq(productId)
+					)
+			))
+			.fetch();
+	}
+
+	@Override
 	public List<ProductImage> findByProducts(final Long category, final String keyword, final Long lastProductId) {
 		return jpaQueryFactory
 			.selectFrom(productImage)
