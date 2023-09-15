@@ -10,7 +10,6 @@ import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import xyz.iwasacar.api.common.context.MemberClaimContext;
-import xyz.iwasacar.api.domain.members.exception.ForbiddenException;
 import xyz.iwasacar.api.domain.roles.entity.RoleName;
 
 public class AdminInterceptor implements HandlerInterceptor {
@@ -30,7 +29,8 @@ public class AdminInterceptor implements HandlerInterceptor {
 			}
 		}
 
-		throw new ForbiddenException();
+		response.sendError(401, "권한이 없습니다.");
+		return false;
 	}
 
 }
