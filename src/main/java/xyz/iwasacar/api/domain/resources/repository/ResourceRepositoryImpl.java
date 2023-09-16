@@ -43,6 +43,21 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 	}
 
 	@Override
+	public List<Resource> findByProductIdAdmin(Long productId) {
+		return jpaQueryFactory
+			.selectFrom(resource)
+			.where(resource.id.in(
+				JPAExpressions
+					.select(productImage.id.resourceId)
+					.from(productImage)
+					.where(
+						productImage.id.productId.eq(productId)
+					)
+			))
+			.fetch();
+	}
+
+	@Override
 	public List<ProductImage> findByProducts(final Long category, final String keyword, final Long lastProductId) {
 		return jpaQueryFactory
 			.selectFrom(productImage)
@@ -58,6 +73,7 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 					.and(productImage.product.status.ne(EntityStatus.DELETED))
 					.and(littleThanLastProductId(lastProductId))
 					.and(setCategory(category, keyword))
+					.and(productImage.product.label.name.eq(LabelName.심사완료))
 			)
 			.groupBy(productImage.product.id)
 			.having(productImage.resource.id.eq(productImage.resource.id.min()))
@@ -84,6 +100,7 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 					.and(productImage.product.status.ne(EntityStatus.DELETED))
 					.and(littleThanLastProductId(lastProductId))
 					.and(productImage.product.carType.id.eq(carType))
+					.and(productImage.product.price.gt(capital))
 					.and(productImage.product.price.loe(capital + loan))
 					.and(productImage.product.label.name.eq(LabelName.심사완료))
 			)

@@ -15,7 +15,7 @@ import xyz.iwasacar.api.domain.logs.dto.LogResponse;
 import xyz.iwasacar.api.domain.logs.service.LogService;
 
 @RestController
-@RequestMapping("/api/v1/logs")
+@RequestMapping("/api/v1/admin/logs")
 @RequiredArgsConstructor
 public class LogController {
 
