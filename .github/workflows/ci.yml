@@ -34,7 +34,7 @@ jobs:
       - name: Get Github Actions IP
         if: contains(github.ref, 'main')
         id: ip
-        uses: haythem/public-ip@v1.2
+        uses: haythem/public-ip@v1.3
 
       # For Redis
       - name: Configure AWS Credentials
@@ -49,6 +49,7 @@ jobs:
         if: contains(github.ref, 'develop')
         run: |
           aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 6379 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+          echo ${{ steps.ip.outputs.ipv4 }}
 
       # Gradle build
       - name: Validate Gradle wrapper
