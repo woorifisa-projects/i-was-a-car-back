@@ -49,7 +49,6 @@ jobs:
         if: contains(github.ref, 'develop')
         run: |
           aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 6379 --cidr ${{ steps.ip.outputs.ipv4 }}/32
-          echo ${{ steps.ip.outputs.ipv4 }}
 
       # Gradle build
       - name: Validate Gradle wrapper
