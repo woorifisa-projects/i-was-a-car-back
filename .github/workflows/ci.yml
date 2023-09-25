@@ -1,4 +1,4 @@
-name: CI/CD
+name: CI
 
 on:
   push:
@@ -48,7 +48,7 @@ jobs:
       - name: Add Github Actions IP to Security group
         if: contains(github.ref, 'develop')
         run: |
-          aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+          aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 6379 --cidr ${{ steps.ip.outputs.ipv4 }}/32
 
       # Gradle build
       - name: Validate Gradle wrapper
@@ -57,9 +57,9 @@ jobs:
       - name: Build with Gradle
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
-          arguments: build
+          arguments: clean build
 
       - name: Remove Github Actions IP From Security Group
         if: contains(github.ref, 'develop')
         run: |
-          aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+          aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 6379 --cidr ${{ steps.ip.outputs.ipv4 }}/32
