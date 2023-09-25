@@ -32,7 +32,7 @@ jobs:
         shell: bash
 
       - name: Get Github Actions IP
-        if: contains(github.ref, 'main')
+        if: contains(github.ref, 'develop')
         id: ip
         uses: haythem/public-ip@v1.3
 
